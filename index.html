@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>MY APP</title>
+
+    <script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+        $(function() {
+            $("#navbar").load("./nav");
+        });
+    </script>
+</head>
+
+<body>
+
+
+    <div id="wrap">
+        <div class="col-md-1"></div>
+        <div id="main-container" class="container col-md-10">
+
+          <div id="navbar"></div>
+
+
+
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <form action="/search" method="GET" id="geoForm">
+                    <div class="form-group text-center">
+                        <input type="text" id="keyword" name="keyword" placeholder="Job Title" />
+                        <input type="text" id="location" name="location" placeholder="Enter your city,state or zip" />
+                        <input type="hidden" name="lat" id="lat" />
+                        <input type="hidden" name="lng" id="lng" />
+                        <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
+                    </div>
+                </form>
+
+
+            </div>
+            <div class="col-md-4 text-center">
+
+            </div>
+            <div class="col-md-1"></div>
+
+
+        </div>
+
+</div>
+
+
+
+<script src="/js/form.js"></script>
+
+
+    <!-- <script>
+        function initMap() {
+
+            var input = /** @type {!HTMLInputElement} */ (
+                document.getElementById('location'));
+
+
+            var autocomplete = new google.maps.places.Autocomplete(input);
+
+        };
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEqFPxjP_ubeG9tLbj3P0aHUoqNi35rts&libraries=places&callback=initMap" async defer></script> -->
+
+    <!-- <script type="text/javascript" src="${pageContext.request.contextPath}/js/home.js"></script> -->
+</body>
+
+</html>

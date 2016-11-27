@@ -1,13 +1,23 @@
 <template>
-    <div>
-        <!-- <myheader></myheader> -->
-        <h1>hello</h1>
-        <!-- <input type="text" v-model="name" placeholder="edit me"> -->
-        <!-- <h2>age: {{age}} <button @click="plus">+1</button></h2> -->
-        <!-- <p>Time from MomentJS library: {{time}}</p> -->
-        <!-- <span v-for="n in age">🎂</span> -->
-        <!-- <myfooter></myfooter> -->
+<div id="wrap">
+    <div class="col-md-1"></div>
+    <div id="main-container" class="container col-md-10">
+
+        <myheader></myheader>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <searchform></searchform>
+
+        </div>
+        <div class="col-md-4 text-center">
+
+        </div>
+        <div class="col-md-1"></div>
+
+
     </div>
+</div>
+<!-- <myfooter></myfooter> -->
 </template>
 
 <!-- // <script>
@@ -29,4 +39,5 @@
 //         },
 //     }
 // };
-// </script> -->
+//
+</script> -->

@@ -16,23 +16,25 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
 
 app.set('views', __dirname + '/routes/main');
+
 app.set('vue', {
     rootPath: __dirname + '/',
     layoutsDir: 'routes/',
     componentsDir: 'components/',
     defaultLayout: 'layout'
 });
+
 app.engine('vue', expressVue);
 app.set('view engine', 'vue');
 
-router.use(function(req, res, next) {
-
-    // log each request to the console
-    console.log(req.method, req.url);
-
-    // continue doing what we were doing and go to the route
-    next();
-});
+// router.use(function(req, res, next) {
+//
+//     // log each request to the console
+//     console.log(req.method, req.url);
+//
+//     // continue doing what we were doing and go to the route
+//     next();
+// });
 
 app.route('/login')
 
@@ -51,24 +53,16 @@ app.listen(3000, function() {
     console.log('listening on 3000')
 });
 
-router.get('/', (req, res, next) => {
-    res.render('main', {
-        data: {
-            otherData: 'Something Else'
-        },
-        vue: {
-            meta: {
-                title: 'Page Title',
-                // head: [
-                //     {
-                //         property: 'og:title' content: 'Page Title'
-                //     }, {
-                //         name: 'twitter:title' content: 'Page Title'
-                //     }
-                // ]
-            }
-        }
-    });
+router.get('/', (req, res, next) =>  {
+  res.render('main', {
+      vue: {
+          meta: {
+              title: 'Page Title',
+          },
+          components: ['myheader', 'myfooter', 'searchform']
+      }
+
+  });
     // res.sendFile(__dirname + '/index.html')
 
 })
@@ -95,15 +89,31 @@ router.get('/search', function(req, res) {
 
     console.log(keyword, lat, lng)
 
+    var results;
+
     connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25', [
         lat, lng, lat, keyword
     ], function(error, result) {
+    results += result;
         //     //lat lng lat keyword (distance)
         console.log(result)
         console.log(error)
     })
 
-    res.sendFile(__dirname + '/results.html')
+    res.render('results', {
+      data: {
+                results
+              },
+        vue: {
+            meta: {
+                title: 'Page Title',
+            },
+            components: ['myheader', 'myfooter', 'searchform']
+        }
+
+    });
+
+    // res.sendFile(__dirname + '/results.html')
     // console.log(data)
 })
 

@@ -7,11 +7,23 @@ var express_geocoding_api = require('express-geocoding-api')
 var NodeGeocoder = require('node-geocoder')
 var rp = require('request-promise');
 var router = express.Router();
+var expressVue = require('express-vue');
+// var vue = require('vue');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
+
+app.set('views', __dirname + '/routes/main');
+app.set('vue', {
+    rootPath: __dirname + '/',
+    layoutsDir: 'routes/',
+    componentsDir: 'components/',
+    defaultLayout: 'layout'
+});
+app.engine('vue', expressVue);
+app.set('view engine', 'vue');
 
 router.use(function(req, res, next) {
 
@@ -39,8 +51,25 @@ app.listen(3000, function() {
     console.log('listening on 3000')
 });
 
-router.get('/', function(req, res) {
-    res.sendFile(__dirname + '/index.html')
+router.get('/', (req, res, next) => {
+    res.render('main', {
+        data: {
+            otherData: 'Something Else'
+        },
+        vue: {
+            meta: {
+                title: 'Page Title',
+                // head: [
+                //     {
+                //         property: 'og:title' content: 'Page Title'
+                //     }, {
+                //         name: 'twitter:title' content: 'Page Title'
+                //     }
+                // ]
+            }
+        }
+    });
+    // res.sendFile(__dirname + '/index.html')
 
 })
 // router.use('search', function(req, res, next, keyword) {
@@ -59,16 +88,17 @@ router.get('/search', function(req, res) {
     // res.send('hello ' + req.query.keyword + '!');
     // connection.query('select * from job_posting where job_title like ?', req.query.keyword , function(err, result) {
 
-// console.log(req.query)
+    // console.log(req.query)
     var keyword = ("%" + req.query.keyword + "%")
     var lat = req.query.lat
     var lng = req.query.lng
 
-console.log(keyword, lat, lng)
+    console.log(keyword, lat, lng)
 
-    connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25',
-        [lat, lng, lat, keyword], function(error, result) {
-    //     //lat lng lat keyword (distance)
+    connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25', [
+        lat, lng, lat, keyword
+    ], function(error, result) {
+        //     //lat lng lat keyword (distance)
         console.log(result)
         console.log(error)
     })

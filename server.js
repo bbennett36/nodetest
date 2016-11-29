@@ -53,16 +53,16 @@ app.listen(3000, function() {
     console.log('listening on 3000')
 });
 
-router.get('/', (req, res, next) =>  {
-  res.render('main', {
-      vue: {
-          meta: {
-              title: 'Page Title',
-          },
-          components: ['myheader', 'myfooter', 'searchform']
-      }
+router.get('/', (req, res, next) => {
+    res.render('main', {
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader', 'myfooter', 'searchform']
+        }
 
-  });
+    });
     // res.sendFile(__dirname + '/index.html')
 
 })
@@ -78,7 +78,7 @@ router.get('/', (req, res, next) =>  {
 //     next();
 // });
 
-router.get('/search', function(req, res) {
+router.get('/search', function(req, res, next) {
     // res.send('hello ' + req.query.keyword + '!');
     // connection.query('select * from job_posting where job_title like ?', req.query.keyword , function(err, result) {
 
@@ -89,29 +89,26 @@ router.get('/search', function(req, res) {
 
     console.log(keyword, lat, lng)
 
-    var results;
-
     connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25', [
         lat, lng, lat, keyword
-    ], function(error, result) {
-    results += result;
+    ], function(error, rows) {
         //     //lat lng lat keyword (distance)
-        console.log(result)
-        console.log(error)
-    })
-
-    res.render('results', {
-      data: {
-                results
-              },
-        vue: {
-            meta: {
-                title: 'Page Title',
+        res.render('main', {
+            data: {
+                results: rows
             },
-            components: ['myheader', 'myfooter', 'searchform']
-        }
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader', 'myfooter', 'searchform', "results"]
+            }
 
-    });
+        });
+
+    })
+    // next();
+
 
     // res.sendFile(__dirname + '/results.html')
     // console.log(data)

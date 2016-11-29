@@ -22,6 +22,8 @@
         <body>
             {{{app}}}
             {{{script}}}
+            <script src="/js/form.js"></script>
+
             <script>app.$mount('#app')</script>
         </body>
     </html>

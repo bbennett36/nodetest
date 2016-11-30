@@ -13,7 +13,7 @@
                 </li>
             </ul> -->
 
-            <div v-for="r in rentals">
+            <!-- <div v-for="r in rentals">
                 <div>
                   <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
                     <br />
@@ -23,8 +23,8 @@
                 </div>
                 <hr>
 
-            </div>
-            <!-- <results :rentals="rentals"></results> -->
+            </div> -->
+            <results :rentals=rentals></results>
 
 
         </div>
@@ -49,5 +49,6 @@ export default {
             rentals: this.rentals
         }
     },
+
 };
 </script>

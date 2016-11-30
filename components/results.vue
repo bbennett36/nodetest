@@ -1,10 +1,16 @@
 <template>
-<ul id="example-1">
-    <li v-for="item in rentals">
-        {{ item.id }}
-    </li>
-</ul>
-<h1>Hi</h1>
+<div>
+    <div v-for="r in rentals">
+        <div>
+            <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
+            <br />
+            <p><strong>Google Inc. </strong> - {{ r.location }}
+                <p>{{ r.shortDesc }} </p>
+                <p>{{ r.location }} </p>
+        </div>
+        <hr>
+    </div>
+</div>
 </template>
 
 
@@ -14,13 +20,7 @@
 // // var rentals = {};
 //
 export default {
-  // props: ['rentals'],
-
-    data: function() {
-        return {
-            rentals: this.rentals
-        }
-    },
+    props: ['rentals']
 };
 </script>
 

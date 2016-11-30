@@ -1,17 +1,27 @@
 <template>
-
-<p> {{ results }} </p>
-
+<ul id="example-1">
+    <li v-for="item in rentals">
+        {{ item.id }}
+    </li>
+</ul>
+<h1>Hi</h1>
 </template>
 
-<script>
+
+
+    <script>
+// // var moment = require('moment');
+// // var rentals = {};
+//
 export default {
-    data: function () {
+  // props: ['rentals'],
+
+    data: function() {
         return {
-           
+            rentals: this.rentals
         }
-    }
-}
+    },
+};
 </script>
 
 <style lang="css">

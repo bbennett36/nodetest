@@ -17,8 +17,8 @@
 
           <div id="navbar9" class="navbar-collapse collapse">
               <ul class="nav navbar-nav nav-pills navbar-left">
-                  <li><a href="./"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-                  <li><a href="./post">Post a Job</a></li>
+                  <li><a href="/"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+                  <li><a href="/post">Post a Job</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
                   <!-- <li> <sec:authorize access="!isAuthenticated()">

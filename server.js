@@ -93,15 +93,16 @@ router.get('/search', function(req, res, next) {
         lat, lng, lat, keyword
     ], function(error, rows) {
         //     //lat lng lat keyword (distance)
+        console.log(rows)
         res.render('main', {
             data: {
-                results: rows
+                rentals: rows
             },
             vue: {
                 meta: {
                     title: 'Page Title'
                 },
-                components: ['myheader', 'myfooter', 'searchform', "results"]
+                components: ['myheader', 'myfooter', 'searchform', 'results']
             }
 
         });
@@ -109,9 +110,36 @@ router.get('/search', function(req, res, next) {
     })
     // next();
 
-
     // res.sendFile(__dirname + '/results.html')
     // console.log(data)
+})
+
+router.get('/job/:id', function(req, res) {
+    var id = req.params.id
+    console.log(id)
+
+    connection.query('select * from job_posting where id = ?', id, function(err, result) {
+        if (err)
+            throw err;
+        res.render('show', {
+            data: {
+                job: result,
+                desc: result[0].job_desc
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader', 'myfooter', 'searchform', 'results']
+            }
+
+        });
+
+        // res.sendFile(__dirname + '/index.html')
+        // console.log(result)
+    });
+
+    // res.sendFile(__dirname + '/navbar.html')
 })
 
 router.get('/nav', function(req, res) {

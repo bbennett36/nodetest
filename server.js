@@ -8,6 +8,13 @@ var NodeGeocoder = require('node-geocoder')
 var rp = require('request-promise');
 var router = express.Router();
 var expressVue = require('express-vue');
+var zPagenav = require('vue-pagenav')
+var Vue = require('vue')
+var zPagenav = require('vue-pagenav')
+var testValue = require('test-value')
+
+// Vue.use(zPagenav)
+
 // var vue = require('vue');
 
 const app = express();
@@ -86,17 +93,38 @@ router.get('/search', function(req, res, next) {
     var keyword = ("%" + req.query.keyword + "%")
     var lat = req.query.lat
     var lng = req.query.lng
+    var salary = req.query.salary
+    console.log(salary)
+    if (typeof salary === 'undefined' || salary === null) {
+        salary = null;
+    }
 
-    console.log(keyword, lat, lng)
+    console.log(keyword, lat, lng, salary)
 
     connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25', [
         lat, lng, lat, keyword
     ], function(error, rows) {
         //     //lat lng lat keyword (distance)
-        console.log(rows)
+
+        // console.log(rows)
+        var test = rows.slice();
+        // console.log(test)
+
+        // test = test.filter(salaryOver);
+        // console.log(test)
+
+        test = test.filter(function(x) {
+            return parseInt(x.salary) >= salary;
+        });
+
+        // rows.filter(where({ salary: over }))
         res.render('main', {
             data: {
-                rentals: rows
+                rentals: test,
+                page: 1, //page
+                pageSize: 10, //pageSize,  default is 10
+                total: rows.length, //total item count
+                maxLink: 5
             },
             vue: {
                 meta: {

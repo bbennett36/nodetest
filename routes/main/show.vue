@@ -1,4 +1,7 @@
+
+
 <template>
+
 <div id="wrap">
     <div class="col-md-1"></div>
     <div id="main-container" class="container col-md-10">
@@ -30,9 +33,11 @@
     </div>
 </div>
 <!-- <myfooter></myfooter> -->
+
 </template>
 
- <script>
+<script>
+
 // // var moment = require('moment');
 // // var rentals = {};
 //
@@ -44,4 +49,5 @@ export default {
         }
     },
 };
+
 </script>

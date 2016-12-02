@@ -17,12 +17,14 @@
 
             <title>{{{title}}}</title>
             <script src="https://unpkg.com/vue/dist/vue.js"></script>
+            <script src="/js/form.js"></script>
+
 
         </head>
         <body>
+
             {{{app}}}
             {{{script}}}
-            <script src="/js/form.js"></script>
 
             <script>app.$mount('#app')</script>
         </body>

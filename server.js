@@ -93,29 +93,35 @@ router.get('/search', function(req, res, next) {
     var keyword = ("%" + req.query.keyword + "%")
     var lat = req.query.lat
     var lng = req.query.lng
+    var location = req.query.location
+    var radius = req.query.radius
+    if (typeof radius === 'undefined' || radius === null) {
+        radius = 25;
+    }
+    console.log(radius)
     var salary = req.query.salary
-    console.log(salary)
     if (typeof salary === 'undefined' || salary === null) {
         salary = null;
     }
 
     console.log(keyword, lat, lng, salary)
 
-    connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < 25', [
-        lat, lng, lat, keyword
+    connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
+        lat, lng, lat, keyword, radius
     ], function(error, rows) {
         //     //lat lng lat keyword (distance)
 
         // console.log(rows)
         var test = rows.slice();
-        // console.log(test)
-
-        // test = test.filter(salaryOver);
-        // console.log(test)
+        console.log("Results count before filter", test.length)
+        // console.log(test[0].salary)
 
         test = test.filter(function(x) {
+            // console.log(x.salary)
+            // x.salary = nu/ll
             return parseInt(x.salary) >= salary;
         });
+        console.log("Results count after filter", test.length)
 
         // rows.filter(where({ salary: over }))
         res.render('main', {
@@ -124,13 +130,15 @@ router.get('/search', function(req, res, next) {
                 page: 1, //page
                 pageSize: 10, //pageSize,  default is 10
                 total: rows.length, //total item count
-                maxLink: 5
+                maxLink: 5,
+                keyword: req.query.keyword,
+                location: location
             },
             vue: {
                 meta: {
                     title: 'Page Title'
                 },
-                components: ['myheader', 'myfooter', 'searchform', 'results']
+                components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
             }
 
         });

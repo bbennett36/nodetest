@@ -6,26 +6,12 @@
     <div id="main-container" class="container col-md-10">
 
         <myheader></myheader>
-        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <searchfilter :keyword="keyword" :location="location"></searchfilter>
+        </div>
         <div class="col-md-4">
             <searchform></searchform>
-            <!-- <ul>
-                <li v-for="item in rentals">
-                    {{ item.id }}
-                </li>
-            </ul> -->
 
-            <!-- <div v-for="r in rentals">
-                <div>
-                  <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
-                    <br />
-                    <p><strong>Google Inc. </strong> - {{ r.location }}
-                        <p>{{ r.shortDesc }} </p>
-                        <p>{{ r.location }} </p>
-                </div>
-                <hr>
-
-            </div> -->
             <results :rentals="rentals"></results>
 
 
@@ -37,13 +23,9 @@
 
 
     </div>
-    <!-- <div id="test">
-        <zpagenav :page="page" , :page-size="pageSize" , :total="total" , :max-link="maxLink" :page-handler="pageHandler" :create-url="createUrl">
-            <zpagenav>
-    </div> -->
+
 </div>
 
-<!-- <myfooter></myfooter> -->
 </template>
 
 <script>
@@ -57,7 +39,9 @@ export default {
             page: this.page, //page
             pageSize: this.pageSize, //pageSize,  default is 10
             total: this.total, //total item count
-            maxLink: this.maxLine
+            maxLink: this.maxLine,
+            keyword: this.keyword,
+            location: this.location
         }
     },
     methods: {

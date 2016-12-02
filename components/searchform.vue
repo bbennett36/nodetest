@@ -6,7 +6,7 @@
           <input type="text" id="keyword" name="keyword" placeholder="Job Title" />
           <input type="text" id="location" name="location" placeholder="Enter your city,state or zip" />
           <input type="hidden" name="lat" id="lat" />
-          <input type="hidden" name="lng" id="lng" />
+          <input type="hidden" name="lng" id="lng" /> 
           <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
       </div>
   </form>

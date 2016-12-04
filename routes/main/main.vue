@@ -1,6 +1,10 @@
+<style>
 
+
+</style>
 
 <template>
+
 <div id="wrap">
     <div class="col-md-1"></div>
     <div id="main-container" class="container col-md-10">
@@ -25,9 +29,11 @@
     </div>
 
 </div>
+
 </template>
 
 <script>
+
 // // var moment = require('moment');
 // // var rentals = {};
 //
@@ -39,11 +45,11 @@ export default {
             location: this.location
         }
     }
+    // created: function () {
+    //     // `this` points to the vm instance
+    //     var currentUrl = window.location.search;
+    //     console.log(currentUrl)
+    //   }
 };
-</script>
 
-<style lang="css">
-ul {
-    list-style-type: none;
-}
-</style>
+</script>

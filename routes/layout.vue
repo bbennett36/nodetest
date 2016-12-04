@@ -15,10 +15,17 @@
             <!-- Latest compiled and minified JavaScript -->
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-            <title>{{{title}}}</title>
+            <title>BootCampHire.com</title>
             <script src="https://unpkg.com/vue/dist/vue.js"></script>
             <script src="/js/form.js"></script>
 
+            <style type='text/css'>
+            ul  {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            }
+            </style>
 
         </head>
         <body>
@@ -35,4 +42,7 @@
 </script>
 
 <style>
+ul  {
+list-style-type: none;
+}
 </style>

@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+var currentUrl = window.location.href;
+console.log(currentUrl)
+
     $('#submitForm').on('click', function(event) {
         event.preventDefault();
         var a = $('#location').val();
@@ -30,7 +33,7 @@ $(document).ready(function() {
     $('#radius').change(function(e) {
 
         event.preventDefault();
-        var location = $('#location').val();
+        var location = $('#filterlocation').val();
         var rad = $('#radius').val();
         var keyword = $('#keyword').val();
 
@@ -47,8 +50,8 @@ $(document).ready(function() {
                 var lat = response.results[0].locations[0].latLng.lat;
                 var lng = response.results[0].locations[0].latLng.lng;
                 // Extract latitude and longitude
-                $('#lat').val(lat);
-                $('#lng').val(lng);
+                $('#filterLat').val(lat);
+                $('#filterLng').val(lng);
                 $('#searchForm').submit();
 
                 // window.location.href ="/search?keyword=" + keyword + "&location=" + location + "&lat=" + lat + "&lng=" + lng + "&rad=" + rad;

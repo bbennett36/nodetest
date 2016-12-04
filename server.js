@@ -12,12 +12,24 @@ var zPagenav = require('vue-pagenav')
 var Vue = require('vue')
 var zPagenav = require('vue-pagenav')
 var testValue = require('test-value')
+var async = require("async");
+var waterfall = require('async/waterfall');
 
 // Vue.use(zPagenav)
 
 // var vue = require('vue');
 
 const app = express();
+var options = {
+    provider: 'mapquest',
+
+    // Optional depending on the providers
+    httpAdapter: 'https', // Default
+    apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
+    formatter: null // 'gpx', 'string', ...
+};
+
+var geocoder = NodeGeocoder(options);
 
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static('public'))
@@ -73,82 +85,162 @@ router.get('/', (req, res, next) => {
     // res.sendFile(__dirname + '/index.html')
 
 })
-// router.use('search', function(req, res, next, keyword) {
-//     // do validation on name here
-//     // blah blah validation
-//     // log something so we know its working
-//     console.log('doing name validations on ' + keyword);
+
+// router.get('/search', function(req, res, next) {
+//     // res.send('hello ' + req.query.keyword + '!');
+//     // connection.query('select * from job_posting where job_title like ?', req.query.keyword , function(err, result) {
 //
-//     // once validation is done save the new item in the req
-//     req.keyword = keyword;
-//     // go to the next thing
-//     next();
-// });
+//     // console.log(req.query)
+//
+//     var options = {
+//         provider: 'mapquest',
+//
+//         // Optional depending on the providers
+//         httpAdapter: 'https', // Default
+//         apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
+//         formatter: null // 'gpx', 'string', ...
+//     };
+//
+//     var geocoder = NodeGeocoder(options);
+//
+//
+//
+//     var geo = geocoder.geocode(req.query.location, function(err, res) {
+//       console.log(res[0].latitude);
+//       var lat = res[0].latitude
+//       var lng = res[0].longitude
+//       return [lat, lng]
+//     });
+//
+//     // var lat = geo[0]
+//     // var lng = geo[1]
+//
+//     var keyword = ("%" + req.query.keyword + "%")
+//     var lat = req.query.lat
+//     var lng = req.query.lng
+//     var location = req.query.location
+//     var radius = req.query.radius
+//     if (typeof radius === 'undefined' || radius === null) {
+//         radius = 25;
+//     }
+//     console.log(radius)
+//     var salary = req.query.salary
+//     if (typeof salary === 'undefined' || salary === null) {
+//         salary = null;
+//     }
+//
+//     console.log(keyword, lat, lng, salary)
+//
+//     connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
+//         lat, lng, lat, keyword, radius
+//     ], function(error, rows) {
+//         //     //lat lng lat keyword (distance)
+//
+//         // console.log(rows)
+//         var test = rows.slice();
+//         console.log("Results count before filter", test.length)
+//         // console.log(test[0].salary)
+//
+//         test = test.filter(function(x) {
+//             // console.log(x.salary)
+//             // x.salary = nu/ll
+//             return parseInt(x.salary) >= salary;
+//         });
+//         console.log("Results count after filter", test.length)
+//
+//         // rows.filter(where({ salary: over }))
+//         res.render('main', {
+//             data: {
+//                 rentals: test,
+//                 page: 1, //page
+//                 pageSize: 10, //pageSize,  default is 10
+//                 total: rows.length, //total item count
+//                 maxLink: 5,
+//                 keyword: req.query.keyword,
+//                 location: location
+//             },
+//             vue: {
+//                 meta: {
+//                     title: 'Page Title'
+//                 },
+//                 components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+//             }
+//
+//         });
+//
+//     })
+//     // next();
+//
+//     // res.sendFile(__dirname + '/results.html')
+//     // console.log(data)
+// })
 
 router.get('/search', function(req, res, next) {
-    // res.send('hello ' + req.query.keyword + '!');
-    // connection.query('select * from job_posting where job_title like ?', req.query.keyword , function(err, result) {
 
-    // console.log(req.query)
-    var keyword = ("%" + req.query.keyword + "%")
-    var lat = req.query.lat
-    var lng = req.query.lng
-    var location = req.query.location
-    var radius = req.query.radius
-    if (typeof radius === 'undefined' || radius === null) {
-        radius = 25;
-    }
-    console.log(radius)
-    var salary = req.query.salary
-    if (typeof salary === 'undefined' || salary === null) {
-        salary = null;
-    }
+  var keyword = ("%" + req.query.keyword + "%")
+      var lat;
+      var lng;
+      var location = req.query.location
+      var radius = req.query.radius
+      if (typeof radius === 'undefined' || radius === null) {
+          radius = 25;
+      }
+      console.log(radius)
+      var salary = req.query.salary
+      if (typeof salary === 'undefined' || salary === null) {
+          salary = null;
+      }
 
-    console.log(keyword, lat, lng, salary)
+    async.waterfall([
+        function(res, callback) {
+            geocoder.geocode(req.query.location, function(err, res, callback) {
+                console.log(res[0].latitude);
+                lat = res[0].latitude
+                lng = res[0].longitude
+                // return [lat, lng]
+            })
+        },
+        function(res, callback) {
+            connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
+                lat, lng, lat, keyword, radius
+            ], function(error, rows, callback) {
+                //     //lat lng lat keyword (distance)
 
-    connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
-        lat, lng, lat, keyword, radius
-    ], function(error, rows) {
-        //     //lat lng lat keyword (distance)
+                console.log('in db func')
+                var test = rows.slice();
+                console.log("Results count before filter", test.length)
+                // console.log(test[0].salary)
 
-        // console.log(rows)
-        var test = rows.slice();
-        console.log("Results count before filter", test.length)
-        // console.log(test[0].salary)
+                test = test.filter(function(x) {
+                    // console.log(x.salary)
+                    // x.salary = nu/ll
+                    return parseInt(x.salary) >= salary;
+                });
+                console.log("Results count after filter", test.length)
 
-        test = test.filter(function(x) {
-            // console.log(x.salary)
-            // x.salary = nu/ll
-            return parseInt(x.salary) >= salary;
-        });
-        console.log("Results count after filter", test.length)
+                // rows.filter(where({ salary: over }))
+                res.render('main', {
+                    data: {
+                        rentals: test,
+                        page: 1, //page
+                        pageSize: 10, //pageSize,  default is 10
+                        total: rows.length, //total item count
+                        maxLink: 5,
+                        keyword: req.query.keyword,
+                        location: req.query.location
+                    },
+                    vue: {
+                        meta: {
+                            title: 'Page Title'
+                        },
+                        components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+                    }
 
-        // rows.filter(where({ salary: over }))
-        res.render('main', {
-            data: {
-                rentals: test,
-                page: 1, //page
-                pageSize: 10, //pageSize,  default is 10
-                total: rows.length, //total item count
-                maxLink: 5,
-                keyword: req.query.keyword,
-                location: location
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
-                },
-                components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
-            }
-
-        });
-
-    })
-    // next();
-
-    // res.sendFile(__dirname + '/results.html')
-    // console.log(data)
-})
+                });
+            })
+        }
+    ]);
+});
 
 router.get('/job/:id', function(req, res) {
     var id = req.params.id
@@ -177,7 +269,6 @@ router.get('/job/:id', function(req, res) {
 
     // res.sendFile(__dirname + '/navbar.html')
 })
-
 router.get('/nav', function(req, res) {
     res.sendFile(__dirname + '/navbar.html')
 })
@@ -208,5 +299,4 @@ router.post('/create', function(req, res) {
     res.redirect("/")
 
 })
-
 app.use('/', router);

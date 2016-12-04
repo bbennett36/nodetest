@@ -177,34 +177,37 @@ router.get('/', (req, res, next) => {
 
 router.get('/search', function(req, res, next) {
 
-  var keyword = ("%" + req.query.keyword + "%")
-      var lat;
-      var lng;
-      var location = req.query.location
-      var radius = req.query.radius
-      if (typeof radius === 'undefined' || radius === null) {
-          radius = 25;
-      }
-      console.log(radius)
-      var salary = req.query.salary
-      if (typeof salary === 'undefined' || salary === null) {
-          salary = null;
-      }
+    var keyword = ("%" + req.query.keyword + "%")
+    var lat;
+    var lng;
+    var location = req.query.location
+    var radius = req.query.radius
+    if (typeof radius === 'undefined' || radius === null) {
+        radius = 25;
+    }
+    console.log(radius)
+    var salary = req.query.salary
+    if (typeof salary === 'undefined' || salary === null) {
+        salary = null;
+    }
 
     async.waterfall([
-        function(res, callback) {
-            geocoder.geocode(req.query.location, function(err, res, callback) {
+        function(callback, res) {
+            geocoder.geocode(req.query.location, function(err, res) {
                 console.log(res[0].latitude);
                 lat = res[0].latitude
                 lng = res[0].longitude
-                // return [lat, lng]
+                var x = [lat, lng]
+                callback(x, "hello");
             })
+
         },
-        function(res, callback) {
+        function(callback, res) {
             connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
                 lat, lng, lat, keyword, radius
-            ], function(error, rows, callback) {
+            ], function(error, rows) {
                 //     //lat lng lat keyword (distance)
+                console.log(res)
 
                 console.log('in db func')
                 var test = rows.slice();
@@ -219,27 +222,31 @@ router.get('/search', function(req, res, next) {
                 console.log("Results count after filter", test.length)
 
                 // rows.filter(where({ salary: over }))
-                res.render('main', {
-                    data: {
-                        rentals: test,
-                        page: 1, //page
-                        pageSize: 10, //pageSize,  default is 10
-                        total: rows.length, //total item count
-                        maxLink: 5,
-                        keyword: req.query.keyword,
-                        location: req.query.location
-                    },
-                    vue: {
-                        meta: {
-                            title: 'Page Title'
-                        },
-                        components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
-                    }
-
-                });
+                // res.render('main', {
+                //     data: {
+                //         rentals: test,
+                //         page: 1, //page
+                //         pageSize: 10, //pageSize,  default is 10
+                //         total: rows.length, //total item count
+                //         maxLink: 5,
+                //         keyword: req.query.keyword,
+                //         location: req.query.location
+                //     },
+                //     vue: {
+                //         meta: {
+                //             title: 'Page Title'
+                //         },
+                //         components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+                //     }
+                //
+                // });
             })
         }
-    ]);
+        // callback(null, "lol");
+    ], function(err, result) {
+        // result now equals 'done'
+        console.log(results)
+    });
 });
 
 router.get('/job/:id', function(req, res) {

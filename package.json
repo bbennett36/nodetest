@@ -13,10 +13,14 @@
     "async": "^2.1.4",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
+    "express-paginate": "^0.2.2",
     "express-vue": "^3.1.2",
     "nodemon": "^1.11.0",
     "request": "^2.79.0",
-    "request-promise": "^4.1.1"
+    "request-promise": "^4.1.1",
+    "vue-paginate": "^3.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "vuejs-paginator": "^2.0.0"
+  }
 }

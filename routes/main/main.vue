@@ -16,8 +16,7 @@
         <div class="col-md-4">
             <searchform></searchform>
 
-            <results :rentals="rentals"></results>
-
+            <results name="test" :per="2" :rentals="rentals"></results>
 
         </div>
         <div class="col-md-4 text-center">
@@ -40,9 +39,7 @@
 export default {
     data: function() {
         return {
-            rentals: this.rentals,
-            keyword: this.keyword,
-            location: this.location
+
         }
     }
     // created: function () {

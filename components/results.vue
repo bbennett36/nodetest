@@ -10,17 +10,22 @@
         </div>
         <hr>
     </div>
+    <!-- <paginatelinks name='rentals' for='rentals' :limit="2"></paginatelinks> -->
+    <!-- <v-paginator v-bind:resource_url='getURL' @update="updateResource"></v-paginator> -->
+
 </div>
 </template>
 
 
 
-    <script>
+<script>
 // // var moment = require('moment');
 // // var rentals = {};
 //
+
+// var VuePaginator = require ('../components/VPaginator');
 export default {
-    props: ['rentals']
+    props: ['rentals', 'getURL']
 };
 </script>
 

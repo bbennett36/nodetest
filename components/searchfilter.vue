@@ -1,5 +1,4 @@
 <style scoped>
-
 /*.filForm ul {
     list-style-type: none;
     margin: 0;
@@ -28,14 +27,13 @@
     <div class="jtype">
         <h5>Job Type</h5>
         <ul>
-            <li v:onclick="redirect"><a href='window.location.href'>Full-Time</a></li>
-            <li><a href='#'>Part-Time</a></li>
-            <li><a href='#'>Contract</a></li>
-            <li>
-                <A href='#'>Internship</a>
-            </li>
+            <li><a v-bind:href="resource_url + '&type=Full-Time'">Full-Time</a></li>
+            <li><a v-bind:href="resource_url + '&type=Part-Time'">Part-Time</a></li>
+            <li><a v-bind:href="resource_url + '&type=Contract'">Contract</a></li>
+            <li><a v-bind:href="resource_url + '&type=Internship'">Internship</a></li>
         </ul>
     </div>
+
 </div>
 </template>
 
@@ -44,8 +42,20 @@
 // // var rentals = {};
 //
 export default {
-  
-    props: ['keyword', 'location']
+    props: ['keyword', 'location'],
+    data: function() {
+        return {
+            resource_url: ''
+        }
+    },
+    methods: {
+        gurl: function() {
+          this.resource_url = window.location.search;
+          // return currentUrl;
+        }
+    },
+    beforeMount() {
+        this.gurl()
+    }
 };
-
 </script>

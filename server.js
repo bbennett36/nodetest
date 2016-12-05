@@ -9,11 +9,10 @@ var async = require("async");
 var waterfall = require('async/waterfall');
 var series = require('async/series');
 
-// Vue.use(zPagenav)
-
-// var vue = require('vue');
 
 const app = express();
+
+
 var options = {
     provider: 'mapquest',
 
@@ -22,7 +21,6 @@ var options = {
     apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
     formatter: null // 'gpx', 'string', ...
 };
-
 var geocoder = NodeGeocoder(options);
 
 app.use(bodyParser.urlencoded({extended: true}))
@@ -79,7 +77,6 @@ router.get('/', (req, res, next) => {
 
 })
 
-
 router.get('/search', function(req, res, next) {
 
     var keyword = ("%" + req.query.keyword + "%")
@@ -88,17 +85,21 @@ router.get('/search', function(req, res, next) {
     var location = req.query.location
     var radius = req.query.radius
     if (typeof radius === 'undefined' || radius === null) {
-        radius = 25;
+        radius = 25; //default radius
     }
-    console.log(radius)
     var salary = req.query.salary
     if (typeof salary === 'undefined' || salary === null) {
         salary = null;
     }
+    var type = req.query.type
+    if (typeof type === 'undefined' || type === null) {
+        type = null;
+    }
+    // console.log("job type", type)
 
     async.series([function(callback) {
             geocoder.geocode(req.query.location, function(err, res) {
-                console.log(res[0].latitude);
+                // console.log("latitude: ", res[0].latitude);
                 lat = res[0].latitude
                 lng = res[0].longitude
                 var x = [lat, lng]
@@ -115,7 +116,11 @@ router.get('/search', function(req, res, next) {
             console.log("Results count before filter", test.length)
 
             test = test.filter(function(x) {
-                return parseInt(x.salary) >= salary;
+                if (type === null) {
+                    return parseInt(x.salary) >= salary
+                } else if (type !== null) {
+                    return x.job_type === type;
+                }
             });
 
             console.log("Results count after filter", test.length)
@@ -124,25 +129,29 @@ router.get('/search', function(req, res, next) {
             res.render('main', {
                 data: {
                     rentals: test,
-                    page: 1, //page
-                    pageSize: 10, //pageSize,  default is 10
-                    total: rows.length, //total item count
-                    maxLink: 5,
                     keyword: req.query.keyword,
-                    location: location
+                    location: location,
+                    resource_url: ''
                 },
+                // paginate: ['languages'],
                 vue: {
                     meta: {
                         title: 'Page Title'
                     },
-                    components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+                    components: [
+                        'myheader',
+                        'myfooter',
+                        'searchform',
+                        'results',
+                        'searchfilter'
+                    ]
                 }
 
             });
-
+            console.log('after render')
         });
     });
-console.log('test')
+    console.log('running before async')
 });
 
 router.get('/job/:id', function(req, res) {

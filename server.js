@@ -9,9 +9,7 @@ var async = require("async");
 var waterfall = require('async/waterfall');
 var series = require('async/series');
 
-
 const app = express();
-
 
 var options = {
     provider: 'mapquest',
@@ -95,7 +93,30 @@ router.get('/search', function(req, res, next) {
     if (typeof type === 'undefined' || type === null) {
         type = null;
     }
-    // console.log("job type", type)
+    var page = req.query.p
+    if (typeof page === 'undefined' || page === null) {
+        page = 1;
+    }
+
+    //values for DB limit x, y
+    var x;
+    var y;
+    if (page == 1) {
+        x = 0
+        y = 25
+    } else {
+        y = 25 * page
+        x = y - 24;
+    }
+    console.log("x:" + x + " y:" + y)
+
+    var p;
+
+    if (count % total == 0) {
+        p = (count / total);
+    } else {
+        p = 1 + (count / total);
+    }
 
     async.series([function(callback) {
             geocoder.geocode(req.query.location, function(err, res) {
@@ -107,8 +128,14 @@ router.get('/search', function(req, res, next) {
             })
         }
     ], function(err, result) {
-        connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
-            lat, lng, lat, keyword, radius
+        connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ? ORDER BY date_created DESC limit ?, 25', [
+            lat,
+            lng,
+            lat,
+            keyword,
+            radius,
+            x,
+            y
         ], function(error, rows) {
             //     //lat lng lat keyword (distance)
 
@@ -131,20 +158,15 @@ router.get('/search', function(req, res, next) {
                     rentals: test,
                     keyword: req.query.keyword,
                     location: location,
-                    resource_url: ''
+                    resource_url: '',
+                    page: page
                 },
                 // paginate: ['languages'],
                 vue: {
                     meta: {
                         title: 'Page Title'
                     },
-                    components: [
-                        'myheader',
-                        'myfooter',
-                        'searchform',
-                        'results',
-                        'searchfilter'
-                    ]
+                    components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
                 }
 
             });

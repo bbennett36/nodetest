@@ -16,7 +16,8 @@
         <div class="col-md-4">
             <searchform></searchform>
 
-            <results name="test" :per="2" :rentals="rentals"></results>
+            <results :rentals="rentals" :page='page'></results>
+
 
         </div>
         <div class="col-md-4 text-center">

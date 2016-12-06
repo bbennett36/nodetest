@@ -21,6 +21,7 @@
     "vue-paginate": "^3.1.0"
   },
   "devDependencies": {
+    "bootstrap-vue": "^0.3.10",
     "vuejs-paginator": "^2.0.0"
   }
 }

@@ -1,4 +1,11 @@
+<style lang="css">
+
+
+
+</style>
+
 <template>
+
 <div>
     <div v-for="r in rentals">
         <div>
@@ -12,12 +19,14 @@
         <hr>
     </div>
 
+
+
 </div>
+
 </template>
 
-
-
 <script>
+
 // // var moment = require('moment');
 // // var rentals = {};
 //
@@ -26,7 +35,5 @@
 export default {
     props: ['rentals', 'getURL', 'page']
 };
-</script>
 
-<style lang="css">
-</style>
+</script>

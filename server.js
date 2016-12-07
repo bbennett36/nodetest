@@ -78,6 +78,10 @@ router.get('/', (req, res, next) => {
 router.get('/search', function(req, res, next) {
 
     var keyword = ("%" + req.query.keyword + "%")
+
+    var filterQuery = ('where job_title like ' + keyword);
+    console.log(filterQuery)
+
     var lat;
     var lng;
     var location = req.query.location
@@ -92,33 +96,33 @@ router.get('/search', function(req, res, next) {
     var type = req.query.type
     if (typeof type === 'undefined' || type === null) {
         type = null;
+    } else if (typeof type !== 'undefined' || type !== null) {
+        filterQuery += (' and job_title = ' + type)
+        console.log(filterQuery)
     }
-    var page = req.query.p
-    if (typeof page === 'undefined' || page === null) {
-        page = 1;
+    var currentPage = req.query.p
+    if (typeof currentPage === 'undefined' || currentPage === null) {
+        currentPage = 1;
     }
 
     //values for DB limit x, y
-    var x;
+    var x; //offset
     var y;
-    if (page == 1) {
+    if (currentPage == 1) {
         x = 0
         y = 25
     } else {
-        y = 25 * page
+        y = 25 * currentPage
         x = y - 24;
     }
     console.log("x:" + x + " y:" + y)
 
-    var p;
+    var count;
+    var page;
 
-    if (count % total == 0) {
-        p = (count / total);
-    } else {
-        p = 1 + (count / total);
-    }
-
-    async.series([function(callback) {
+    // var sqlQuery = 'SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting ' + filterQuery + ' HAVING distance < ? ORDER BY date_created DESC limit ?, 25'
+    async.series([
+        function(callback) {
             geocoder.geocode(req.query.location, function(err, res) {
                 // console.log("latitude: ", res[0].latitude);
                 lat = res[0].latitude
@@ -126,52 +130,153 @@ router.get('/search', function(req, res, next) {
                 var x = [lat, lng]
                 callback(null, x);
             })
+        },
+        function(callback) {
+            connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ?', [
+                lat,
+                lng,
+                lat,
+                keyword,
+                radius,
+                x
+            ], function(error, rows) {
+                //     //lat lng lat keyword (distance)
+
+                count = rows.length;
+                console.log(count)
+                callback(null, x);
+
+            });
         }
     ], function(err, result) {
-        connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ? ORDER BY date_created DESC limit ?, 25', [
-            lat,
-            lng,
-            lat,
-            keyword,
-            radius,
-            x,
-            y
-        ], function(error, rows) {
-            //     //lat lng lat keyword (distance)
+        // var yoyo = true;
+        if (type === null) {
+            connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ? ORDER BY date_created DESC limit ?, 25', [
+                lat,
+                lng,
+                lat,
+                keyword,
+                radius,
+                x,
+                y
+            ], function(error, rows) {
+                //     //lat lng lat keyword (distance)
+                console.log(error)
 
-            var test = rows.slice();
-            console.log("Results count before filter", test.length)
+                var test = rows.slice();
 
-            test = test.filter(function(x) {
-                if (type === null) {
-                    return parseInt(x.salary) >= salary
-                } else if (type !== null) {
-                    return x.job_type === type;
+                // var count = test.length();
+
+                // int page;
+                //
+
+                if (count % 25 == 0) {
+                    page = (count / 25);
+                } else {
+                    page = 1 + (count / 25);
                 }
-            });
+                //
+                //         List<Integer> pages = new ArrayList();
+                //         for (int i = 1; i <= page; i++) {
+                //             pages.add(i);
+                //         }
 
-            console.log("Results count after filter", test.length)
+                var pages = [];
+                for (var i = 1; i <= page; i++) {
+                    pages.push(i);
+                }
 
-            // rows.filter(where({ salary: over }))
-            res.render('main', {
-                data: {
-                    rentals: test,
-                    keyword: req.query.keyword,
-                    location: location,
-                    resource_url: '',
-                    page: page
-                },
-                // paginate: ['languages'],
-                vue: {
-                    meta: {
-                        title: 'Page Title'
+                // rows.filter(where({ salary: over }))
+                res.render('main', {
+                    data: {
+                        rentals: test,
+                        keyword: req.query.keyword,
+                        location: location,
+                        resource_url: '',
+                        pages: pages,
+                        total: count,
+                        // per_page: 12, // required
+                        current_page: currentPage, // required
+                        last_page: 10,
+                        x: x,
+                        y: y // required
+                        // from: 1,
+                        // to: 12 // required
                     },
-                    components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
-                }
+                    // paginate: ['languages'],
+                    vue: {
+                        meta: {
+                            title: 'Page Title'
+                        },
+                        components: [
+                            'myheader',
+                            'myfooter',
+                            'searchform',
+                            'results',
+                            'searchfilter',
+                            'paginate'
+                        ]
+                    }
 
+                });
+                console.log('after render')
             });
-            console.log('after render')
-        });
+        } else {
+            console.log(type)
+            connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? AND job_type = ? HAVING distance < ? ORDER BY date_created DESC limit ?, 25', [
+                lat,
+                lng,
+                lat,
+                keyword,
+                type,
+                radius,
+                x,
+                y
+            ], function(error, rows) {
+                //     //lat lng lat keyword (distance)
+
+                console.log(error)
+                var test = rows.slice();
+                // console.log("Results count before filter", test.length)
+                //
+                // test = test.filter(function(x) {
+                //     if (type === null) {
+                //         return parseInt(x.salary) >= salary
+                //     } else if (type !== null) {
+                //         return x.job_type === type;
+                //     }
+                // });
+                //
+                // console.log("Results count after filter", test.length)
+
+                // rows.filter(where({ salary: over }))
+                res.render('main', {
+                    data: {
+                        rentals: test,
+                        items: [],
+                        keyword: req.query.keyword,
+                        location: location,
+                        resource_url: '',
+                        total: 0,
+                        per_page: 12, // required
+                        current_page: 1, // required
+                        last_page: 10, // required
+                        from: 1,
+                        to: 12 // required
+                    },
+
+                    // paginate: ['languages'],
+                    vue: {
+                        meta: {
+                            title: 'Page Title'
+                        },
+                        components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+                    }
+
+                });
+                console.log('after render')
+            });
+        }
     });
     console.log('running before async')
 });

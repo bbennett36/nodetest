@@ -21,20 +21,22 @@
                   <li><a href="/post">Post a Job</a></li>
               </ul>
               <ul class="nav navbar-nav navbar-right">
-                  <!-- <li> <sec:authorize access="!isAuthenticated()">
-                                     <a href="${pageContext.request.contextPath}/login/signup"><strong>Sign up</strong></a>
-                                 </sec:authorize>
-                                 <sec:authorize access="isAuthenticated()">
+                  <li>
+                      <!-- <sec:authorize access="!isAuthenticated()"> -->
+                      <a href="/login/signup"><strong>Sign up</strong></a>
+
+                      <!-- <sec:authorize access="isAuthenticated()">
                                      <a href="${pageContext.request.contextPath}/user/profile"><strong>Profile</strong></a>
-                                 </sec:authorize></li>
-                             <li>
-                                 <sec:authorize access="!isAuthenticated()">
-                                     <a href="#" data-toggle="modal" data-target="#bannerformmodal"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
-                                             </sec:authorize>
-                                             <sec:authorize access="isAuthenticated()">
-                                     <a href="${pageContext.request.contextPath}/logout"><strong> <span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
-                                 </sec:authorize>
-                             </li> -->
+                                 </sec:authorize> -->
+                  </li>
+                  <li>
+                      <!-- <sec:authorize access="!isAuthenticated()"> -->
+                      <a href="/login"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
+                      <!-- </sec:authorize> -->
+                      <!-- <sec:authorize access="isAuthenticated()">
+                                     <a href="${pageContext.request.contextPath}/logout"><strong> <span class="glyphicon glyphicon-log-out"></span> Logout</strong></a> -->
+                      <!-- </sec:authorize> -->
+                  </li>
               </ul>
           </div>
           <!--/.nav-collapse -->

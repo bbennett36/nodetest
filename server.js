@@ -8,8 +8,16 @@ var expressVue = require('express-vue');
 var async = require("async");
 var waterfall = require('async/waterfall');
 var series = require('async/series');
+var responseTime = require('response-time')
+var passport = require('passport');
+var Strategy = require('passport-local').Strategy;
+var db = require('./db');
+var session = require('express-session')
+// var ensureLoggedIn = require('ensureLoggedIn');
 
 const app = express();
+
+// app.use(responseTime())
 
 var options = {
     provider: 'mapquest',
@@ -22,6 +30,7 @@ var options = {
 var geocoder = NodeGeocoder(options);
 
 app.use(bodyParser.urlencoded({extended: true}))
+app.use(require('express-session')({secret: 'keyboard cat', resave: false, saveUninitialized: false}));
 app.use(express.static('public'))
 
 app.set('views', __dirname + '/routes/main');
@@ -36,26 +45,64 @@ app.set('vue', {
 app.engine('vue', expressVue);
 app.set('view engine', 'vue');
 
-// router.use(function(req, res, next) {
+// Configure the local strategy for use by Passport.
 //
-//     // log each request to the console
-//     console.log(req.method, req.url);
-//
-//     // continue doing what we were doing and go to the route
-//     next();
-// });
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(function(username, password, cb) {
+  process.nextTick(function() {
 
-app.route('/login')
-
-// show the form (GET http://localhost:8080/login)
-    .get(function(req, res) {
-    res.send('this is the login form');
+    db.users.findByUsername(username, function(err, user) {
+        // console.log('hello')
+        if (err) {
+            return cb(err);
+        }
+        if (!user) {
+            return cb(null, false);
+        }
+        if (user.password != password) {
+            return cb(null, false);
+        }
+        return cb(null, user);
+    });
 })
+}));
 
-// process the form (POST http://localhost:8080/login)
-    .post(function(req, res) {
-    console.log('processing');
-    res.send('processing the login form!');
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+    cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+    db.users.findById(id, function(err, user) {
+        if (err) {
+            return cb(err);
+        }
+        cb(null, user);
+    });
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+router.use(passport.initialize());
+router.use(passport.session());
+
+router.use(function(req, res, next) {
+
+    // log each request to the console
+    console.log(req.method, req.url, db);
+
+    // continue doing what we were doing and go to the route
+    next();
 });
 
 app.listen(3000, function() {
@@ -74,6 +121,21 @@ router.get('/', (req, res, next) => {
     });
 
 })
+
+router.get('/login', function(req, res) {
+    res.sendFile(__dirname + '/login.html')
+})
+
+router.post('/login', bodyParser.urlencoded({ extended: true }), function(req, res) {
+    passport.authenticate('local', { successRedirect: '/post', failureRedirect: '/login'}),
+    console.log(req.user)
+    // res.redirect("/profile")
+})
+
+app.get('/profile', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+    console.log(req.user)
+    res.render('profile', {user: req.user});
+});
 
 router.get('/search', function(req, res, next) {
 

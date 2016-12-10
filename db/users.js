@@ -1,7 +1,10 @@
+var mysql = require('mysql');
+var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
+
+
 exports.findByUsername = function(username, cb) {
     connection.query('select * from user where username = ?', username, function(error, rows) {
         //     //lat lng lat keyword (distance)
-      console.log(rows, error)
         return cb(null, rows[0]);
     })
 }

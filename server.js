@@ -15,23 +15,68 @@ var db = require('./db');
 var session = require('express-session')
 // var ensureLoggedIn = require('ensureLoggedIn');
 
+// Configure the local strategy for use by Passport.
+//
+// The local strategy require a `verify` function which receives the credentials
+// (`username` and `password`) submitted by the user.  The function must verify
+// that the password is correct and then invoke `cb` with a user object, which
+// will be set at `req.user` in route handlers after authentication.
+passport.use(new Strategy(function(username, password, cb) {
+    db.users.findByUsername(username, function(err, user) {
+        if (err) {
+            return cb(err);
+        }
+        if (!user) {
+            return cb(null, false);
+        }
+        if (user.password != password) {
+            return cb(null, false);
+        }
+        return cb(null, user);
+    });
+
+}));
+
+// Configure Passport authenticated session persistence.
+//
+// In order to restore authentication state across HTTP requests, Passport needs
+// to serialize users into and deserialize users out of the session.  The
+// typical implementation of this is as simple as supplying the user ID when
+// serializing, and querying the user record by ID from the database when
+// deserializing.
+passport.serializeUser(function(user, cb) {
+    console.log("serializeUser")
+    cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+    console.log('deserializeUser')
+    db.users.findById(id, function(err, user) {
+        if (err) {
+            return cb(err);
+        }
+        cb(null, user);
+    });
+});
+
 const app = express();
 
 // app.use(responseTime())
 
-var options = {
-    provider: 'mapquest',
-
-    // Optional depending on the providers
-    httpAdapter: 'https', // Default
-    apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
-    formatter: null // 'gpx', 'string', ...
-};
-var geocoder = NodeGeocoder(options);
-
+app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({extended: true}))
-app.use(require('express-session')({secret: 'keyboard cat', resave: false, saveUninitialized: false}));
+app.use(bodyParser.json()) // parse application/json
+app.use(require('express-session')({
+    secret: 'keyboard cat',
+    cookie: {
+        maxAge: 300000
+    },
+    resave: true,
+    saveUninitialized: true
+}));
 app.use(express.static('public'))
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.set('views', __dirname + '/routes/main');
 
@@ -45,61 +90,27 @@ app.set('vue', {
 app.engine('vue', expressVue);
 app.set('view engine', 'vue');
 
-// Configure the local strategy for use by Passport.
-//
-// The local strategy require a `verify` function which receives the credentials
-// (`username` and `password`) submitted by the user.  The function must verify
-// that the password is correct and then invoke `cb` with a user object, which
-// will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy(function(username, password, cb) {
-  process.nextTick(function() {
+var options = {
+    provider: 'mapquest',
 
-    db.users.findByUsername(username, function(err, user) {
-        // console.log('hello')
-        if (err) {
-            return cb(err);
-        }
-        if (!user) {
-            return cb(null, false);
-        }
-        if (user.password != password) {
-            return cb(null, false);
-        }
-        return cb(null, user);
-    });
-})
-}));
+    // Optional depending on the providers
+    httpAdapter: 'https', // Default
+    apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
+    formatter: null // 'gpx', 'string', ...
+};
+var geocoder = NodeGeocoder(options);
 
-// Configure Passport authenticated session persistence.
-//
-// In order to restore authentication state across HTTP requests, Passport needs
-// to serialize users into and deserialize users out of the session.  The
-// typical implementation of this is as simple as supplying the user ID when
-// serializing, and querying the user record by ID from the database when
-// deserializing.
-passport.serializeUser(function(user, cb) {
-    cb(null, user.id);
+router.post('/login', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}), function(req, res) {
+    res.redirect('/');
 });
-
-passport.deserializeUser(function(id, cb) {
-    db.users.findById(id, function(err, user) {
-        if (err) {
-            return cb(err);
-        }
-        cb(null, user);
-    });
-});
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-router.use(passport.initialize());
-router.use(passport.session());
 
 router.use(function(req, res, next) {
 
     // log each request to the console
-    console.log(req.method, req.url, db);
+    console.log(req.method, req.url);
 
     // continue doing what we were doing and go to the route
     next();
@@ -110,6 +121,11 @@ app.listen(3000, function() {
 });
 
 router.get('/', (req, res, next) => {
+
+
+        console.log(req.user.username);
+
+
     res.render('main', {
         vue: {
             meta: {
@@ -120,21 +136,36 @@ router.get('/', (req, res, next) => {
 
     });
 
-})
-
+});
 router.get('/login', function(req, res) {
+    console.log("reached login page");
+    console.log(req.body);
     res.sendFile(__dirname + '/login.html')
-})
 
-router.post('/login', bodyParser.urlencoded({ extended: true }), function(req, res) {
-    passport.authenticate('local', { successRedirect: '/post', failureRedirect: '/login'}),
     console.log(req.user)
-    // res.redirect("/profile")
-})
+    // (req, res, next);
 
-app.get('/profile', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
-    console.log(req.user)
-    res.render('profile', {user: req.user});
+});
+// router.post('/login', function(req, res) {
+//     console.log(req.user)
+//     // passport.authenticate('local', { successRedirect: '/post', failureRedirect: '/login'}),
+//     console.log(req.user)
+//     // res.redirect("/profile")
+// });
+router.get('/profile', require('connect-ensure-login').ensureLoggedIn(), function(req, res) {
+    console.log(req.user.username)
+    console.log(req.session.user)
+    res.render('main', {
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader', 'myfooter', 'searchform']
+        }
+
+    });
+
+    // res.render('profile', {user: req.user});
 });
 
 router.get('/search', function(req, res, next) {
@@ -370,13 +401,21 @@ router.get('/job/:id', function(req, res) {
     });
 
     // res.sendFile(__dirname + '/navbar.html')
-})
+});
 router.get('/nav', function(req, res) {
     res.sendFile(__dirname + '/navbar.html')
-})
+});
 router.get('/post', function(req, res) {
-    res.sendFile(__dirname + '/post.html')
-})
+    console.log(req.user)
+    if (req.user) {
+        // logged in
+        res.sendFile(__dirname + '/post.html')
+
+    } else {
+        // not logged in
+        res.sendFile(__dirname + '/login.html')
+    }
+});
 router.post('/create', function(req, res) {
 
     var date = new Date();
@@ -400,5 +439,5 @@ router.post('/create', function(req, res) {
     );
     res.redirect("/")
 
-})
+});
 app.use('/', router);

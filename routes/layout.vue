@@ -20,6 +20,13 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
     <!-- // <script src="/js/form.js"></script> -->
+    <style type="text/css">
+        .jtype ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 
 </head>
 
@@ -40,7 +47,7 @@
 </script>
 
 <style>
-ul {
+.jType ul {
     list-style-type: none;
 }
 </style>

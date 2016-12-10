@@ -124,11 +124,11 @@ router.get('/search', function(req, res, next) {
     async.series([
         function(callback) {
             geocoder.geocode(req.query.location, function(err, res) {
-                // console.log("latitude: ", res[0].latitude);
+                console.log("latitude: ", res[0].latitude);
                 lat = res[0].latitude
                 lng = res[0].longitude
-                var x = [lat, lng]
-                callback(null, x);
+                var z = [lat, lng]
+                callback(null, z);
             })
         },
         function(callback) {
@@ -180,10 +180,11 @@ router.get('/search', function(req, res, next) {
                 //         for (int i = 1; i <= page; i++) {
                 //             pages.add(i);
                 //         }
-
+                var last;
                 var pages = [];
                 for (var i = 1; i <= page; i++) {
                     pages.push(i);
+                    last = i;
                 }
 
                 // rows.filter(where({ salary: over }))
@@ -197,7 +198,7 @@ router.get('/search', function(req, res, next) {
                         total: count,
                         // per_page: 12, // required
                         current_page: currentPage, // required
-                        last_page: 10,
+                        last_page: last,
                         x: x,
                         y: y // required
                         // from: 1,

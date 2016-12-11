@@ -14,7 +14,7 @@
         <div class="col-md-4">
             <searchform></searchform>
 
-    <p>  Showing results {{ x }}-{{ y }} of {{ total }} </p>
+            <p> Showing results {{ x }}-{{ y }} of {{ total }} </p>
             <results :rentals="rentals"></results>
 
             <!-- <pagination :name='pagination' :pagination="pagination" :callback="loadData" :options="paginationOptions"></pagination> -->

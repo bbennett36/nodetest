@@ -7,6 +7,7 @@ var series = require('async/series');
 var NodeGeocoder = require('node-geocoder');
 var mysql = require('mysql');
 var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
+var db = require('../db');
 
 var router = express.Router()
 
@@ -19,8 +20,6 @@ var options = {
     formatter: null // 'gpx', 'string', ...
 };
 var geocoder = NodeGeocoder(options);
-
-
 
 // middleware that is specific to this router
 router.post('/login', passport.authenticate('local', {
@@ -39,12 +38,12 @@ router.use(function(req, res, next) {
     next();
 });
 
-
 router.get('/', (req, res, next) => {
 
+    // console.log(req.user.username);
 
-        console.log(req.user.username);
-
+    var view = ("searchform");
+    console.log(view);
 
     res.render('main', {
         vue: {
@@ -60,8 +59,18 @@ router.get('/', (req, res, next) => {
 router.get('/login', function(req, res) {
     console.log("reached login page");
     console.log(req.body);
+    var userLogged;
+    if (req.user) {
+        userLogged = true;
+    } else {
+        userLogged = false;
+    }
+
     res.render('login', {
         vue: {
+            data: {
+                user_logged: userLogged
+            },
             meta: {
                 title: 'Page Title'
             },
@@ -79,8 +88,14 @@ router.get('/logout', function(req, res) {
     res.redirect('/login');
 });
 
-
 router.get('/search', function(req, res, next) {
+
+    var userLogged;
+    if (req.user) {
+        userLogged = true;
+    } else {
+        userLogged = false;
+    }
 
     var keyword = ("%" + req.query.keyword + "%")
 
@@ -152,9 +167,15 @@ router.get('/search', function(req, res, next) {
                 callback(null, x);
 
             });
+            // db.results.getResultCount(lat, lng, keyword, radius, x, cb), function(err, count) {
+            //     if (err) {
+            //         return cb(err);
+            //     }
+            //     return cb(null, count);
+            // });
+
         }
     ], function(err, result) {
-        // var yoyo = true;
         if (type === null) {
             connection.query('SELECT *, ( 3959 * acos (cos ( radians(?) )* cos( radians( lat ) )* cos( radians( lng ) - radians(?) )+ sin ( radians(?) )* sin( radians( lat ) ))) AS distance FROM job_posting where job_title like ? HAVING distance < ? ORDER BY date_created DESC limit ?, 25', [
                 lat,
@@ -165,34 +186,23 @@ router.get('/search', function(req, res, next) {
                 x,
                 y
             ], function(error, rows) {
-                //     //lat lng lat keyword (distance)
                 console.log(error)
 
                 var test = rows.slice();
-
-                // var count = test.length();
-
-                // int page;
-                //
 
                 if (count % 25 == 0) {
                     page = (count / 25);
                 } else {
                     page = 1 + (count / 25);
                 }
-                //
-                //         List<Integer> pages = new ArrayList();
-                //         for (int i = 1; i <= page; i++) {
-                //             pages.add(i);
-                //         }
                 var last;
                 var pages = [];
                 for (var i = 1; i <= page; i++) {
                     pages.push(i);
                     last = i;
                 }
+                console.log('loggedIn value before render ' + userLogged);
 
-                // rows.filter(where({ salary: over }))
                 res.render('main', {
                     data: {
                         rentals: test,
@@ -201,15 +211,12 @@ router.get('/search', function(req, res, next) {
                         resource_url: '',
                         pages: pages,
                         total: count,
-                        // per_page: 12, // required
                         current_page: currentPage, // required
                         last_page: last,
                         x: x,
-                        y: y // required
-                        // from: 1,
-                        // to: 12 // required
+                        y: y,
+                        user_logged: userLogged
                     },
-                    // paginate: ['languages'],
                     vue: {
                         meta: {
                             title: 'Page Title'
@@ -243,19 +250,7 @@ router.get('/search', function(req, res, next) {
 
                 console.log(error)
                 var test = rows.slice();
-                // console.log("Results count before filter", test.length)
-                //
-                // test = test.filter(function(x) {
-                //     if (type === null) {
-                //         return parseInt(x.salary) >= salary
-                //     } else if (type !== null) {
-                //         return x.job_type === type;
-                //     }
-                // });
-                //
-                // console.log("Results count after filter", test.length)
 
-                // rows.filter(where({ salary: over }))
                 res.render('main', {
                     data: {
                         rentals: test,
@@ -268,7 +263,8 @@ router.get('/search', function(req, res, next) {
                         current_page: 1, // required
                         last_page: 10, // required
                         from: 1,
-                        to: 12 // required
+                        to: 12,
+                        loggedIn: loggedIn // required
                     },
 
                     // paginate: ['languages'],

@@ -7,6 +7,8 @@
 <template>
 
 <div>
+  <p> Showing results {{ x }} - {{ y }} of {{ total }} </p>
+
     <div v-for="r in rentals">
         <div>
             <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
@@ -33,7 +35,7 @@
 
 // var VuePaginator = require ('../components/VPaginator');
 export default {
-    props: ['rentals', 'getURL', 'page']
+    props: ['rentals', 'getURL', 'page', 'x', 'y', 'total']
 };
 
 </script>

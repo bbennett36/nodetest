@@ -42,15 +42,32 @@ router.get('/', (req, res, next) => {
 
     // console.log(req.user.username);
 
-    var view = ("searchform");
-    console.log(view);
+    var userLogged;
+    if (req.user) {
+        userLogged = true;
+    } else {
+        userLogged = false;
+    }
 
     res.render('main', {
         vue: {
+            data: {
+              rentals: '',
+              keyword: '',
+              location: '',
+              resource_url: '',
+              pages: '',
+              total: '',
+              current_page: '', // required
+              last_page: '',
+              x: '',
+              y: '',
+              user_logged: userLogged
+            },
             meta: {
                 title: 'Page Title'
             },
-            components: ['myheader', 'myfooter', 'searchform']
+            components: ['myheader', 'searchform']
         }
 
     });
@@ -223,7 +240,6 @@ router.get('/search', function(req, res, next) {
                         },
                         components: [
                             'myheader',
-                            'myfooter',
                             'searchform',
                             'results',
                             'searchfilter',
@@ -272,7 +288,7 @@ router.get('/search', function(req, res, next) {
                         meta: {
                             title: 'Page Title'
                         },
-                        components: ['myheader', 'myfooter', 'searchform', 'results', 'searchfilter']
+                        components: ['myheader', 'searchform', 'results', 'searchfilter']
                     }
 
                 });
@@ -299,7 +315,7 @@ router.get('/job/:id', function(req, res) {
                 meta: {
                     title: 'Page Title'
                 },
-                components: ['myheader', 'myfooter', 'searchform', 'results']
+                components: ['myheader', 'searchform', 'results']
             }
 
         });
@@ -309,9 +325,6 @@ router.get('/job/:id', function(req, res) {
     });
 
     // res.sendFile(__dirname + '/navbar.html')
-});
-router.get('/nav', function(req, res) {
-    res.sendFile(__dirname + '/navbar.html')
 });
 router.get('/post', function(req, res) {
     // console.log(req.user)
@@ -354,6 +367,34 @@ router.post('/create', function(req, res) {
         }
     );
     res.redirect("/")
+
+});
+
+router.get('/profile', function(req, res) {
+    console.log(req.user.username)
+    res.render('profile', {
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
+
+});
+
+router.get('/signup', function(req, res) {
+
+    res.render('signup', {
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
 
 });
 

@@ -6,19 +6,22 @@
 <div id="wrap">
     <div class="col-md-1"></div>
     <div id="main-container" class="container col-md-10">
+        <div class="text-center">
+            <h1>DAYS UNTIL LAUNCH</h1>
+            <h1 id="countdown"> </h1>
+        </div>
 
-        <myheader :user_logged="user_logged" :rentals='rentals'></myheader>
+        <myheader :user_logged='user_logged'></myheader>
         <div class="col-md-4">
             <searchfilter :keyword="keyword" :location="location"></searchfilter>
         </div>
         <div class="col-md-4">
             <searchform></searchform>
-            <div id="countdown"></div>
+
 
 
             <results :x='x' :y='y' :total='total' :rentals="rentals"></results>
 
-            <!-- <pagination :name='pagination' :pagination="pagination" :callback="loadData" :options="paginationOptions"></pagination> -->
             <paginate :rentals='rentals' :current_page='current_page' :last_page='last_page' :pages='pages'></paginate>
 
 
@@ -35,18 +38,15 @@
 </template>
 
 <script>
-// // var moment = require('moment');
-// // var rentals = {};
-//
 export default {
     data: function() {
         return {
-            // items: this.rentals
+
         }
     },
     methods: {
-        countdown() {
-            var end = new Date('02/19/2012 10:1 AM');
+        countdown: function() {
+            var end = new Date('01/01/2017 12:00 AM');
 
             var _second = 1000;
             var _minute = _second * 60;
@@ -78,8 +78,8 @@ export default {
             timer = setInterval(showRemaining, 1000);
         }
     },
-    beforeMount: {
-        countdown(),
-    };
+    beforeMount() {
+        this.countdown()
+    }
 };
 </script>

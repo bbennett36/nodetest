@@ -8,6 +8,7 @@ var NodeGeocoder = require('node-geocoder');
 var mysql = require('mysql');
 var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
 var db = require('../db');
+var isAuthenticated = require('./authenticate');
 
 var router = express.Router()
 
@@ -34,6 +35,12 @@ router.use(function(req, res, next) {
     // log each request to the console
     console.log(req.method, req.url);
 
+    var userLogged = isAuthenticated(req)
+
+    res.locals.user = userLogged;
+
+    console.log(res.locals.user)
+
     // continue doing what we were doing and go to the route
     next();
 });
@@ -42,28 +49,11 @@ router.get('/', (req, res, next) => {
 
     // console.log(req.user.username);
 
-    var userLogged;
-    if (req.user) {
-        userLogged = true;
-    } else {
-        userLogged = false;
-    }
-
-    res.render('main', {
+    res.render('home', {
+      data: {
+          user_logged: res.locals.user
+      },
         vue: {
-            data: {
-              rentals: '',
-              keyword: '',
-              location: '',
-              resource_url: '',
-              pages: '',
-              total: '',
-              current_page: '', // required
-              last_page: '',
-              x: '',
-              y: '',
-              user_logged: userLogged
-            },
             meta: {
                 title: 'Page Title'
             },
@@ -74,19 +64,11 @@ router.get('/', (req, res, next) => {
 
 });
 router.get('/login', function(req, res) {
-    console.log("reached login page");
-    console.log(req.body);
-    var userLogged;
-    if (req.user) {
-        userLogged = true;
-    } else {
-        userLogged = false;
-    }
 
     res.render('login', {
         vue: {
             data: {
-                user_logged: userLogged
+                user_logged: res.locals.user
             },
             meta: {
                 title: 'Page Title'
@@ -96,9 +78,6 @@ router.get('/login', function(req, res) {
 
     });
 
-    // console.log(req.user)
-    // (req, res, next);
-
 });
 router.get('/logout', function(req, res) {
     req.logout();
@@ -106,13 +85,6 @@ router.get('/logout', function(req, res) {
 });
 
 router.get('/search', function(req, res, next) {
-
-    var userLogged;
-    if (req.user) {
-        userLogged = true;
-    } else {
-        userLogged = false;
-    }
 
     var keyword = ("%" + req.query.keyword + "%")
 
@@ -218,7 +190,6 @@ router.get('/search', function(req, res, next) {
                     pages.push(i);
                     last = i;
                 }
-                console.log('loggedIn value before render ' + userLogged);
 
                 res.render('main', {
                     data: {
@@ -232,19 +203,13 @@ router.get('/search', function(req, res, next) {
                         last_page: last,
                         x: x,
                         y: y,
-                        user_logged: userLogged
+                        user_logged: res.locals.user
                     },
                     vue: {
                         meta: {
                             title: 'Page Title'
                         },
-                        components: [
-                            'myheader',
-                            'searchform',
-                            'results',
-                            'searchfilter',
-                            'paginate'
-                        ]
+                        components: ['myheader', 'searchform', 'results', 'searchfilter', 'paginate']
                     }
 
                 });
@@ -280,7 +245,7 @@ router.get('/search', function(req, res, next) {
                         last_page: 10, // required
                         from: 1,
                         to: 12,
-                        loggedIn: loggedIn // required
+                        user_logged: res.locals.user
                     },
 
                     // paginate: ['languages'],
@@ -309,7 +274,8 @@ router.get('/job/:id', function(req, res) {
         res.render('show', {
             data: {
                 job: result,
-                desc: result[0].job_desc
+                desc: result[0].job_desc,
+                user_logged: res.locals.user
             },
             vue: {
                 meta: {
@@ -331,6 +297,9 @@ router.get('/post', function(req, res) {
     if (req.user) {
         // logged in
         res.render('post', {
+            data: {
+                user_logged: res.locals.user
+            },
             vue: {
                 meta: {
                     title: 'Page Title'
@@ -371,14 +340,27 @@ router.post('/create', function(req, res) {
 });
 
 router.get('/profile', function(req, res) {
-    console.log(req.user.username)
-    res.render('profile', {
-        vue: {
-            meta: {
-                title: 'Page Title'
+    console.log(req.user.id)
+    var dbUser;
+    db.users.findById(req.user.id, function(err, user) {
+        if (err)
+            throw err;
+        dbUser = user[0];
+        console.log('user:' + user.username + dbUser)
+
+        res.render('profile', {
+            data: {
+                user: user,
+                user_logged: res.locals.user
             },
-            components: ['myheader']
-        }
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader']
+            }
+        });
+        console.log('after render')
 
     });
 
@@ -387,6 +369,9 @@ router.get('/profile', function(req, res) {
 router.get('/signup', function(req, res) {
 
     res.render('signup', {
+        data: {
+            user_logged: res.locals.user
+        },
         vue: {
             meta: {
                 title: 'Page Title'

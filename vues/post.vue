@@ -4,7 +4,7 @@
         <div class="col-md-1"></div>
         <div id="main-container" class="container col-md-10">
 
-            <myheader></myheader>
+            <myheader :user_logged='user_logged'></myheader>
 
 
 

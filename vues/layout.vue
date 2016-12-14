@@ -17,6 +17,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <title>BootCampHire.com</title>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEqFPxjP_ubeG9tLbj3P0aHUoqNi35rts&libraries=places&callback=initMap" async defer></script>
+
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
     <!-- // <script src="/js/form.js"></script> -->
@@ -32,11 +34,16 @@
 
 <body>
 
+
+
     {{{app}}} {{{script}}}
+
+
 
     <script>
         app.$mount('#app')
     </script>
+
 </body>
 
 </html>

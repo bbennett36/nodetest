@@ -14,24 +14,18 @@
                 <h1>Sign up</h1>
 
 
-                <form method="POST" action="/signup">
+                <form method="POST" action="/c_signup">
                     <input type="text" name="username" id="username" placeholder="Enter desired username" />
                     <br />
                     <input type="text" name="email" id="email" placeholder="Enter Email Address" />
                     <br />
                     <input type="password" name="password" id="password" placeholder="Enter your password" />
                     <br />
-                    <input type="text" name="f_name" id="f_name" placeholder="Enter your first Name" />
+                    <input type="text" name="name" id="name" placeholder="Enter your full Name" />
                     <br />
-                    <input type="text" name="l_name" id="l_name" placeholder="Enter your last name" />
+                    <input type="text" name="location" id="location" placeholder="Enter your city, state" />
                     <br />
-                    <input type="text" name="city" id="city" placeholder="Enter your city" />
-                    <br />
-                    <input type="text" name="state" id="state" placeholder="Enter your state" />
-                    <br />
-                    <input type="text" name="zip" id="zip" placeholder="Enter your zip code" />
-                    <br />
-                    <input type="text" name="bootcamp_attended" id="bootcamp_attended" placeholder="Enter the bootcamp that you attended" />
+                    <input type="text" name="job_title" id="job_title" placeholder="Enter your job title" />
                     <br />
                     <input type="submit" value="Sign up" />
                 </form>

@@ -14,4 +14,8 @@ exports.findById = function(id, cb) {
         //     //lat lng lat keyword (distance)
         return cb(null, rows[0]);
     })
+
+// exports.createUser = function(user) {
+//
+// }
 }

@@ -77,6 +77,7 @@ export default {
 
             timer = setInterval(showRemaining, 1000);
         }
+
     },
     beforeMount() {
         this.countdown()

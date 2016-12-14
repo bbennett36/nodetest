@@ -383,4 +383,62 @@ router.get('/signup', function(req, res) {
 
 });
 
+router.get('/csignup', function(req, res) {
+
+    res.render('companysignup', {
+        data: {
+            user_logged: res.locals.user
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
+
+});
+
+router.post('/signup', function(req, res) {
+
+  var user = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      f_name: req.body.f_name,
+      l_name: req.body.l_name,
+      city: req.body.city,
+      state: req.body.state,
+      zip: req.body.zip,
+      bootcamp_attended: req.body.bootcamp_attended
+  };
+  connection.query('INSERT INTO user SET ?', user, function(err, result) {
+      if (err)
+          throw err;
+          res.redirect('/login');
+      }
+  );
+
+});
+
+router.post('/c_signup', function(req, res) {
+
+  var user = {
+      username: req.body.username,
+      email: req.body.email,
+      password: req.body.password,
+      name: req.body.name,
+      location: req.body.location,
+      job_title: req.body.job_title
+  };
+  connection.query('INSERT INTO company SET ?', user, function(err, result) {
+      if (err)
+          throw err;
+          res.redirect('/login');
+      }
+  );
+
+});
+
 module.exports = router

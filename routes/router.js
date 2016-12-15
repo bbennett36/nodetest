@@ -9,8 +9,21 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
 var db = require('../db');
 var isAuthenticated = require('./authenticate');
+var path = require('path');
 var multer = require('multer')
-var upload = multer({dest: '../uploads/'})
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, '/home/brennan/_repos/nodetest/uploads/')
+  },
+  filename: function (req, file, cb) {
+    //Add username to file naming? Make sure to validate!
+    cb(null, file.originalname)
+  }
+})
+
+var upload = multer({ storage: storage });
+
+// /home/brennan/_repos/nodetest/uploads
 
 var router = express.Router()
 
@@ -402,8 +415,8 @@ router.get('/csignup', function(req, res) {
 
 });
 
-router.post('/signup', upload.single(), function(req, res) {
-    console.log("file:" + req.files + req.body.file);
+router.post('/signup', upload.single("resume"), function(req, res) {
+    console.log("file:" + req.file.originalname);
 
     var user = {
         username: req.body.username,
@@ -414,7 +427,8 @@ router.post('/signup', upload.single(), function(req, res) {
         city: req.body.city,
         state: req.body.state,
         zip: req.body.zip,
-        bootcamp_attended: req.body.bootcamp_attended
+        bootcamp_attended: req.body.bootcamp_attended,
+        file_name: req.file.originalname
     };
     connection.query('INSERT INTO user SET ?', user, function(err, result) {
         if (err)

@@ -14,7 +14,7 @@
                 <h1>Sign up</h1>
 
 
-                <form method="POST" action="/signup">
+                <form method="POST" action="/signup" enctype="multipart/form-data">
                     <input type="text" name="username" id="username" placeholder="Enter desired username" />
                     <br />
                     <input type="text" name="email" id="email" placeholder="Enter Email Address" />
@@ -34,7 +34,7 @@
                     <input type="text" name="bootcamp_attended" id="bootcamp_attended" placeholder="Enter the bootcamp that you attended" />
                     <br />
                     <br />
-                    <input type="file" name="file" id="file" />
+                    <input type="file" name="resume" id="file" />
                     <input type="submit" value="Sign up" />
                 </form>
 

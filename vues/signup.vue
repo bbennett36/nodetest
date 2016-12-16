@@ -34,7 +34,7 @@
                     <input type="text" name="bootcamp_attended" id="bootcamp_attended" placeholder="Enter the bootcamp that you attended" />
                     <br />
                     <br />
-                    <input type="file" name="resume" id="file" />
+                    <input type="file" name="file" id="file" />
                     <input type="submit" value="Sign up" />
                 </form>
 

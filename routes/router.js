@@ -12,16 +12,18 @@ var isAuthenticated = require('./authenticate');
 var path = require('path');
 var multer = require('multer')
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, '/home/brennan/_repos/nodetest/uploads/')
-  },
-  filename: function (req, file, cb) {
-    //Add username to file naming? Make sure to validate!
-    cb(null, file.originalname)
-  }
+    destination: function(req, file, cb) {
+        cb(null, '/home/brennan/_repos/nodetest/uploads/')
+    },
+    filename: function(req, file, cb) {
+        //Need to make username not come from form
+        cb(null, req.body.username + "_" + file.originalname)
+    }
 })
 
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
+
+var nodemailer = require('nodemailer');
 
 // /home/brennan/_repos/nodetest/uploads
 
@@ -36,6 +38,43 @@ var options = {
     formatter: null // 'gpx', 'string', ...
 };
 var geocoder = NodeGeocoder(options);
+
+router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
+
+function handleSayHello(req, res) {
+    // Not the movie transporter!
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'bennettglob@gmail.com', // Your email id
+            pass: 'bennett36' // Your password
+        }
+    });
+    var text = 'Hello world';
+
+    var mailOptions = {
+        from: 'bennettglob@gmail.com', // sender address
+        to: 'bennett.brennan@outlook.com', // list of receivers
+        subject: 'Email Example',
+        attachments: [
+            { // file on disk as an attachment
+                filename: 'BrennanBennettResume.docx',
+                path: '/home/brennan/_repos/nodetest/uploads/natalie_BrennanBennettResume.docx' // stream this file
+            }
+        ], // Subject line
+        text: text //, // plaintext body
+        // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+            res.json({yo: 'error'});
+        } else {
+            console.log('Message sent: ' + info.response);
+            res.json({yo: info.response});
+        };
+    });
+}
 
 // middleware that is specific to this router
 router.post('/login', passport.authenticate('local', {
@@ -282,6 +321,11 @@ router.get('/search', function(req, res, next) {
 router.get('/job/:id', function(req, res) {
     var id = req.params.id
     console.log(id)
+    var user_file_name;
+    if (res.locals.user == true) {
+        console.log(req.user)
+        user_file_name = req.user.file_name
+    }
 
     connection.query('select * from job_posting where id = ?', id, function(err, result) {
         if (err)
@@ -290,7 +334,8 @@ router.get('/job/:id', function(req, res) {
             data: {
                 job: result,
                 desc: result[0].job_desc,
-                user_logged: res.locals.user
+                user_logged: res.locals.user,
+                user_file_name: user_file_name
             },
             vue: {
                 meta: {

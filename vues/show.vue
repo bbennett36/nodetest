@@ -36,14 +36,20 @@
                             <h4 class="modal-title" id="myModalLabel">Modal title</h4>
                         </div>
                         <div class="modal-body">
-                            Upload resume or use the resume that you have on file
                             <form action="/apply" method="POST">
-                            <input type="file" name="apply" id="apply" />
 
-                            <br />
-                            <p>Or apply with </p>
-                            <p> {{ user_file_name }} </p>
-                            <button type="submit" id="apply" class="btn btn-primary center-block">Apply now!</button>
+                                <input type="checkbox" id="form1" v-onclick="activeForm()" name="cleaning" value="yes" checked />
+                                <p>Apply with resume on file </p>
+                                <p> {{ user_file_name }} </p>
+                                <input type="text" value={{ user.file_name }} id="apply1" />
+                                <br />
+
+                                <input type="checkbox" id="form2" v-onclick="activeForm()" name="cleaning" value="yes" /> Upload resume or use the resume that you have on file
+
+                                <br />
+                                <input type="file" name="apply" id="apply2" disabled/>
+                                <br />
+                                <button type="submit" id="apply" class="btn btn-primary center-block">Apply now!</button>
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -77,5 +83,19 @@ export default {
             desc: this.desc
         }
     },
+    methods: {
+        activeForm: function() {
+        //     if (document.getElementById('form1').innerHTML.checked == true) {
+        //         // document.getElementById('apply1').removeAttribute('disabled');
+        //     }
+        //     else {
+        //       // document.getElementById('apply2').removeAttribute('disabled');
+        //       // document.getElementById('apply1').setAttribute('disabled', 'disabled');
+        //
+        //
+        //     }
+        }
+
+    }
 };
 </script>

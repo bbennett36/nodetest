@@ -11,7 +11,7 @@
 
     <div v-for="r in rentals">
         <div>
-            <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
+            <a target="_blank" v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
             <br />
             <p><strong>Google Inc. </strong> - {{ r.location }}
                 <p>{{ r.shortDesc }} </p>

@@ -9,11 +9,12 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
 var db = require('../db');
 var isAuthenticated = require('./authenticate');
+var uploadPath = ('/home/brennan/_repos/nodetest/uploads/')
 var path = require('path');
 var multer = require('multer')
 var storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        cb(null, '/home/brennan/_repos/nodetest/uploads/')
+        cb(null, uploadPath)
     },
     filename: function(req, file, cb) {
         //Need to make username not come from form
@@ -39,9 +40,10 @@ var options = {
 };
 var geocoder = NodeGeocoder(options);
 
-router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
-
 function handleSayHello(req, res) {
+    // var user = res.locals.user
+    console.log('in email send function, user:' + req.user)
+    var userResumePath = (uploadPath + req.user.username + "_" + req.user.file_name);
     // Not the movie transporter!
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -58,8 +60,8 @@ function handleSayHello(req, res) {
         subject: 'Email Example',
         attachments: [
             { // file on disk as an attachment
-                filename: 'BrennanBennettResume.docx',
-                path: '/home/brennan/_repos/nodetest/uploads/natalie_BrennanBennettResume.docx' // stream this file
+                filename: req.user.file_name,
+                path: userResumePath // stream this file
             }
         ], // Subject line
         text: text //, // plaintext body
@@ -68,13 +70,16 @@ function handleSayHello(req, res) {
     transporter.sendMail(mailOptions, function(error, info) {
         if (error) {
             console.log(error);
-            res.json({yo: 'error'});
+            // res.json({yo: 'error'});
         } else {
             console.log('Message sent: ' + info.response);
-            res.json({yo: info.response});
+            // res.json({yo: info.response});
         };
     });
 }
+
+router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
+
 
 // middleware that is specific to this router
 router.post('/login', passport.authenticate('local', {

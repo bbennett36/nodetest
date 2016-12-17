@@ -20,6 +20,8 @@
     <!-- // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEqFPxjP_ubeG9tLbj3P0aHUoqNi35rts&libraries=places&callback=initMap" async defer></script> -->
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 
     <!-- // <script src="/js/form.js"></script> -->
     <style type="text/css">

@@ -4,10 +4,7 @@
         <div class="col-md-1"></div>
         <div id="main-container" class="container col-md-10">
 
-          <div class="text-center">
-              <h1>DAYS UNTIL LAUNCH</h1>
-              <h1 id="countdown"> </h1>
-          </div>
+
 
             <myheader :user_logged='user_logged'></myheader>
 
@@ -15,6 +12,10 @@
 
             <div class="col-md-4"></div>
             <div class="col-md-4 text-center">
+              <div class="text-center">
+                  <h1>DAYS UNTIL LAUNCH</h1>
+                  <h1 id="countdown"> </h1>
+              </div>
               <searchform></searchform>
 
 

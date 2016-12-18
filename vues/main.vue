@@ -6,23 +6,25 @@
 <div id="wrap">
     <div class="col-md-1"></div>
     <div id="main-container" class="container col-md-10">
-        <div class="text-center">
-            <h1>DAYS UNTIL LAUNCH</h1>
-            <h1 id="countdown"> </h1>
-        </div>
+
 
         <myheader :user_logged='user_logged'></myheader>
+
         <div class="col-md-4">
             <searchfilter :keyword="keyword" :location="location"></searchfilter>
         </div>
         <div class="col-md-4">
+          <div class="text-center">
+              <h1>DAYS UNTIL LAUNCH</h1>
+              <h1 id="countdown"> </h1>
+          </div>
             <searchform></searchform>
 
 
 
-            <results :x='x' :y='y' :total='total' :rentals="rentals"></results>
+            <results :x='x' :y='y' :total='total' :results="results"></results>
 
-            <paginate :rentals='rentals' :current_page='current_page' :last_page='last_page' :pages='pages'></paginate>
+            <paginate :results='results' :current_page='current_page' :last_page='last_page' :pages='pages'></paginate>
 
 
         </div>

@@ -37,17 +37,17 @@
 
 
                     <div class="row-fluid control-group">
-                        <label class="radio" for="discount-dollars">
-                              <input type="radio" name="discount" id="discount-dollars" value="dollars" checked="checked" />
+                        <label class="radio" for="emailApply">
+                              <input type="radio" name="applyType" id="emailApply"  value="email" v-model="checked" v-on:change="emailChosen()"/>
                               Apply by Email
                           </label>
-                        <input type="text" name="applyURL" id="applyURL" class="input-small dollars">
+                        <input type="text" name="applyURL" id="applyURL" class="input-small dollars" :disabled="emailDisabled">
 
-                        <label class="radio" for="discount-percent">
-                              <input type="radio" name="discount" id="discount-percent" value="percent">
+                        <label class="radio" for="apply">
+                              <input type="radio" name="applyType" id="apply" value="url" v-model="checked" v-on:change="urlChosen()">
                               Apply by URL
                           </label>
-                        <input type="text" name="applyURL" id="applyURL" class="input-small percent" disabled="disabled">
+                        <input type="text" name="applyURL" id="applyURL" class="input-small percent" :disabled="urlDisabled">
                     </div>
 
                     <br />
@@ -76,7 +76,11 @@
 export default {
     data: function() {
         return {
-            dogs: 3
+            emailChecked: false,
+            emailDisabled: false,
+            urlChecked: false,
+            urlDisabled: false,
+            checked: ""
         }
     },
     methods: {
@@ -104,8 +108,26 @@ export default {
                     console.log(error)
                 }
             });
+        },
+        emailChosen()  {
+          this.urlDisabled = true;
+          this.emailChecked = true;
+          this.emailDisabled = false;
+        },
+        urlChosen()  {
+          this.emailDisabled = true;
+          this.urlChecked = true;
+          this.urlDisabled = false;
         }
     }
+    // ,
+    // computed: {
+    // // a computed getter
+    // reversedChecked: function () {
+    //   // `this` points to the vm instance
+    //   if()
+    //   return this.message.split('').reverse().join('')
+    // }
 }
 </script>
 

@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, cb) {
         //Need to make username not come from form
-        cb(null, req.body.username + "_" + file.originalname)
+        cb(null, req.body.id + "_" + file.originalname)
     }
 })
 
@@ -43,7 +43,7 @@ var geocoder = NodeGeocoder(options);
 function handleSayHello(req, res) {
     // var user = res.locals.user
     console.log('in email send function, user:' + req.user)
-    var userResumePath = (uploadPath + req.user.username + "_" + req.user.file_name);
+    var userResumePath = (uploadPath + req.user.id + "_" + req.user.file_name);
     // Not the movie transporter!
     var transporter = nodemailer.createTransport({
         service: 'Gmail',
@@ -79,7 +79,6 @@ function handleSayHello(req, res) {
 }
 
 router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
-
 
 // middleware that is specific to this router
 router.post('/login', passport.authenticate('local', {
@@ -252,7 +251,7 @@ router.get('/search', function(req, res, next) {
 
                 res.render('main', {
                     data: {
-                        rentals: test,
+                        results: test,
                         keyword: req.query.keyword,
                         location: location,
                         resource_url: '',
@@ -380,6 +379,7 @@ router.get('/post', function(req, res) {
     }
 });
 router.post('/create', function(req, res) {
+    console.log(req.body.applyType)
 
     var date = new Date();
     var post = {
@@ -392,7 +392,8 @@ router.post('/create', function(req, res) {
         salary: req.body.salary,
         lat: req.body.lat,
         lng: req.body.lng,
-        date_created: date
+        date_created: date,
+        apply_type: req.body.applyType
     };
     connection.query('INSERT INTO job_posting SET ?', post, function(err, result) {
         if (err)

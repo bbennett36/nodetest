@@ -1,4 +1,4 @@
-<template>
+cd<template>
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -26,16 +26,13 @@
                 </li>
 
                 <li v-if="user_logged">
-                  <a href="/profile"><strong>Profile</strong></a>
+                    <a href="/profile"><strong>Profile</strong></a>
+                </li>
 
-</li>
-
-                <!-- <sec:authorize access="isAuthenticated()">
-                                     <a href="${pageContext.request.contextPath}/user/profile"><strong>Profile</strong></a>
-                                 </sec:authorize> -->
                 <li v-if="!user_logged">
                     <a href="/login"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
                 </li>
+
                 <li v-if="user_logged">
                     <a href="/logout"><strong><span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
                 </li>

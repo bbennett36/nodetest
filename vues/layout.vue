@@ -21,6 +21,9 @@
 
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.1/jquery.tinymce.min.js0"></script> -->
+    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+
 
 
     <!-- // <script src="/js/form.js"></script> -->

@@ -18,7 +18,7 @@
                     <!--<textarea id="mytextarea" class="form-control" name="description" placeholder="Job Description"></textarea>-->
                     <textarea type="text" name="description" id="newPostBody" class="tinyMceBody form-group" style="height:500px; width: 800px"></textarea>
                     <br />
-                    <textarea id="mytextarea" class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea>
+                    <textarea id="tinyMceBody" class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea>
                     <br />
                     <br />
                     <br />
@@ -85,7 +85,12 @@ export default {
     },
     methods: {
         getGeo() {
+            tinyMCE.triggerSave();
+            var strBody = tinyMCE.activeEditor.getContent();
             var a = $('#location').val();
+
+            // e.preventDefault();
+
             $.ajax({
                 type: "GET",
                 url: "http://www.mapquestapi.com/geocoding/v1/address?key=LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB&location=" + a,
@@ -109,25 +114,29 @@ export default {
                 }
             });
         },
-        emailChosen()  {
-          this.urlDisabled = true;
-          this.emailChecked = true;
-          this.emailDisabled = false;
+        emailChosen() {
+            this.urlDisabled = true;
+            this.emailChecked = true;
+            this.emailDisabled = false;
         },
-        urlChosen()  {
-          this.emailDisabled = true;
-          this.urlChecked = true;
-          this.urlDisabled = false;
+        urlChosen() {
+            this.emailDisabled = true;
+            this.urlChecked = true;
+            this.urlDisabled = false;
         }
+    },
+    beforeMount() {
+        tinymce.init({
+            selector: ".tinyMceBody",
+            plugins: ['lists link'],
+            toolbar: "undo redo bold italic | bullist",
+            toolbar_items_size: 'small',
+            menubar: false,
+            statusbar: false,
+            height: "300",
+            width: "700"
+        });
     }
-    // ,
-    // computed: {
-    // // a computed getter
-    // reversedChecked: function () {
-    //   // `this` points to the vm instance
-    //   if()
-    //   return this.message.split('').reverse().join('')
-    // }
 }
 </script>
 

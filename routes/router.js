@@ -78,6 +78,25 @@ function handleSayHello(req, res) {
     });
 }
 
+router.put('/user/:id', function(req, res) {
+    console.log(req.params.id)
+
+    connection.query('UPDATE user SET email = ?, f_name = ?, l_name = ?, city = ?, state = ?, zip = ?, bootcamp_attended = ? where id = ?', [
+        req.body.email,
+        req.body.f_name,
+        req.body.l_name,
+        req.body.city,
+        req.body.state,
+        req.body.zip,
+        req.body.bootcamp_attended,
+        req.body.id
+    ], function(err, result) {
+        if (err)
+            throw err;
+        console.log("User: " + req.body.id + " update successful");
+    });
+})
+
 router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
 
 // middleware that is specific to this router

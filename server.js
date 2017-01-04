@@ -19,8 +19,24 @@ var rout = require('./routes/router')
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use(new Strategy(function(username, password, cb) {
+passport.use('user-local', new Strategy(function(username, password, cb) {
     db.users.findByUsername(username, function(err, user) {
+        if (err) {
+            return cb(err);
+        }
+        if (!user) {
+            return cb(null, false);
+        }
+        if (user.password != password) {
+            return cb(null, false);
+        }
+        return cb(null, user);
+    });
+
+}));
+
+passport.use('company-local', new Strategy(function(username, password, cb) {
+    db.users.findByCompanyUsername(username, function(err, user) {
         if (err) {
             return cb(err);
         }
@@ -44,17 +60,33 @@ passport.use(new Strategy(function(username, password, cb) {
 // deserializing.
 passport.serializeUser(function(user, cb) {
     console.log("serializeUser")
-    cb(null, user.id);
+    var key = {
+    id: user.id,
+    type: user.type
+  }
+  console.log(key)
+    cb(null, key);
 });
 
-passport.deserializeUser(function(id, cb) {
+passport.deserializeUser(function(key, cb) {
     console.log('deserializeUser')
-    db.users.findById(id, function(err, user) {
+    console.log(key);
+    if(key.type == "company") {
+    db.users.findByCompanyId(key.id, function(err, user) {
         if (err) {
             return cb(err);
         }
         cb(null, user);
     });
+  }
+  if(key.type == "user")  {
+    db.users.findById(key.id, function(err, user) {
+        if (err) {
+            return cb(err);
+        }
+        cb(null, user);
+    });
+  }
 });
 
 const app = express();

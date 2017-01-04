@@ -18,7 +18,7 @@ var storage = multer.diskStorage({
     },
     filename: function(req, file, cb) {
         //Need to make username not come from form
-        cb(null, req.body.id + "_" + file.originalname)
+        cb(null, req.body.username + "_" + file.originalname)
     }
 })
 
@@ -78,10 +78,10 @@ function handleSayHello(req, res) {
     });
 }
 
-router.put('/user/:id', function(req, res) {
+router.put('/user/:id',  upload.single("file"), function(req, res) {
     console.log(req.params.id)
 
-    connection.query('UPDATE user SET email = ?, f_name = ?, l_name = ?, city = ?, state = ?, zip = ?, bootcamp_attended = ? where id = ?', [
+    connection.query('UPDATE user SET email = ?, f_name = ?, l_name = ?, city = ?, state = ?, zip = ?, bootcamp_attended = ?, file_name where id = ?', [
         req.body.email,
         req.body.f_name,
         req.body.l_name,
@@ -89,6 +89,7 @@ router.put('/user/:id', function(req, res) {
         req.body.state,
         req.body.zip,
         req.body.bootcamp_attended,
+        req.body.req.file.originalname,
         req.body.id
     ], function(err, result) {
         if (err)
@@ -100,7 +101,7 @@ router.put('/user/:id', function(req, res) {
 router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
 
 // middleware that is specific to this router
-router.post('/login', passport.authenticate('local', {
+router.post('/login', passport.authenticate('company-local', {
     successRedirect: '/',
     failureRedirect: '/login'
 }), function(req, res) {
@@ -159,6 +160,217 @@ router.get('/login', function(req, res) {
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/login');
+});
+
+
+router.get('/job/:id', function(req, res) {
+    var id = req.params.id
+    console.log(id)
+    var user_file_name;
+    if (res.locals.user == true) {
+        console.log(req.user)
+        user_file_name = req.user.file_name
+    }
+
+    connection.query('select * from job_posting where id = ?', id, function(err, result) {
+        if (err)
+            throw err;
+        res.render('show', {
+            data: {
+                job: result,
+                desc: result[0].job_desc,
+                user_logged: res.locals.user,
+                user_file_name: user_file_name
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader', 'searchform', 'results']
+            }
+
+        });
+
+        // res.sendFile(__dirname + '/index.html')
+        // console.log(result)
+    });
+
+    // res.sendFile(__dirname + '/navbar.html')
+});
+router.get('/post', function(req, res) {
+    // console.log(req.user)
+    if (req.user) {
+        // logged in
+        res.render('post', {
+            data: {
+                user_logged: res.locals.user
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader']
+            }
+
+        });
+
+    } else {
+        // not logged in
+        res.redirect('/login');
+    }
+});
+router.post('/create', function(req, res) {
+    console.log(req.body.applyType)
+
+    var date = new Date();
+    var post = {
+        job_title: req.body.jobTitle,
+        job_desc: req.body.description,
+        short_desc: req.body.shortDesc,
+        location: req.body.location,
+        job_type: req.body.jobType,
+        apply_url: req.body.applyURL,
+        salary: req.body.salary,
+        lat: req.body.lat,
+        lng: req.body.lng,
+        date_created: date,
+        apply_type: req.body.applyType
+    };
+    connection.query('INSERT INTO job_posting SET ?', post, function(err, result) {
+        if (err)
+            throw err;
+            // res.sendFile(__dirname + '/index.html')
+        }
+    );
+    res.redirect("/")
+
+});
+
+router.get('/profile', function(req, res) {
+    console.log(req.user.id)
+    var dbUser;
+    if(req.user.type == "user") {
+    db.users.findById(req.user.id, function(err, user) {
+        if (err)
+            throw err;
+        dbUser = user[0];
+        console.log('user:' + user.username + dbUser)
+
+        res.render('profile', {
+            data: {
+                user: user,
+                user_logged: res.locals.user
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader']
+            }
+        });
+        console.log('after render')
+
+    });
+  } else if (req.user.type == "company")  {
+    db.users.findByCompanyId(req.user.id, function(err, user) {
+        if (err)
+            throw err;
+        dbUser = user[0];
+        console.log('user:' + user.username + dbUser)
+
+        res.render('profile', {
+            data: {
+                user: user,
+                user_logged: res.locals.user
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader']
+            }
+        });
+        console.log('after render')
+
+    });
+  }
+
+});
+
+router.get('/signup', function(req, res) {
+
+    res.render('signup', {
+        data: {
+            user_logged: res.locals.user
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
+
+});
+
+router.get('/csignup', function(req, res) {
+
+    res.render('companysignup', {
+        data: {
+            user_logged: res.locals.user
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
+
+});
+
+router.post('/signup', upload.single("file"), function(req, res) {
+    console.log("file:" + req.file.originalname);
+
+    var user = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        f_name: req.body.f_name,
+        l_name: req.body.l_name,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip,
+        bootcamp_attended: req.body.bootcamp_attended,
+        file_name: req.file.originalname
+    };
+    connection.query('INSERT INTO user SET ?', user, function(err, result) {
+        if (err)
+            throw err;
+        res.redirect('/login');
+    });
+
+});
+
+router.post('/c_signup', function(req, res) {
+
+    var user = {
+        username: req.body.username,
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name,
+        location: req.body.location,
+        job_title: req.body.job_title
+    };
+
+    connection.query('INSERT INTO company SET ?', user, function(err, result) {
+        if (err)
+            throw err;
+        res.redirect('/login');
+    });
+
 });
 
 router.get('/search', function(req, res, next) {
@@ -341,189 +553,5 @@ router.get('/search', function(req, res, next) {
     console.log('running before async')
 });
 
-router.get('/job/:id', function(req, res) {
-    var id = req.params.id
-    console.log(id)
-    var user_file_name;
-    if (res.locals.user == true) {
-        console.log(req.user)
-        user_file_name = req.user.file_name
-    }
-
-    connection.query('select * from job_posting where id = ?', id, function(err, result) {
-        if (err)
-            throw err;
-        res.render('show', {
-            data: {
-                job: result,
-                desc: result[0].job_desc,
-                user_logged: res.locals.user,
-                user_file_name: user_file_name
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
-                },
-                components: ['myheader', 'searchform', 'results']
-            }
-
-        });
-
-        // res.sendFile(__dirname + '/index.html')
-        // console.log(result)
-    });
-
-    // res.sendFile(__dirname + '/navbar.html')
-});
-router.get('/post', function(req, res) {
-    // console.log(req.user)
-    if (req.user) {
-        // logged in
-        res.render('post', {
-            data: {
-                user_logged: res.locals.user
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
-                },
-                components: ['myheader']
-            }
-
-        });
-
-    } else {
-        // not logged in
-        res.redirect('/login');
-    }
-});
-router.post('/create', function(req, res) {
-    console.log(req.body.applyType)
-
-    var date = new Date();
-    var post = {
-        job_title: req.body.jobTitle,
-        job_desc: req.body.description,
-        short_desc: req.body.shortDesc,
-        location: req.body.location,
-        job_type: req.body.jobType,
-        apply_url: req.body.applyURL,
-        salary: req.body.salary,
-        lat: req.body.lat,
-        lng: req.body.lng,
-        date_created: date,
-        apply_type: req.body.applyType
-    };
-    connection.query('INSERT INTO job_posting SET ?', post, function(err, result) {
-        if (err)
-            throw err;
-            // res.sendFile(__dirname + '/index.html')
-        }
-    );
-    res.redirect("/")
-
-});
-
-router.get('/profile', function(req, res) {
-    console.log(req.user.id)
-    var dbUser;
-    db.users.findById(req.user.id, function(err, user) {
-        if (err)
-            throw err;
-        dbUser = user[0];
-        console.log('user:' + user.username + dbUser)
-
-        res.render('profile', {
-            data: {
-                user: user,
-                user_logged: res.locals.user
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
-                },
-                components: ['myheader']
-            }
-        });
-        console.log('after render')
-
-    });
-
-});
-
-router.get('/signup', function(req, res) {
-
-    res.render('signup', {
-        data: {
-            user_logged: res.locals.user
-        },
-        vue: {
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader']
-        }
-
-    });
-
-});
-
-router.get('/csignup', function(req, res) {
-
-    res.render('companysignup', {
-        data: {
-            user_logged: res.locals.user
-        },
-        vue: {
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader']
-        }
-
-    });
-
-});
-
-router.post('/signup', upload.single("resume"), function(req, res) {
-    console.log("file:" + req.file.originalname);
-
-    var user = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        f_name: req.body.f_name,
-        l_name: req.body.l_name,
-        city: req.body.city,
-        state: req.body.state,
-        zip: req.body.zip,
-        bootcamp_attended: req.body.bootcamp_attended,
-        file_name: req.file.originalname
-    };
-    connection.query('INSERT INTO user SET ?', user, function(err, result) {
-        if (err)
-            throw err;
-        res.redirect('/login');
-    });
-
-});
-
-router.post('/c_signup', function(req, res) {
-
-    var user = {
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        name: req.body.name,
-        location: req.body.location,
-        job_title: req.body.job_title
-    };
-    connection.query('INSERT INTO company SET ?', user, function(err, result) {
-        if (err)
-            throw err;
-        res.redirect('/login');
-    });
-
-});
 
 module.exports = router

@@ -17,16 +17,17 @@
                     <p>Email:{{ user.email }} </p>
                     <p>Location: {{ user.city }} {{ user.state }} {{ user.zip }}</p>
                     <p>Bootcamp Attended: {{ user.bootcamp_attended }}</p>
-                    <p>Resume File: {{ user.file_name }}
+                    <p>Resume: {{ user.file_name }}
                 </div>
 
                 <div v-if="edit == true">
-                    <form v-on:submit="updateUser">
+                    <form v-on:submit="updateUser" enctype="multipart/form-data">
                         <input type="hidden" :value="user.id" name="id" id="id" />
                         <br /> First Name: <input v-model="user.f_name" type="text" name="f_name" id="f_name" /> Last Name: <input v-model="user.l_name" type="text" name="l_name" id="l_name" />
                         <br /> Email: <input v-model="user.email" type="text" name="email" id="email" />
                         <br /> City: <input v-model="user.city" type="text" name="city" id="city" /> State: <input v-model="user.state" type="text" name="state" id="state" /> Zip: <input v-model="user.zip" type="text" name="zip" id="zip" />
                         <br /> Bootcamp Attended: <input v-model="user.bootcamp_attended" type="text" name="bootcamp_attended" id="bootcamp_attended" />
+                        <br /> Resume:  {{ user.file_name }} <input type="file" name="file" id="file"/>
                         <button v-if="edit == true" type="submit" v-on:click="saveProfile" class="btn btn-lg btn-primary">Save Profile</button> {{ edit }}
                     </form>
                 </div>

@@ -7,6 +7,7 @@ module.exports = function isAuthenticated(req, res, userLogged) {
     var userLogged;
     if (req.user) {
         userLogged = true;
+        console.log(req.user)
     } else {
         userLogged = false;
     }

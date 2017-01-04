@@ -149,7 +149,10 @@ router.get('/login', function(req, res) {
                 user_logged: res.locals.user
             },
             meta: {
-                title: 'Page Title'
+                title: 'Page Title',
+                head: [
+                  { style: '../assets/scripts/login.css' }
+                ]
             },
             components: ['myheader']
         }

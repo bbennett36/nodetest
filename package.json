@@ -23,6 +23,8 @@
   },
   "devDependencies": {
     "bootstrap-vue": "^0.3.10",
-    "vuejs-paginator": "^2.0.0"
+    "extract-text-webpack-plugin": "^1.0.1",
+    "vuejs-paginator": "^2.0.0",
+    "webpack": "^2.2.0-rc.3"
   }
 }

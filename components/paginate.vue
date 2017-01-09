@@ -1,20 +1,23 @@
 <template>
 <nav>
-    <ul class="pagination" :v-if="last_page > 0">
-        <li v-if="showPrevious()" :class="{ 'disabled' : current_page <= 1 }">
+    <ul class="pagination justify-content-center" :v-if="last_page > 0">
+        <li v-if="showPrevious()" :class="{ 'page-item' : true, 'disabled' : current_page <= 1 }">
             <!-- <span :v-if="current_page <= 1">
                   <span aria-hidden="true">&laquo;</span>
             </span> -->
-            <a @click.prevent="changePage(parseInt(current_page) - 1)" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
+            <a class="page-link" @click.prevent="changePage(parseInt(current_page) - 1)" aria-label="Previous">
+              Previous
             </a>
         </li>
-        <li v-for="num in pages" :class="{ 'active': num == current_page }">
-            <a @click.prevent="changePageURL(num)">{{ num }}</a>
+        <li v-for="num in pages" :class="{ 'page-item' : true, 'active': num == current_page }">
+        <!-- <li class="page-item"> -->
+            <a class="page-link" @click.prevent="changePageURL(num)">{{ num }}</a>
+            <!-- <a class="page-link" href="#">1</a> -->
+
         </li>
-        <li v-if="showNext()" :class="{ 'disabled' : current_page == last_page }">
-            <a @click.prevent="changePage(parseInt(current_page) + 1)" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
+        <li v-if="showNext()" :class="{ 'page-item' : true, 'disabled' : current_page == last_page }">
+            <a class="page-link" @click.prevent="changePage(parseInt(current_page) + 1)" aria-label="Next">
+                Next
             </a>
         </li>
         <!-- <li v-if="showNext()" :class="{ 'disabled' : pagination.current_page === pagination.last_page || pagination.last_page === 0 }">

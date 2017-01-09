@@ -125,11 +125,12 @@ router.use(function(req, res, next) {
 
 router.get('/', (req, res, next) => {
 
-    // console.log();
+    // console.log("test" + req.user.type);
 
     res.render('home', {
         data: {
             user_logged: res.locals.user
+            // user_type: req.user.type
         },
         vue: {
             meta: {
@@ -149,10 +150,7 @@ router.get('/login', function(req, res) {
                 user_logged: res.locals.user
             },
             meta: {
-                title: 'Page Title',
-                head: [
-                  { style: '../assets/scripts/login.css' }
-                ]
+                title: 'Page Title'
             },
             components: ['myheader']
         }

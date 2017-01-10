@@ -491,7 +491,7 @@ router.get('/search', function(req, res, next) {
                         total: count,
                         current_page: currentPage, // required
                         last_page: last,
-                        x: x,
+                        x: x + 1,
                         y: y,
                         user_logged: res.locals.user
                     },

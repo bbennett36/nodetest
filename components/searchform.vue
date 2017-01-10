@@ -1,6 +1,5 @@
 <template>
-<div class="collapse" id="navbarToggleExternalContent">
-<div class="col-lg-12">
+<!-- <div class="collapse" id="navbarToggleExternalContent"> -->
     <form action="/search" method="GET" id="geoForm">
         <div class="row" id="search">
             <div class="col-sm-5">
@@ -12,9 +11,9 @@
             <div class="col-sm-3">
                 <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
             </div>
+          </div>
     </form>
-    </div>
-  </div>
+<!-- </div> -->
 </template>
 
 <script>

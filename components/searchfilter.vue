@@ -7,33 +7,58 @@
 </style>
 
 <template>
-<div class="filForm">
-    <h3>Filter Results by</h3>
-    <form action="/search" method="GET" id='searchForm'>
-        <input type="hidden" name="keyword" id="keyword" v-model='keyword' />
-        <input type="hidden" name="location" id="filterlocation" v-model='location' />
-        <!-- <input type="hidden" name="lat" id="filterLat" />
-        <input type="hidden" name="lng" id="filterLng" />-->
-        Distance
-        <br />
-        <select name="radius" id="radius" onchange="this.form.submit()">
+<div class="col-12">
+    <button class="btn btn-secondary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+    Show Filters
+  </button>
+    <div class="collapse" id="collapseExample">
+
+        <div class="row">
+            <div class="col-6">
+                <form action="/search" method="GET" id='searchForm'>
+                    <input type="hidden" name="keyword" id="keyword" v-model='keyword' />
+                    <input type="hidden" name="location" id="filterlocation" v-model='location' />
+                    <label for="radius">Distance</label>
+                    <select class="form-control" name="radius" id="radius" onchange="this.form.submit()">
             <option value="0">Exact Location</option>
             <option value="25" selected>25 Miles</option>
             <option value="35">35 Miles</option>
             <option value="50">50 Miles</option>
         </select>
-    </form>
-    <br />
-    <div class="jtype">
-        <h5>Job Type</h5>
-        <ul>
-            <li><a v-bind:href="resource_url + '&type=Full-Time'">Full-Time</a></li>
-            <li><a v-bind:href="resource_url + '&type=Part-Time'">Part-Time</a></li>
-            <li><a v-bind:href="resource_url + '&type=Contract'">Contract</a></li>
-            <li><a v-bind:href="resource_url + '&type=Internship'">Internship</a></li>
-        </ul>
-    </div>
+                </form>
+            </div>
+            <div class="col-6">
 
+                <div class="custom-controls-stacked">
+
+                    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input">
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Full-Time</span>
+    </label>
+
+
+                    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input">
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Internship</span>
+    </label>
+
+                    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input">
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Part-Time</span>
+    </label>
+
+                    <label class="custom-control custom-checkbox">
+      <input type="checkbox" class="custom-control-input">
+      <span class="custom-control-indicator"></span>
+      <span class="custom-control-description">Contract</span>
+    </label>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </template>
 
@@ -50,8 +75,8 @@ export default {
     },
     methods: {
         gurl: function() {
-          this.resource_url = window.location.search;
-          // return currentUrl;
+            this.resource_url = window.location.search;
+            // return currentUrl;
         }
     },
     beforeMount() {

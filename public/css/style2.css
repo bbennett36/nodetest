@@ -3,10 +3,8 @@ body  {
   height: 100%;
 }
 
-.navbar  {
-  width: 100%;
-  margin-bottom: 10px;
-}
+body { padding-top: 70px; }
+
 
 
 #submitForm {
@@ -15,7 +13,6 @@ body  {
 
 @media screen and (max-width: 767px) {
 
-body { padding-top: 70px; }
 
 #search input {
   margin: 5px;
@@ -25,11 +22,15 @@ body { padding-top: 70px; }
   margin: 5px;
 }
 
-.navbar-nav.navbar-collapse {
-       margin-left: 0;
-       margin-right: 0;
-       padding-left: 0;
-       padding-right: 0;
-   }
+#filters  {
+  margin: 5px;
+}
 
 }
+/*
+@include media-breakpoint-down(xs) {
+    .container {
+        margin-left: 0;
+        margin-right: 0;
+    }
+}*/

@@ -7,9 +7,10 @@
 
     <myheader :user_logged='user_logged'></myheader>
 
+    <div class="col-12">
 
             <searchform></searchform>
-
+</div>
 
     <div class="row">
 

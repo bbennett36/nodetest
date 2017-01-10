@@ -1,29 +1,22 @@
 <template>
 <div>
-    <div id="wrap">
-        <div class="col-md-1"></div>
-        <div id="main-container" class="container col-md-10">
-
+    <!-- <div id="container"> -->
 
 
             <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
 
 
 
-            <div class="col-md-4"></div>
-            <div class="col-md-4 text-center">
-                <searchform></searchform>
+            <searchform></searchform>
 
 
-            </div>
-            <div class="col-md-4"></div>
 
 
-        </div>
+
+        <!-- </div> -->
 
     </div>
 
-</div>
 </template>
 
 <script>

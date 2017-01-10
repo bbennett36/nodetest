@@ -1,13 +1,20 @@
 <template>
-<div>
+<div class="collapse" id="navbarToggleExternalContent">
+<div class="col-lg-12">
     <form action="/search" method="GET" id="geoForm">
-        <div class="input-group">
-            <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Job Title" />
-            <input type="text" id="location" name="location" class="form-control" placeholder="Enter your city,state or zip" />
-            <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
-        </div>
+        <div class="row" id="search">
+            <div class="col-sm-5">
+                <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Job Title" />
+            </div>
+            <div class="col-sm-4">
+                <input type="text" id="location" name="location" class="form-control" placeholder="Location" />
+            </div>
+            <div class="col-sm-3">
+                <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
+            </div>
     </form>
-</div>
+    </div>
+  </div>
 </template>
 
 <script>

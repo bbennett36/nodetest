@@ -7,21 +7,16 @@
 
     <myheader :user_logged='user_logged'></myheader>
 
-    <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <searchform></searchform>
-        </div>
-        <div class="col-md-3"></div>
 
-    </div>
+            <searchform></searchform>
+
 
     <div class="row">
 
         <div class="col-md-3">
             <searchfilter :keyword="keyword" :location="location"></searchfilter>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-9">
 
             <results :x='x' :y='y' :total='total' :results="results"></results>
 
@@ -30,7 +25,7 @@
 
         </div>
 
-        <div class="col-md-3"></div>
+        <!-- <div class="col-md-3"></div> -->
     </div>
 
 </div>

@@ -7,3 +7,29 @@ body  {
   width: 100%;
   margin-bottom: 10px;
 }
+
+
+#submitForm {
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+
+body { padding-top: 70px; }
+
+#search input {
+  margin: 5px;
+}
+
+#search button {
+  margin: 5px;
+}
+
+.navbar-nav.navbar-collapse {
+       margin-left: 0;
+       margin-right: 0;
+       padding-left: 0;
+       padding-right: 0;
+   }
+
+}

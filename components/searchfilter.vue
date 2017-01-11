@@ -7,7 +7,7 @@
 </style>
 
 <template>
-<div class="col-lg-12 hidden-sm-down">
+<div class="col-12 hidden-xs-down">
     <!-- <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
       Filters
     </button>
@@ -15,7 +15,7 @@
     <div class="collapse" id="collapseExample"> -->
 
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-12">
                 <form action="/search" method="GET" id='searchForm'>
                     <input type="hidden" name="keyword" id="keyword" v-model='keyword' />
                     <input type="hidden" name="location" id="filterlocation" v-model='location' />
@@ -28,7 +28,7 @@
                     </select>
                 </form>
             </div>
-            <div class="col-md-12">
+            <div class="col-12">
                 <div class="custom-controls-stacked">
 
                     <label class="custom-control custom-checkbox">

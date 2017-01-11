@@ -11,7 +11,7 @@ body { padding-top: 70px; }
   width: 100%;
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 575px) {
 
 
 #search input {
@@ -22,11 +22,25 @@ body { padding-top: 70px; }
   margin: 5px;
 }
 
+#search input[type="checkbox"]  {
+  margin: 5px;
+  /*padding 5px;*/
+}
+
 #resultText {
   text-align: center;
 }
 
+/*.custom-control.custom-checkbox {
+  margin-left: 8px;
+}*/
 
+}
+
+@media screen and (max-width: 575px) {
+  .custom-controls-stacked {
+    margin-left: 8px;
+  }
 }
 /*
 @include media-breakpoint-down(xs) {

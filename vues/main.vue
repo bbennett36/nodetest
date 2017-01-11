@@ -11,10 +11,10 @@
 
 <div class="row">
 
-        <div class="col-sm-4 col-lg-3">
+        <div class="col-sm-4 col-md-4 col-lg-3">
             <searchfilter :keyword="keyword" :location="location"></searchfilter>
         </div>
-        <div class="col-sm-8 col-lg-9">
+        <div class="col-sm-8 col-md-8 col-lg-9">
 
             <results :x='x' :y='y' :total='total' :results="results"></results>
 

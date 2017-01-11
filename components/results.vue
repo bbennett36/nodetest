@@ -7,7 +7,7 @@
 <template>
 
 <div>
-  <p> Showing results {{ x }} - {{ y }} of {{ total }} </p>
+  <p id="resultText"> Showing results {{ x }} - {{ y }} of {{ total }} </p>
 
     <div v-for="r in results">
         <div>

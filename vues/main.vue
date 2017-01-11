@@ -7,17 +7,14 @@
 
     <myheader :user_logged='user_logged'></myheader>
 
-    <div class="col-12">
-
             <searchform></searchform>
-</div>
 
-    <div class="row">
+<div class="row">
 
-        <div class="col-md-3">
+        <div class="col-sm-4 col-lg-3">
             <searchfilter :keyword="keyword" :location="location"></searchfilter>
         </div>
-        <div class="col-md-9">
+        <div class="col-sm-8 col-lg-9">
 
             <results :x='x' :y='y' :total='total' :results="results"></results>
 

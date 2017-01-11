@@ -7,28 +7,28 @@
 </style>
 
 <template>
-<div class="col-12">
-    <button class="btn btn-secondary btn-block" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-    Show Filters
-  </button>
-    <div class="collapse" id="collapseExample">
+<div class="col-lg-12 hidden-sm-down">
+    <!-- <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Filters
+    </button>
+
+    <div class="collapse" id="collapseExample"> -->
 
         <div class="row">
-            <div class="col-6">
+            <div class="col-md-12">
                 <form action="/search" method="GET" id='searchForm'>
                     <input type="hidden" name="keyword" id="keyword" v-model='keyword' />
                     <input type="hidden" name="location" id="filterlocation" v-model='location' />
                     <label for="radius">Distance</label>
                     <select class="form-control" name="radius" id="radius" onchange="this.form.submit()">
-            <option value="0">Exact Location</option>
-            <option value="25" selected>25 Miles</option>
-            <option value="35">35 Miles</option>
-            <option value="50">50 Miles</option>
-        </select>
+                      <option value="0">Exact Location</option>
+                      <option value="25" selected>25 Miles</option>
+                      <option value="35">35 Miles</option>
+                      <option value="50">50 Miles</option>
+                    </select>
                 </form>
             </div>
-            <div class="col-6">
-
+            <div class="col-md-12">
                 <div class="custom-controls-stacked">
 
                     <label class="custom-control custom-checkbox">

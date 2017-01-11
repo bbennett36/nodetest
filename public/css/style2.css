@@ -22,9 +22,10 @@ body { padding-top: 70px; }
   margin: 5px;
 }
 
-#filters  {
-  margin: 5px;
+#resultText {
+  text-align: center;
 }
+
 
 }
 /*

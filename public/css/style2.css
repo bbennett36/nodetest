@@ -3,8 +3,9 @@ body  {
   height: 100%;
 }
 
-
-body { padding-top: 70px; }
+#nav-color  {
+  background-color: #292b2c!important;
+}
 
 
 #submitForm {
@@ -13,6 +14,7 @@ body { padding-top: 70px; }
 
 @media screen and (max-width: 575px) {
 
+  /*body { padding-top: 70px; }*/
 
 
 

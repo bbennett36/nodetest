@@ -6,7 +6,7 @@ var waterfall = require('async/waterfall');
 var series = require('async/series');
 var NodeGeocoder = require('node-geocoder');
 var mysql = require('mysql');
-var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
+var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire', dateStrings: 'date'});
 var db = require('../db');
 var isAuthenticated = require('./authenticate');
 var uploadPath = ('/home/brennan/_repos/nodetest/uploads/')
@@ -489,6 +489,9 @@ router.get('/search', function(req, res, next) {
                   y = count;
                 }
 
+                var moment = require('moment');
+
+
                 res.render('main', {
                     data: {
                         results: test,
@@ -501,7 +504,8 @@ router.get('/search', function(req, res, next) {
                         last_page: last,
                         x: x,
                         y: y,
-                        user_logged: res.locals.user
+                        user_logged: res.locals.user,
+                        moment: moment
                     },
                     vue: {
                         meta: {

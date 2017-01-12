@@ -4,16 +4,20 @@
 
 <template>
 
-  <div class="container">
+  <div>
 
 
-    <div class="hidden-sm-up">
-
+    <!-- <div class="hidden-sm-up"> -->
+<!-- <div class="container"> -->
         <myheader :user_logged='user_logged'></myheader>
-    </div>
-    <div class="hidden-xs-down">
-        <myheader2 :user_logged='user_logged'></myheader2>
-    </div>
+    <!-- </div> -->
+    <!-- <div class="hidden-xs-down"> -->
+        <!-- <myheader2 :user_logged='user_logged'></myheader2> -->
+    <!-- </div> -->
+  <!-- </div> -->
+    <div class="container">
+
+
 
 
 
@@ -39,6 +43,7 @@
         <!-- <div class="col-md-3"></div> -->
     </div>
 
+</div>
 </div>
 </template>
 

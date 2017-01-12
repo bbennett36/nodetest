@@ -4,13 +4,14 @@
     <form action="/search" method="GET" id="geoForm">
         <div class="row" id="search">
             <div class="col-sm-5">
-                <input type="text" id="keyword" name="keyword" class="form-control" placeholder="Job Title" />
+                <input type="text" id="keyword" name="keyword" v-model='keyword' class="form-control" placeholder="Job Title" />
             </div>
             <div class="col-sm-4">
-                <input type="text" id="location" name="location" class="form-control" placeholder="Location" />
+                <input type="text" id="location" name="location" v-model='location' class="form-control" placeholder="Location" />
             </div>
             <div class="col-sm-3">
                 <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
+              </form>
                 <div class="hidden-sm-up">
                     <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                     Filters
@@ -70,8 +71,9 @@
                     </div>
                 </div>
             </div>
-    </form>
+    <!-- </form> -->
     </div>
+</div>
 </div>
 </template>
 

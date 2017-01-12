@@ -1,6 +1,6 @@
 <template>
   <!-- <div> -->
-<nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
+<nav class="navbar navbar-inverse bg-inverse">
 
 
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav2" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

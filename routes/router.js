@@ -481,6 +481,14 @@ router.get('/search', function(req, res, next) {
                     last = i;
                 }
 
+                if(x == 0)  {
+                  x += 1;
+                }
+
+                if(y > count) {
+                  y = count;
+                }
+
                 res.render('main', {
                     data: {
                         results: test,
@@ -491,7 +499,7 @@ router.get('/search', function(req, res, next) {
                         total: count,
                         current_page: currentPage, // required
                         last_page: last,
-                        x: x + 1,
+                        x: x,
                         y: y,
                         user_logged: res.locals.user
                     },
@@ -499,7 +507,7 @@ router.get('/search', function(req, res, next) {
                         meta: {
                             title: 'Page Title'
                         },
-                        components: ['myheader', 'searchform', 'results', 'searchfilter', 'paginate']
+                        components: ['myheader', 'myheader2', 'searchform', 'results', 'searchfilter', 'paginate']
                     }
 
                 });

@@ -1,6 +1,6 @@
 <template>
 <nav>
-    <ul class="pagination" v-if="pagination.last_page > 0" :class="sizeClass">
+    <ul class="pagination pagination-lg" v-if="pagination.last_page > 0" :class="sizeClass">
         <li v-if="showPrevious()" :class="{ 'disabled' : pagination.current_page <= 1 }">
             <span v-if="pagination.current_page <= 1">
                     <span aria-hidden="true">{{ config.previousText }}</span>

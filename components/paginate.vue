@@ -6,7 +6,7 @@
                   <span aria-hidden="true">&laquo;</span>
             </span> -->
             <a class="page-link" @click.prevent="changePage(parseInt(current_page) - 1)" aria-label="Previous">
-              Previous
+              Prev
             </a>
         </li>
         <li v-for="num in pages" :class="{ 'page-item' : true, 'active': num == current_page }">

@@ -1,21 +1,18 @@
 <template>
-<!-- <div class="container"> -->
+  <!-- <div> -->
 <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse bg-inverse">
 
 
-    <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav2" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
     <a class="navbar-brand" href="#">BootCampHire.com</a>
 
+    <div class="collapse navbar-collapse" id="navbarNav2">
 
 
-    <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
@@ -41,7 +38,9 @@
                 <a href="/logout" class="nav-link"><strong><span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
             </li>
         </ul>
-    </div>
+      </div>
+    <!-- </div> -->
+    <!--/.nav-collapse -->
 </nav>
 <!-- </div> -->
 

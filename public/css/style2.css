@@ -37,6 +37,22 @@ body  {
 
 }
 
+@media screen and (min-width: 575px) {
+
+  /*body { padding-top: 70px; }*/
+
+
+
+#search input {
+  margin: 15px 0 15px 0;
+}
+
+#search button {
+  margin: 15px 0 15px 0;
+}
+
+}
+
 /*
 @include media-breakpoint-down(xs) {
     .container {

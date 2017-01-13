@@ -3,13 +3,13 @@
 <div class="col-12">
     <form action="/search" method="GET" id="geoForm">
         <div class="row" id="search">
-            <div class="col-sm-5">
+            <div class="col-sm-5 col-lg-5">
                 <input type="text" id="keyword" name="keyword" v-model='keyword' class="form-control" placeholder="Job Title" />
             </div>
-            <div class="col-sm-4">
+            <div class="col-sm-4 col-lg-5">
                 <input type="text" id="location" name="location" v-model='location' class="form-control" placeholder="Location" />
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <button type="submit" id="submitForm" class="btn btn-primary">Find Jobs</button>
               </form>
                 <div class="hidden-sm-up">

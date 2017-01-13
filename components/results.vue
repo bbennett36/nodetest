@@ -1,9 +1,3 @@
-<style lang="css">
-
-
-
-</style>
-
 <template>
 <div>
     <p id="resultText"> Showing results {{ x }} - {{ y }} of {{ total }} </p>
@@ -45,3 +39,9 @@ export default {
     }
 };
 </script>
+
+<style lang="css">
+
+
+
+</style>

@@ -6,20 +6,9 @@
 
   <div>
 
-
-    <!-- <div class="hidden-sm-up"> -->
-<!-- <div class="container"> -->
         <myheader :user_logged='user_logged'></myheader>
-    <!-- </div> -->
-    <!-- <div class="hidden-xs-down"> -->
-        <!-- <myheader2 :user_logged='user_logged'></myheader2> -->
-    <!-- </div> -->
-  <!-- </div> -->
+
     <div class="container">
-
-
-
-
 
     <searchform></searchform>
 

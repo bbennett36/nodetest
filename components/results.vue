@@ -1,6 +1,9 @@
 <template>
-<div>
-    <p id="resultText"> Showing results {{ x }} - {{ y }} of {{ total }} </p>
+<div id="resultComp">
+
+    <p id="resultText"> Jobs {{ x }} to {{ y }} of {{ total }} </p>
+
+    <hr>
 
     <div v-for="r in results">
         <div>
@@ -13,7 +16,9 @@
             <p><strong>Google Inc. </strong> - {{ r.location }}
                 <p class="lead">{{ r.short_desc }} </p>
                 <!-- <p class="lead">{{ r.location }} </p> -->
-                <p class="lead">{{ formatDate(r.date_created) }}</p>
+                <p class="lead float-left">{{ formatDate(r.date_created) }}</p>
+                <p class="lead text-right">Quick Apply</p>
+
         </div>
         <hr>
     </div>
@@ -28,7 +33,7 @@ var moment = require('moment');
 // import moment from 'moment'
 
 export default {
-    props: ['results', 'getURL', 'page', 'x', 'y', 'total'],
+    props: ['results', 'getURL', 'page', 'x', 'y', 'total', 'keyword', 'location'],
     methods: {
         formatDate: function(date) {
             // return moment(date, "YYYYMMDD").fromNow();

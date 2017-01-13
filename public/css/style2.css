@@ -12,18 +12,32 @@ body  {
   width: 100%;
 }
 
+#searchComp  {
+  background-color: gray;
+}
+
+
+#filter-btn  {
+  margin: 15px 0 10px 0;
+}
+
 @media screen and (max-width: 575px) {
 
   /*body { padding-top: 70px; }*/
+#q-results  {
+  margin: 5px 0 0 0;
+}
 
-
+#test  {
+  background-color: gray;
+}
 
 #search input {
-  margin: 5px;
+  margin: 15px 0 0 0;
 }
 
 #search button {
-  margin: 5px;
+  margin: 15px 0 0 0;
 }
 
 

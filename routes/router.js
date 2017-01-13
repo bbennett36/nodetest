@@ -25,7 +25,6 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 
 var nodemailer = require('nodemailer');
-var moment = require('moment');
 
 
 // /home/brennan/_repos/nodetest/uploads
@@ -490,6 +489,11 @@ router.get('/search', function(req, res, next) {
                 if(y > count) {
                   y = count;
                 }
+
+                // var moment = require('moment');
+                // console.log(moment)
+                // import moment from 'moment'
+
 
 
                 res.render('main', {

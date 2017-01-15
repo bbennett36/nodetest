@@ -1,46 +1,49 @@
 
 
 <template>
-<div id="wrap">
-    <div class="col-md-1"></div>
-    <div id="main-container" class="container col-md-10">
+<div>
+    <myheader :user_logged='user_logged'> </myheader>
 
-        <myheader :user_logged='user_logged'></myheader>
-        <div class="col-md-4"></div>
-        <div class="col-md-4">
-            <div v-for="job in job">
+    <!-- <searchform :keyword="keyword" :location="location"></searchform> -->
 
 
-                <div class="text-center">
-                    <h1>{{ job.job_title }}</h1>
-                    <p><strong>Google Inc. </strong></p>
+    <div class="container">
+        <div class="row">
+            <!-- <div class="col-xs-12 col-sm-12 col-md-8"> -->
+            <div class="col-12">
+                <div v-for="job in job">
+
+
+                    <div class="text-center">
+                        <h1 class="display-4">{{ job.job_title }}</h1>
+                        <p><strong>Google Inc. </strong> - {{ job.location }}</p>
+                      </div>
+
+                        <h2><em><strong>Job Description</strong></em></h2>
+                        <hr>
+                    <p v-html="desc"></p>
+
+                    <div class="text-center">
+                      <p>Job Type: {{ job.job_type }}</p>
+                    <p>Posted: {{ formatDate(job.date_created) }}</p>
+                    <button v-on:click="applyResume()" id="apply-btn" class="btn btn-primary">{{ buttonText }}</button>
+                  </div>
                 </div>
-                <h2><u>Job Description</u></h2>
-                <p v-html="desc"></p>
-
-                <p class="text-center">Posted: {{ job.date_created }}</p>
-                <button v-on:click="applyResume()" class="btn btn-primary center-block">{{ buttonText }}</button>
-
-
 
             </div>
-
-        </div>
-        <div class="col-md-4 text-center">
-
-        </div>
-        <div class="col-md-1"></div>
+            <!-- <div class="hidden-sm-down col-md-4"></div> -->
 
 
+        <!-- </div> -->
     </div>
 </div>
-<!-- <myfooter></myfooter> -->
 </template>
 
 <script>
 // // var moment = require('moment');
 // // var rentals = {};
-//
+var moment = require('moment');
+
 var axios = require('axios');
 
 export default {
@@ -64,10 +67,17 @@ export default {
             // }
         },
         applyResume: function() {
-          this.buttonText = "Applied";
+            this.buttonText = "Applied";
             axios.post('/apply');
+        },
+        formatDate: function(date) {
+            return moment(date).fromNow();
         }
-
     }
+
 };
 </script>
+
+<style>
+
+</style>

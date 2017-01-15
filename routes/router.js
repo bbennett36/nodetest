@@ -26,7 +26,6 @@ var upload = multer({storage: storage});
 
 var nodemailer = require('nodemailer');
 
-
 // /home/brennan/_repos/nodetest/uploads
 
 var router = express.Router()
@@ -79,7 +78,7 @@ function handleSayHello(req, res) {
     });
 }
 
-router.put('/user/:id',  upload.single("file"), function(req, res) {
+router.put('/user/:id', upload.single("file"), function(req, res) {
     console.log(req.params.id)
 
     connection.query('UPDATE user SET email = ?, f_name = ?, l_name = ?, city = ?, state = ?, zip = ?, bootcamp_attended = ?, file_name where id = ?', [
@@ -164,7 +163,6 @@ router.get('/logout', function(req, res) {
     res.redirect('/login');
 });
 
-
 router.get('/job/:id', function(req, res) {
     var id = req.params.id
     console.log(id)
@@ -186,7 +184,11 @@ router.get('/job/:id', function(req, res) {
             },
             vue: {
                 meta: {
-                    title: 'Page Title'
+                    title: 'Page Title',
+                    head: [
+                        { script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js' },
+                        { style: '../css/style2.css', type: 'text/css', rel: 'stylesheet' }
+                    ]
                 },
                 components: ['myheader', 'searchform', 'results']
             }
@@ -210,6 +212,9 @@ router.get('/post', function(req, res) {
             vue: {
                 meta: {
                     title: 'Page Title'
+                    // head: [
+                    //   { script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'}
+                    // ]
                 },
                 components: ['myheader']
             }
@@ -251,51 +256,51 @@ router.post('/create', function(req, res) {
 router.get('/profile', function(req, res) {
     console.log(req.user.id)
     var dbUser;
-    if(req.user.type == "user") {
-    db.users.findById(req.user.id, function(err, user) {
-        if (err)
-            throw err;
-        dbUser = user[0];
-        console.log('user:' + user.username + dbUser)
+    if (req.user.type == "user") {
+        db.users.findById(req.user.id, function(err, user) {
+            if (err)
+                throw err;
+            dbUser = user[0];
+            console.log('user:' + user.username + dbUser)
 
-        res.render('profile', {
-            data: {
-                user: user,
-                user_logged: res.locals.user
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
+            res.render('profile', {
+                data: {
+                    user: user,
+                    user_logged: res.locals.user
                 },
-                components: ['myheader']
-            }
+                vue: {
+                    meta: {
+                        title: 'Page Title'
+                    },
+                    components: ['myheader']
+                }
+            });
+            console.log('after render')
+
         });
-        console.log('after render')
+    } else if (req.user.type == "company") {
+        db.users.findByCompanyId(req.user.id, function(err, user) {
+            if (err)
+                throw err;
+            dbUser = user[0];
+            console.log('user:' + user.username + dbUser)
 
-    });
-  } else if (req.user.type == "company")  {
-    db.users.findByCompanyId(req.user.id, function(err, user) {
-        if (err)
-            throw err;
-        dbUser = user[0];
-        console.log('user:' + user.username + dbUser)
-
-        res.render('profile', {
-            data: {
-                user: user,
-                user_logged: res.locals.user
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title'
+            res.render('profile', {
+                data: {
+                    user: user,
+                    user_logged: res.locals.user
                 },
-                components: ['myheader']
-            }
-        });
-        console.log('after render')
+                vue: {
+                    meta: {
+                        title: 'Page Title'
+                    },
+                    components: ['myheader']
+                }
+            });
+            console.log('after render')
 
-    });
-  }
+        });
+    }
 
 });
 
@@ -482,19 +487,17 @@ router.get('/search', function(req, res, next) {
                     last = i;
                 }
 
-                if(x == 0)  {
-                  x += 1;
+                if (x == 0) {
+                    x += 1;
                 }
 
-                if(y > count) {
-                  y = count;
+                if (y > count) {
+                    y = count;
                 }
 
                 // var moment = require('moment');
                 // console.log(moment)
                 // import moment from 'moment'
-
-
 
                 res.render('main', {
                     data: {
@@ -512,9 +515,19 @@ router.get('/search', function(req, res, next) {
                     },
                     vue: {
                         meta: {
-                            title: 'Page Title'
+                            title: 'Page Title',
+                            head: [
+                                { script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js' }
+                            ]
                         },
-                        components: ['myheader', 'myheader2', 'searchform', 'results', 'searchfilter', 'paginate']
+                        components: [
+                            'myheader',
+                            'myheader2',
+                            'searchform',
+                            'results',
+                            'searchfilter',
+                            'paginate'
+                        ]
                     }
 
                 });
@@ -568,6 +581,5 @@ router.get('/search', function(req, res, next) {
     });
     console.log('running before async')
 });
-
 
 module.exports = router

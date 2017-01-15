@@ -19,8 +19,8 @@
                 <form action="/search" method="GET" id='searchForm'>
                     <input type="hidden" name="keyword" id="keyword" v-model='keyword' />
                     <input type="hidden" name="location" id="filterlocation" v-model='location' />
-                    <label for="radius">Distance</label> 
-                    <select class="form-control" name="radius" id="radius" onchange="this.form.submit()">
+                    <label for="radius">Distance</label>
+                    <select class="form-control form-control-sm" name="radius" id="radius" onchange="this.form.submit()">
                       <option value="0">Exact Location</option>
                       <option value="25" selected>25 Miles</option>
                       <option value="35">35 Miles</option>

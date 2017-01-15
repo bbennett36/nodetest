@@ -7,10 +7,14 @@ body  {
   background-color: #292b2c!important;
 }
 
-
-#submitForm {
-  width: 100%;
+#apply-btn  {
+  display: inline-block;;
 }
+
+
+/*#submitForm {
+  width: 100%;
+}*/
 
 #searchComp  {
   background-color: gray;
@@ -26,6 +30,7 @@ body  {
   /*body { padding-top: 70px; }*/
 #q-results  {
   margin: 5px 0 0 0;
+  text-align: center;
 }
 
 #test  {

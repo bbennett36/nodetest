@@ -14,13 +14,13 @@
 
 
     <div class="row">
-      <div class="col-sm-4 col-md-3 col-lg-3">
+      <div class="col-sm-4 col-md-3 col-xl-2">
         <!-- <p class="lead">Filter Results</p>
         <hr> -->
       </div>
-        <div class="col-sm-8 col-md-9 col-lg-9">
+        <div class="col-sm-8 col-md-9 col-xl-8">
 
-            <h2 id="q-results"> {{ keyword }} jobs in {{ location }} </h2>
+            <h2 id="q-results" class="text-center"> {{ keyword }} jobs in {{ location }} </h2>
             <!-- <p class="text-right"> Jobs {{ x }} to {{ y }} of {{ total }} </p> -->
 
         </div>

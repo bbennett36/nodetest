@@ -211,10 +211,10 @@ router.get('/post', function(req, res) {
             },
             vue: {
                 meta: {
-                    title: 'Page Title'
-                    // head: [
-                    //   { script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'}
-                    // ]
+                    title: 'Page Title',
+                    head: [
+                      { script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'}
+                    ]
                 },
                 components: ['myheader']
             }

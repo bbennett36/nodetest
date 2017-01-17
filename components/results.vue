@@ -8,13 +8,13 @@
     <div v-for="r in results">
         <div>
             <h3 v-if="r.apply_type == 'email'">
-                <a v-bind:href="'/job/' + r.id">{{ r.job_title }}</a>
+                <a v-bind:href="'/job/' + r.id"><strong>{{ r.job_title }}</strong></a>
             </h3>
             <h3 v-if="r.apply_type == 'url'">
             <a  target="_blank" v-bind:href="r.apply_url">{{ r.job_title }}</a>
           </h3>
             <p><strong>Google Inc. </strong> - {{ r.location }}</p>
-                <p class="lead">{{ r.short_desc }} </p>
+                <!-- <p class="lead">{{ r.short_desc }} </p> -->
                 <!-- <p class="lead">{{ r.location }} </p> -->
                 <p class="lead float-left">{{ formatDate(r.date_created) }}</p>
                 <p class="lead text-right">Quick Apply</p>

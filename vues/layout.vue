@@ -7,7 +7,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 
-    <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <!-- // <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
   <!-- //  <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.1.8/vue.min.js"></script> -->
   <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
@@ -31,13 +30,16 @@
     <!-- // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEqFPxjP_ubeG9tLbj3P0aHUoqNi35rts&libraries=places&callback=initMap" async defer></script> -->
 
     <link href='//fonts.googleapis.com/css?family=Text+Me+One' rel='stylesheet' type='text/css' />
+    <link href='//fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
+
 
 
     <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.1/jquery.tinymce.min.js0"></script> -->
     <!-- // <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
-   <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script>
+  <!-- //  <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script> -->
 
 
+   <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
 
 </head>

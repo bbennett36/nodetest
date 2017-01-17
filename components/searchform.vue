@@ -11,10 +11,10 @@
                 <input type="text" id="location" name="location" :value='location' class="form-control form-control-lg" placeholder="Location" />
             </div>
             <div class="col-sm-3">
-                <button type="submit" id="submitForm" class="btn btn-primary btn-lg">Find Jobs</button>
+                <button type="submit" id="submitForm" class="btn btn-success btn-lg">Find Jobs</button>
               </form>
                 <div class="hidden-sm-up">
-                    <button class="btn btn-secondary btn-lg" id="filter-btn" type="button" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseExample">
+                    <button class="btn btn-outline-success btn-lg" id="filter-btn" type="button" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseExample">
                     Filters
                   </button>
 

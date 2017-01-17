@@ -12,9 +12,9 @@
                 <br />
                 <br />
                 <!--<textarea id="mytextarea" class="form-control" name="description" placeholder="Job Description"></textarea>-->
-                <textarea type="text" name="description" id="description" class="tinyMceBody form-group" style="height:500px; width: 800px"></textarea>
+                <textarea name="description" id="description" class="tinyMceBody form-group" rows="10" col="80" style="height:500px; width: 800px"></textarea>
                 <br />
-                <textarea class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea>
+                <!-- <textarea class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea> -->
                 <br />
                 <br />
                 <br />
@@ -52,6 +52,11 @@
                 <br />
                 <input type="hidden" name="lat" id="lat" />
                 <input type="hidden" name="lng" id="lng" />
+
+                <script>
+                CKEDITOR.replace('description');
+                
+                </script>
 
                 <button @click.prevent="getGeo()" type="submit" id="submitForm" class="btn btn-success">Submit</button>
             </form>
@@ -118,11 +123,13 @@ export default {
             this.urlChecked = true;
             this.urlDisabled = false;
         }
+        // ,
+        // ckEditor()  {
+        //   CKEDITOR.replace( 'description' );
+        // }
     },
     beforeMount() {
-      CKEDITOR.replace( 'description', {
-          extraPlugins: 'abbr'
-      } );
+        CKEDITOR.replace('description');
 
         // tinymce.init({
         //     selector: ".tinyMceBody",

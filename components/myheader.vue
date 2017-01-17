@@ -1,7 +1,7 @@
 <template>
 <div id="nav-color">
 <div class="container">
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+<nav class="navbar navbar-toggleable-md navbar-inverse" style= "background-color: #3c763d!important;">
 
 
 
@@ -14,13 +14,14 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <a class="navbar-brand" href="#">BootCampHire.com</a>
-
+<div id="logo">
+    <a class="navbar-brand" href="#">BootCamp<span>Hire.com</span></a>
+</div>
 
 
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+            <li class="nav-item active"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li>
             <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
         </ul>
         <ul class="navbar-nav">

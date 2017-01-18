@@ -7,6 +7,14 @@ body {
     background-color: whitesmoke;
 }
 
+.breadcrumb {
+  background-color: whitesmoke;
+}
+
+.breadcrumb a {
+  color: #3c763d!important;
+}
+
 #nav-color {
     /*background-color: #292b2c!important;*/
     background-color: #3c763d!important;
@@ -35,13 +43,18 @@ body {
     /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
 }
 
-#resultComp a {
+#resultComp h3 {
     color: #3c763d!important;
+}
+
+#resultComp a {
+    color: inherit;
 }
 
 #resultComp a:hover {
     transition: width 2s;
     color: #5cb85c!important;
+    text-decoration: none!important;
 }
 
 .page-item.active .page-link {

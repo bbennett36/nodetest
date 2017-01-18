@@ -6,6 +6,7 @@
     <hr>
 
     <div v-for="r in results">
+      <!-- <a v-bind:href="'/job/' + r.id"> -->
         <div>
             <h3 v-if="r.apply_type == 'email'">
                 <a v-bind:href="'/job/' + r.id"><strong>{{ r.job_title }}</strong></a>
@@ -20,6 +21,7 @@
                 <p class="lead text-right">Quick Apply</p>
 
         </div>
+      <!-- </a> -->
         <hr>
     </div>
 

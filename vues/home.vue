@@ -6,9 +6,7 @@
             <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
 
 
-
             <searchform></searchform>
-
 
 
 

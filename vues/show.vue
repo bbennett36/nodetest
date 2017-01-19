@@ -34,8 +34,8 @@
                         <button v-on:click="applyResume()" id="apply-btn" class="btn btn-success btn-lg">{{ buttonText }}</button>
                         <br />
                         <br />
-                        
-                        <button id="apply-btn" class="btn btn-success btn-lg">Go Back</button>
+
+                        <a id="apply-btn" href="javascript: history.back()" class="btn btn-success btn-lg">Go Back</a>
                     </div>
                 </div>
 

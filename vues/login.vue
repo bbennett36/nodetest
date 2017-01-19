@@ -1,15 +1,10 @@
 <template>
-<div id="wrap">
-    <div class="col-md-1"></div>
-    <div id="main-container" class="container col-md-10">
-
+<div>
         <myheader :user_logged='user_logged'></myheader>
 
 
-
-        <div class="col-md-2"></div>
-        <div class="col-md-8 text-center">
-
+<div class="container">
+<div class="row">
             <form action="/login" method="post">
                 <div>
                     <label>Username:</label>
@@ -39,13 +34,10 @@
                 </div>
             </form>
 
-        </div>
-        <div class="col-md-2"></div>
-        <div class="col-md-1"></div>
+</div>
 
 
-    </div>
-
+</div>
 </div>
 
 <!-- <div class="main">

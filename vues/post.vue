@@ -12,7 +12,9 @@
                 <br />
                 <br />
                 <!--<textarea id="mytextarea" class="form-control" name="description" placeholder="Job Description"></textarea>-->
-                <textarea name="description" id="description" class="tinyMceBody form-group" rows="10" col="80" style="height:500px; width: 800px"></textarea>
+                <!-- <textarea name="description" id="description" class="tinyMceBody form-group" rows="10" col="80" style="height:500px; width: 800px"></textarea> -->
+                <ckeditor v-model="content" :height="'300px'" :toolbar="[['Format']]"></ckeditor>
+
                 <br />
                 <!-- <textarea class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea> -->
                 <br />
@@ -53,10 +55,6 @@
                 <input type="hidden" name="lat" id="lat" />
                 <input type="hidden" name="lng" id="lng" />
 
-                <script>
-                CKEDITOR.replace('description');
-                
-                </script>
 
                 <button @click.prevent="getGeo()" type="submit" id="submitForm" class="btn btn-success">Submit</button>
             </form>
@@ -72,6 +70,8 @@
 </template>
 
 <script>
+var Ckeditor = require('./node_modules/vue-ckeditor/src/components/ckeditor.vue');
+
 export default {
     data: function() {
         return {
@@ -82,6 +82,7 @@ export default {
             checked: ""
         }
     },
+    components: { Ckeditor },
     methods: {
         getGeo() {
             tinyMCE.triggerSave();
@@ -123,13 +124,11 @@ export default {
             this.urlChecked = true;
             this.urlDisabled = false;
         }
-        // ,
-        // ckEditor()  {
-        //   CKEDITOR.replace( 'description' );
-        // }
-    },
-    beforeMount() {
-        CKEDITOR.replace('description');
+
+    }
+
+    // ,beforeMount() {
+
 
         // tinymce.init({
         //     selector: ".tinyMceBody",
@@ -143,7 +142,7 @@ export default {
         //     height: "300",
         //     width: "700"
         // });
-    }
+    // }
 }
 </script>
 

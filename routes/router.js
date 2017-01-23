@@ -202,12 +202,17 @@ router.get('/job/:id', function(req, res) {
     // res.sendFile(__dirname + '/navbar.html')
 });
 router.get('/post', function(req, res) {
+
+  // import ckeditor from "./components/ckeditor.vue";
+  // var Ckeditor = require('/home/brennan/_repos/nodetest/components/ckeditor.vue');
+
     // console.log(req.user)
     if (req.user) {
         // logged in
         res.render('post', {
             data: {
-                user_logged: res.locals.user
+                user_logged: res.locals.user,
+                content: ''
             },
             vue: {
                 meta: {

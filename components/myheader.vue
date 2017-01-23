@@ -26,7 +26,7 @@
         </ul>
         <ul class="navbar-nav">
             <li v-if="!user_logged" class="nav-item">
-                <a href="/signup" class="nav-link"><strong>Sign up</strong></a>
+                <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
             </li>
 
             <li v-if="user_logged && user_type === 'user'" class="nav-item">
@@ -38,7 +38,7 @@
             </li>
 
             <li v-if="!user_logged" class="nav-item">
-                <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
+                <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login/Register</strong></a>
             </li>
 
             <li v-if="user_logged" class="nav-item">

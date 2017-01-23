@@ -1,121 +1,62 @@
 <template>
 <div>
-        <myheader :user_logged='user_logged'></myheader>
+    <myheader></myheader>
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2 col-lg-3"></div>
+            <div class="col-xs-12 col-md-8 col-lg-6 ">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" role="tab" href="#seeker" aria-controls="seeker">Job Seeker</a>
 
-<div class="container">
-<div class="row">
-            <form action="/login" method="post">
-                <div>
-                    <label>Username:</label>
-                    <input type="text" name="username" /><br/>
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password" />
-                </div>
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
-            </form>
+                    </li>
 
-            <form v-if="user_logged" action="/login" method="post">
-                Sign up
-                <div>
-                    <label>Username:</label>
-                    <input type="text" name="username" /><br/>
-                </div>
-                <div>
-                    <label>Password:</label>
-                    <input type="password" name="password" />
-                </div>
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
-            </form>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" role="tab" href="#employer" aria-controls="employer">Employer</a>
+                    </li>
+                </ul>
 
-</div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="seeker" role="tabpanel">
+                        <form action="/login" method="post">
+                            <div class="form-group row">
+                                <label for="username" class="col-2 col-form-label">Email</label>
+                                <div class="col-10">
 
-
-</div>
-</div>
-
-<!-- <div class="main">
-        <h1>Innovative Login Form</h1>
-        <div class="main-info">
-            <div class="sap_tabs">
-                <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-                    <ul class="resp-tabs-list">
-                        <li class="resp-tab-item" aria-controls="tab_item-0">
-                            <h2><span>Job Seeker</span></h2></li>
-                        <li class="resp-tab-item" aria-controls="tab_item-1"><span>Employer</span></li>
-                    </ul>
-                    <div class="clear"> </div>
-                    <div class="resp-tabs-container">
-                        <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-                            <div class="agileits-login">
-                                <form action="#" method="post">
-                                    <input type="text" class="email" name="Email" placeholder="Email" required="" />
-                                    <input type="password" class="password" name="Password" placeholder="Password" required="" />
-                                    <div class="wthree-text">
-                                        <ul>
-                                            <li>
-                                                <label class="anim">
-													<input type="checkbox" class="checkbox">
-													<span> Remember me ?</span>
-												</label>
-                                            </li>
-                                            <li> <a href="#">Forgot password?</a> </li>
-                                        </ul>
-                                        <div class="clear"> </div>
-                                    </div>
-                                    <div class="w3ls-submit">
-                                        <div class="submit-text">
-                                            <input type="submit" value="Login">
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
-                            <div class="login-top sign-top">
-                                <div class="agileits-login">
-                                    <form action="#" method="post">
-                                        <input type="text" class="email" name="Email" placeholder="Email" required="" />
-                                        <input type="password" class="password" name="Password" placeholder="Password" required="" />
-                                        <div class="wthree-text">
-                                            <ul>
-                                                <li>
-                                                    <label class="anim">
-														<input type="checkbox" class="checkbox">
-														<span> Remember me ?</span>
-													</label>
-                                                </li>
-                                                <li> <a href="#">Forgot password?</a> </li>
-                                            </ul>
-                                            <div class="clear"> </div>
-                                        </div>
-                                        <div class="w3ls-submit">
-                                            <div class="submit-text">
-                                                <input type="submit" value="Login">
-                                            </div>
-                                        </div>
-                                    </form>
+                                    <input type="text" class="form-control" name="username" id="username" />
                                 </div>
                             </div>
-                        </div>
+                            <div class="form-group row">
+                                <label for="password" class="col-2 col-form-label">Password</label>
+                                <div class="col-10">
+
+                                    <input type="password" class="form-control" name="password" />
+                                </div>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" />
+                                      Remember me
+                                    </label>
+                            </div>
+                            <div>
+                                <input type="submit" class="btn btn-success btn-lg btn-block" value="Submit" />
+                            </div>
+                        </form>
                     </div>
+                    <div class="tab-pane fade" id="employer" role="tabpanel">...</div>
                 </div>
-                <div class="clear"> </div>
+
             </div>
+            <div class="col-md-2 col-lg-3"></div>
+
+
         </div>
-        <!- copyright -->
-<!-- <div class="copyright">
-            <p> © 2016 Innovative Login Form . All rights reserved | Design by <a href="http://w3layouts.com/" target="_blank">W3layouts</a></p>
-        </div> -->
-<!-- //copyright -->
-<!-- </div> -->
-<!-- //main -->-->
+
+
+    </div>
+</div>
 </template>
 
 <script>

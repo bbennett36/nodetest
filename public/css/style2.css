@@ -11,7 +11,22 @@ body {
     background-color: #fff;
     border-color: #ddd #ddd #fff;
     margin-top: -1px;
-padding: 10px 30px;
+    padding: 10px 30px;
+}
+
+.nav-tabs.nav-justified> li {
+    display: table-cell;
+    width: 1%;
+    float: none;
+    background-color: #3c763d!important;
+    color: #fff;
+    border-radius: 0 !important;
+
+}
+
+
+#login-tab  {
+  margin-top: 10px;
 }
 
 #top-bar {
@@ -19,22 +34,29 @@ padding: 10px 30px;
 }
 
 .nav-tabs.nav-justified {
-    border: 0 none;
-    border-style: none;
+    border-bottom: 0 none;
     width: 100%;
+    border-radius: 0 !important;
+    text-decoration: bold;
+}
+
+.nav-tabs.nav-justified a {
+    color: #fff;
+    font-weight: bold!important;
+    
+}
+
+.nav-tabs .nav-link.active {
+
+  font-weight: bold!important;
+
 }
 
 .nav-tabs .nav-link {
     border: none;
-    border-top-right-radius: .25rem;
-    border-top-left-radius: .25rem;
+    border-radius: 0 !important;
 }
 
-.nav-tabs.nav-justified> li {
-    display: table-cell;
-    width: 1%;
-    float: none;
-}
 
 .breadcrumb {
     background-color: whitesmoke;

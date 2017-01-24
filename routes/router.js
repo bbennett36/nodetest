@@ -101,7 +101,14 @@ router.put('/user/:id', upload.single("file"), function(req, res) {
 router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
 
 // middleware that is specific to this router
-router.post('/login', passport.authenticate('company-local', {
+router.post('/login', passport.authenticate('user-local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}), function(req, res) {
+    res.redirect('/');
+});
+
+router.post('/emp_login', passport.authenticate('company-local', {
     successRedirect: '/',
     failureRedirect: '/login'
 }), function(req, res) {
@@ -126,11 +133,15 @@ router.use(function(req, res, next) {
 router.get('/', (req, res, next) => {
 
     // console.log("test" + req.user.type);
+    var user_type = req.user.type
+    if (typeof salary === 'undefined' || salary === null) {
+        type = null;
+    }
 
     res.render('home', {
         data: {
-            user_logged: res.locals.user
-            // user_type: req.user.type
+            user_logged: res.locals.user,
+            user_type: user_type
         },
         vue: {
             meta: {
@@ -347,16 +358,13 @@ router.post('/signup', upload.single("file"), function(req, res) {
     console.log("file:" + req.file.originalname);
 
     var user = {
-        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
         f_name: req.body.f_name,
         l_name: req.body.l_name,
-        city: req.body.city,
-        state: req.body.state,
-        zip: req.body.zip,
         bootcamp_attended: req.body.bootcamp_attended,
-        file_name: req.file.originalname
+        file_name: req.file.originalname,
+        type: "user"
     };
     connection.query('INSERT INTO user SET ?', user, function(err, result) {
         if (err)
@@ -369,12 +377,13 @@ router.post('/signup', upload.single("file"), function(req, res) {
 router.post('/c_signup', function(req, res) {
 
     var user = {
-        username: req.body.username,
         email: req.body.email,
         password: req.body.password,
-        name: req.body.name,
-        location: req.body.location,
-        job_title: req.body.job_title
+        f_name: req.body.f_name,
+        l_name: req.body.l_name,
+        job_title: req.body.job_title,
+        company_name: req.body.company_name,
+        type: "company"
     };
 
     connection.query('INSERT INTO company SET ?', user, function(err, result) {

@@ -19,8 +19,8 @@ var rout = require('./routes/router')
 // (`username` and `password`) submitted by the user.  The function must verify
 // that the password is correct and then invoke `cb` with a user object, which
 // will be set at `req.user` in route handlers after authentication.
-passport.use('user-local', new Strategy(function(username, password, cb) {
-    db.users.findByUsername(username, function(err, user) {
+passport.use('user-local', new Strategy(function(email, password, cb) {
+    db.users.findByUsername(email, function(err, user) {
         if (err) {
             return cb(err);
         }
@@ -35,8 +35,8 @@ passport.use('user-local', new Strategy(function(username, password, cb) {
 
 }));
 
-passport.use('company-local', new Strategy(function(username, password, cb) {
-    db.users.findByCompanyUsername(username, function(err, user) {
+passport.use('company-local', new Strategy(function(email, password, cb) {
+    db.users.findByCompanyUsername(email, function(err, user) {
         if (err) {
             return cb(err);
         }

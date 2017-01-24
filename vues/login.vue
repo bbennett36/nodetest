@@ -46,7 +46,7 @@
                                   <input type="text" class="form-control" name="username" id="username" />
                           </div>
                           <div class="form-group row">
-                              <label for="password" class="col-2 col-form-label">Password</label>
+                              <label for="password">Password</label>
                                   <input type="password" class="form-control" name="password" />
                           </div>
                           <div class="form-check">

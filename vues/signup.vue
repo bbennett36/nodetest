@@ -44,24 +44,11 @@
                                 <input type="text" name="l_name" id="l_name" class="form-control" />
                             </div>
                             <div class="form-group row">
-                                <label for="city">City</label>
-                                <input type="text" name="city" id="city" class="form-control" />
-                            </div>
-                            <div class="form-group row">
-                                <label for="state">State</label>
-                                <input type="text" name="state" id="state" class="form-control" />
-                            </div>
-                            <div class="form-group row">
-                                <label for="zip">Zip</label>
-                                <input type="text" name="zip" id="zip" class="form-control" />
-                            </div>
-                            <div class="form-group row">
-                                <label for="bootcamp_attended">Boot-Camp Attended</label>
+                                <label for="bootcamp_attended">Bootcamp Attended</label>
                                 <input type="text" name="bootcamp_attended" class="form-control" id="bootcamp_attended" />
                             </div>
                             <div class="form-group">
                               <div class="row">
-
                                 <label for="file">Upload Resume</label>
                               </div>
                                 <div class="row">
@@ -72,27 +59,32 @@
                         </form>
                     </div>
                     <div class="tab-pane fade" id="employer" role="tabpanel">
-                        <form action="/emp_login" method="post">
+                        <form action="/c_signup" method="post">
                             <div class="form-group row">
-                                <label for="username" class="col-2 col-form-label">Email</label>
-                                <div class="col-10">
-
-                                    <input type="text" class="form-control" name="username" id="username" />
-                                </div>
+                                <label for="email">Email</label>
+                                    <input type="text" class="form-control" name="email" id="email" />
                             </div>
                             <div class="form-group row">
-                                <label for="password" class="col-2 col-form-label">Password</label>
-                                <div class="col-10">
-
+                                <label for="password">Password</label>
                                     <input type="password" class="form-control" name="password" />
-                                </div>
                             </div>
-                            <div class="form-check">
-                                <label class="form-check-label">
-                                      <input type="checkbox" class="form-check-input" />
-                                        Remember me
-                                      </label>
+                            <div class="form-group row">
+                                <label for="f_name">First Name</label>
+                                    <input type="text" class="form-control" name="f_name" />
                             </div>
+                            <div class="form-group row">
+                                <label for="l_name">Last Name</label>
+                                    <input type="text" class="form-control" name="l_name" />
+                            </div>
+                            <div class="form-group row">
+                                <label for="job_title">Job Title</label>
+                                    <input type="text" class="form-control" name="job_title" />
+                            </div>
+                            <div class="form-group row">
+                                <label for="company_name">Company Name</label>
+                                    <input type="text" class="form-control" name="company_name" id="company_name" />
+                            </div>
+
                             <div>
                                 <input type="submit" class="btn btn-success btn-lg btn-block" value="Submit" />
                             </div>

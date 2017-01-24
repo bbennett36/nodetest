@@ -1,8 +1,8 @@
 var mysql = require('mysql');
 var connection = mysql.createConnection({host: 'localhost', user: 'root', password: 'bennett', database: 'bootcamphire'});
 
-exports.findByUsername = function(username, cb) {
-    connection.query('select * from user where username = ?', username, function(error, rows) {
+exports.findByUsername = function(email, cb) {
+    connection.query('select * from user where email = ?', email, function(error, rows) {
         //     //lat lng lat keyword (distance)
         return cb(null, rows[0]);
     })
@@ -15,8 +15,8 @@ exports.findById = function(id, cb) {
     })
 }
 
-exports.findByCompanyUsername = function(username, cb) {
-    connection.query('select * from company where username = ?', username, function(error, rows) {
+exports.findByCompanyUsername = function(email, cb) {
+    connection.query('select * from company where email = ?', email, function(error, rows) {
         //     //lat lng lat keyword (distance)
         return cb(null, rows[0]);
     })

@@ -38,7 +38,7 @@
             </li>
 
             <li v-if="!user_logged" class="nav-item">
-                <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login/Register</strong></a>
+                <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
             </li>
 
             <li v-if="user_logged" class="nav-item">

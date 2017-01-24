@@ -9,9 +9,10 @@ body {
 
 .tab-content {
     background-color: #fff;
-    border-color: #ddd #ddd #fff;
+    /*border-color: #ddd #ddd #fff;*/
     margin-top: -1px;
     padding: 10px 30px;
+    border: 1px solid #3c763d;
 }
 
 .nav-tabs.nav-justified> li {
@@ -34,7 +35,7 @@ body {
 }
 
 .nav-tabs.nav-justified {
-    border-bottom: 0 none;
+    /*border-bottom: 0 none;*/
     width: 100%;
     border-radius: 0 !important;
     text-decoration: bold;
@@ -43,17 +44,31 @@ body {
 .nav-tabs.nav-justified a {
     color: #fff;
     font-weight: bold!important;
-    
-}
-
-.nav-tabs .nav-link.active {
-
-  font-weight: bold!important;
-
 }
 
 .nav-tabs .nav-link {
-    border: none;
+  border: 0 none!important;
+  font-weight: bold!important;
+}
+
+/*job seeker tab*/
+
+#left {
+  border-left: 1px solid #3c763d!important;
+  border-top: 1px solid #3c763d!important;
+}
+
+/*employer tab*/
+
+
+#right  {
+  border-right: 1px solid #3c763d!important;
+  border-top: 1px solid #3c763d!important;
+}
+
+
+.nav-tabs .nav-link {
+
     border-radius: 0 !important;
 }
 

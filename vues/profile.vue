@@ -9,7 +9,6 @@
             <div class="col-md-8 text-center">
 
                 <div v-if="edit == false">
-                    <h1>Username: {{ user.username }} </h1>
                     <p>Name: {{ user.f_name}} {{ user.l_name}} </p>
                     <p>Email:{{ user.email }} </p>
                     <p>Location: {{ user.city }} {{ user.state }} {{ user.zip }}</p>

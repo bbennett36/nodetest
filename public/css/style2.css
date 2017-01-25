@@ -25,6 +25,10 @@ body {
 
 }
 
+#city-state {
+  padding-left: none!important;
+}
+
 
 #login-tab  {
   margin-top: 10px;

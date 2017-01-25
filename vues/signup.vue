@@ -23,66 +23,88 @@
 
                 <div class="tab-content">
                     <div class="tab-pane fade show active" id="seeker" role="tabpanel">
-                        <h1>Create Account</h1>
+                        <h1 class="text-center"><strong>Create Account</strong></h1>
 
 
                         <form method="POST" action="/signup" enctype="multipart/form-data">
                             <div class="form-group row">
-                                <label for="email">Email</label>
-                                <input type="text" name="email" class="form-control" id="email" />
+                                <div class="col-sm-6">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" class="form-control" id="email" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" class="form-control" id="password" />
+                                </div>
                             </div>
                             <div class="form-group row">
-                                <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password" />
+                                <!-- <div class="row"> -->
+
+                                <div class="col-sm-6">
+                                    <label for="f_name">First Name</label>
+                                    <input type="text" name="f_name" id="f_name" class="form-control" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="l_name">Last Name</label>
+                                    <input type="text" name="l_name" id="l_name" class="form-control" />
+                                </div>
+                                <!-- </div> -->
                             </div>
                             <div class="form-group row">
-                                <label for="f_name">First Name</label>
-                                <input type="text" name="f_name" id="f_name" class="form-control" />
+                                <!-- <div class="row"> -->
+                                <div class="col-sm-6" id="city-state">
+                                    <label for="a">City, State</label>
+                                    <input type="text" name="l_name" id="a" class="form-control" />
+                                </div>
+                                <div class="col-sm-6">
+                                    <label for="3">Zip</label>
+
+                                    <input type="text" name="l_name" id="3" class="form-control" />
+
+                                </div>
                             </div>
                             <div class="form-group row">
-                                <label for="l_name">Last Name</label>
-                                <input type="text" name="l_name" id="l_name" class="form-control" />
+                                <div class="col-sm-12">
+                                    <label for="bootcamp_attended">Bootcamp Attended</label>
+                                    <input type="text" name="bootcamp_attended" class="form-control" id="bootcamp_attended" />
+                                </div>
                             </div>
                             <div class="form-group row">
-                                <label for="bootcamp_attended">Bootcamp Attended</label>
-                                <input type="text" name="bootcamp_attended" class="form-control" id="bootcamp_attended" />
-                            </div>
-                            <div class="form-group">
-                              <div class="row">
-                                <label for="file">Upload Resume</label>
-                              </div>
-                                <div class="row">
-                                <input type="file" name="file" id="file" class="form-control-file" />
-                              </div>
+                                <div class="col-sm-12">
+                                    <label for="file">Upload Resume</label>
+                                    <input type="file" name="file" id="file" class="form-control-file" />
+                                </div>
                             </div>
                             <input type="submit" class="btn btn-success btn-lg btn-block" value="Submit" />
                         </form>
                     </div>
                     <div class="tab-pane fade" id="employer" role="tabpanel">
+                      <h1 class="text-center"><strong>Create Account</strong></h1>
+                      
                         <form action="/c_signup" method="post">
                             <div class="form-group row">
                                 <label for="email">Email</label>
-                                    <input type="text" class="form-control" name="email" id="email" />
+                                <input type="text" class="form-control" name="email" id="email" />
                             </div>
                             <div class="form-group row">
                                 <label for="password">Password</label>
-                                    <input type="password" class="form-control" name="password" />
+                                <input type="password" class="form-control" name="password" />
                             </div>
                             <div class="form-group row">
                                 <label for="f_name">First Name</label>
-                                    <input type="text" class="form-control" name="f_name" />
+                                <input type="text" class="form-control" name="f_name" />
                             </div>
                             <div class="form-group row">
                                 <label for="l_name">Last Name</label>
-                                    <input type="text" class="form-control" name="l_name" />
+                                <input type="text" class="form-control" name="l_name" />
                             </div>
                             <div class="form-group row">
                                 <label for="job_title">Job Title</label>
-                                    <input type="text" class="form-control" name="job_title" />
+                                <input type="text" class="form-control" name="job_title" />
                             </div>
                             <div class="form-group row">
                                 <label for="company_name">Company Name</label>
-                                    <input type="text" class="form-control" name="company_name" id="company_name" />
+                                <input type="text" class="form-control" name="company_name" id="company_name" />
                             </div>
 
                             <div>

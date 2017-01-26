@@ -1,59 +1,64 @@
 <template>
 <div id="nav-color">
-<div class="container">
-<nav class="navbar navbar-toggleable-md navbar-inverse" style= "background-color: #3c763d!important;">
+    <div class="container-fluid">
+        <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse" style="background-color: #3c763d!important;">
 
 
 
 
-    <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button> -->
 
-    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-<div id="logo">
-    <a class="navbar-brand" href="#">BootCamp<span>Hire.com</span></a>
-</div>
+            <div id="logo">
+                <a class="navbar-brand" href="/">BootCamp<span>Hire.com</span></a>
+            </div>
 
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-            <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
-        </ul>
-        <ul class="navbar-nav">
-            <li v-if="!user_logged" class="nav-item">
-                <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
-            </li>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mr-auto">
+                    <div class="a">
+                        <form class="form-inline">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                        </form>
+                    </div>
+                    <!-- <li class="nav-item active"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li> -->
+                    <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li v-if="!user_logged" class="nav-item">
+                        <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
+                    </li>
 
-            <li v-if="user_logged && user_type === 'user'" class="nav-item">
-                <a href="/profile" class="nav-link"><strong>Profile</strong></a>
-            </li>
+                    <li v-if="user_logged && user_type === 'user'" class="nav-item">
+                        <a href="/profile" class="nav-link"><strong>Profile</strong></a>
+                    </li>
 
-            <li v-if="user_logged && user_type === 'company'" class="nav-item">
-                <a href="/profile" class="nav-link"><strong>Employer Dashboard</strong></a>
-            </li>
+                    <li v-if="user_logged && user_type === 'company'" class="nav-item">
+                        <a href="/profile" class="nav-link"><strong>Employer Dashboard</strong></a>
+                    </li>
 
-            <li v-if="!user_logged" class="nav-item">
-                <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
-            </li>
+                    <li v-if="!user_logged" class="nav-item">
+                        <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
+                    </li>
 
-            <li v-if="user_logged" class="nav-item">
-                <a href="/logout" class="nav-link"><strong><span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
-            </li>
-        </ul>
+                    <li v-if="user_logged" class="nav-item">
+                        <a href="/logout" class="nav-link"><strong><span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+
+
+
     </div>
-</nav>
-
-
-
-
 </div>
-</div>
-
 </template>
 
 <script>

@@ -4,12 +4,18 @@
 
 <template>
 
-  <div>
+  <div v-scroll="onScroll">
 
         <myheader :user_logged='user_logged'></myheader>
 
 
+<div class="b">
     <searchform :keyword="keyword" :location="location"></searchform>
+  </div>
+
+    <!-- <div class="a">
+        A
+    </div> -->
     <div class="container">
 
 
@@ -59,11 +65,32 @@
 </template>
 
 <script>
+var scroll = require('vue-scroll')
 export default {
     data: function() {
         return {
 
         }
+    },
+    mounted: function () {
+      $(window).scroll(function() {
+
+        if ($(this).scrollTop()>0)
+         {
+            $('.b').fadeOut();
+         }
+        else
+         {
+          $('.a').fadeIn();
+         }
+     });
+
+
+  },
+  methods:{
+    onScroll:function(e, position){
+      this.position = position;
     }
+  }
 };
 </script>

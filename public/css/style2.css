@@ -1,10 +1,30 @@
-html, body {
-    height: 100%;
+html {
+    position: relative;
+    min-height: 100%;
     font-family: 'Open Sans', sans-serif;
 }
 
 body {
     background-color: whitesmoke;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+/*.a {
+    height: 300px;
+    width: 300px;
+    background-color: green;
+}*/
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px;
+    /* Vertically center the text there */
+    background-color: #3c763d!important;
 }
 
 .tab-content {
@@ -13,6 +33,8 @@ body {
     margin-top: -1px;
     padding: 10px 30px;
     border: 1px solid #3c763d;
+    /*border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;*/
 }
 
 .nav-tabs.nav-justified> li {
@@ -22,16 +44,20 @@ body {
     background-color: #3c763d!important;
     color: #fff;
     border-radius: 0 !important;
+}
 
+label {
+    font-weight: bold!important;
 }
 
 #city-state {
-  padding-left: none!important;
+    padding-left: none!important;
 }
 
-
-#login-tab  {
-  margin-top: 10px;
+#login-tab {
+    margin-top: 15px;
+    /*padding-top: 20%;*/
+    /*padding-bottom: 20%;*/
 }
 
 #top-bar {
@@ -43,6 +69,7 @@ body {
     width: 100%;
     border-radius: 0 !important;
     text-decoration: bold;
+    /*margin-bottom: 15px;*/
 }
 
 .nav-tabs.nav-justified a {
@@ -51,31 +78,29 @@ body {
 }
 
 .nav-tabs .nav-link {
-  border: 0 none!important;
-  font-weight: bold!important;
+    border: 0 none!important;
+    font-weight: bold!important;
 }
+
 
 /*job seeker tab*/
 
 #left {
-  border-left: 1px solid #3c763d!important;
-  border-top: 1px solid #3c763d!important;
+    border-left: 1px solid #3c763d!important;
+    border-top: 1px solid #3c763d!important;
 }
+
 
 /*employer tab*/
 
-
-#right  {
-  border-right: 1px solid #3c763d!important;
-  border-top: 1px solid #3c763d!important;
+#right {
+    border-right: 1px solid #3c763d!important;
+    border-top: 1px solid #3c763d!important;
 }
-
 
 .nav-tabs .nav-link {
-
     border-radius: 0 !important;
 }
-
 
 .breadcrumb {
     background-color: whitesmoke;

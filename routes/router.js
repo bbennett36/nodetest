@@ -130,6 +130,21 @@ router.use(function(req, res, next) {
     next();
 });
 
+router.get('/dashboard', function(req, res) {
+  res.render('dashboard', {
+      vue: {
+          data: {
+              user_logged: res.locals.user
+          },
+          meta: {
+              title: 'Page Title'
+          },
+          components: ['myheader']
+      }
+
+  });
+})
+
 router.get('/', (req, res, next) => {
 
     // console.log("test" + req.user.type);

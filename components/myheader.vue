@@ -21,16 +21,21 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mr-auto">
-                    <div class="a">
+                    <!-- <div class="a"> -->
+                    <div class="d-flex justify-content-center">
+
+                    <li class="nav-item">
                         <form class="form-inline">
                             <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                            <button class="btn btn-seconday my-2 my-sm-0" type="submit">Search</button>
                         </form>
+                      </li>
                     </div>
                     <!-- <li class="nav-item active"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li> -->
-                    <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
                 </ul>
                 <ul class="navbar-nav">
+                  <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
+
                     <li v-if="!user_logged" class="nav-item">
                         <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
                     </li>
@@ -40,7 +45,7 @@
                     </li>
 
                     <li v-if="user_logged && user_type === 'company'" class="nav-item">
-                        <a href="/profile" class="nav-link"><strong>Employer Dashboard</strong></a>
+                        <a href="/dashboard" class="nav-link"><strong>Employer Dashboard</strong></a>
                     </li>
 
                     <li v-if="!user_logged" class="nav-item">
@@ -64,6 +69,7 @@
 <script>
 export default {
     props: ['user_logged', 'user_type'],
+    components: ['searchform'],
     data: function() {
         return {
             // 'user_logged': this.user_logged

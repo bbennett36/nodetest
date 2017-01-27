@@ -1,12 +1,24 @@
 <template>
 <div>
 
-            <myheader :user_logged='user_logged'></myheader>
+    <myheader :user_logged='user_logged'></myheader>
 
+    <div class="container">
+        <div class="row">
+            <nav class="col-sm-3 col-md-2 hidden-xs-down bg-faded sidebar">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Profile <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Jobs</a>
+                    </li>
+                </ul>
 
-<div class="container">
-            <div class="col-md-2"></div>
-            <div class="col-md-8 text-center">
+            </nav>
+
+            <main class="col-sm-9 col-md-10">
+                <h1>Dashboard</h1>
 
                 <div v-if="edit == false">
                     <p>Name: {{ user.f_name}} {{ user.l_name}} </p>
@@ -23,23 +35,16 @@
                         <br /> Email: <input v-model="user.email" type="text" name="email" id="email" />
                         <br /> City: <input v-model="user.city" type="text" name="city" id="city" /> State: <input v-model="user.state" type="text" name="state" id="state" /> Zip: <input v-model="user.zip" type="text" name="zip" id="zip" />
                         <br /> Bootcamp Attended: <input v-model="user.bootcamp_attended" type="text" name="bootcamp_attended" id="bootcamp_attended" />
-                        <br /> Resume:  {{ user.file_name }} <input type="file" name="file" id="file"/>
+                        <br /> Resume: {{ user.file_name }} <input type="file" name="file" id="file" />
                         <button v-if="edit == true" type="submit" v-on:click="saveProfile" class="btn btn-lg btn-primary">Save Profile</button> {{ edit }}
                     </form>
                 </div>
 
                 <button v-if="edit == false" type="button" v-on:click="editProfile" class="btn btn-lg btn-primary">Edit Profile</button>
 
-
-
-
-            </div>
-            <div class="col-md-2"></div>
-            <div class="col-md-1"></div>
-
-
         </div>
-
+        </main>
+    </div>
 
 </div>
 </template>

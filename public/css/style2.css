@@ -10,6 +10,15 @@ body {
     margin-bottom: 60px;
 }
 
+.navbar-toggler.navbar-toggler-custom {
+  right: 5rem;
+}
+
+/*#nav-form  {
+  display: inline-block!important;
+  float: none!important;
+}*/
+
 /*.a {
     height: 300px;
     width: 300px;

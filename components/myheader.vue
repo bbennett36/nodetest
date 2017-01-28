@@ -3,38 +3,39 @@
     <div class="container-fluid">
         <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse" style="background-color: #3c763d!important;">
 
+          <button class="navbar-toggler navbar-toggler-right navbar-toggler-custom" type="button" data-toggle="collapse" data-target="#searchNav" aria-controls="searchav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
 
-
-
-            <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button> -->
+    </button>
 
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+<span class="navbar-toggler-icon"></span>
+</button> -->
+
             <div id="logo">
                 <a class="navbar-brand" href="/">BootCamp<span>Hire.com</span></a>
             </div>
 
+            <div class="collapse navbar-collapse" id="searchNav">
 
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    <!-- <div class="a"> -->
-                    <div class="d-flex justify-content-center">
+                <ul class="navbar-nav mx-auto">
 
-                    <li class="nav-item">
-                        <form class="form-inline">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                            <button class="btn btn-seconday my-2 my-sm-0" type="submit">Search</button>
-                        </form>
-                      </li>
-                    </div>
-                    <!-- <li class="nav-item active"><a href="/" class="nav-link"><span class="glyphicon glyphicon-home"></span> Home</a></li> -->
+                    <form class="form-inline">
+                        <input class="form-control" type="text" placeholder="Search for job">
+                        <input class="form-control" type="text" placeholder="Location" />
+                        <button class="btn btn-seconday " type="submit">Search</button>
+                    </form>
+
                 </ul>
-                <ul class="navbar-nav">
-                  <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
+              </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                <ul class="navbar-nav float-right">
+                    <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
 
                     <li v-if="!user_logged" class="nav-item">
                         <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
@@ -69,7 +70,6 @@
 <script>
 export default {
     props: ['user_logged', 'user_type'],
-    components: ['searchform'],
     data: function() {
         return {
             // 'user_logged': this.user_logged

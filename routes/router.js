@@ -23,6 +23,8 @@ var storage = multer.diskStorage({
 })
 
 var upload = multer({storage: storage});
+var axios = require('axios');
+
 
 var nodemailer = require('nodemailer');
 
@@ -98,7 +100,43 @@ router.put('/user/:id', upload.single("file"), function(req, res) {
     });
 })
 
-router.post('/apply', handleSayHello); // handle the route at yourdomain.com/sayHello
+router.post('/apply/:job_id', function(req, res)  {
+  console.log("job_id" + req.body.id)
+  console.log('in email send function, user:' + req.user)
+  var userResumePath = (uploadPath + req.user.id + "_" + req.user.file_name);
+  // Not the movie transporter!
+  var transporter = nodemailer.createTransport({
+      service: 'Gmail',
+      auth: {
+          user: 'bennettglob@gmail.com', // Your email id
+          pass: 'bennett36' // Your password
+      }
+  });
+  var text = 'Hello world';
+
+  var mailOptions = {
+      from: 'bennettglob@gmail.com', // sender address
+      to: 'bennettglob@gmail.com', // list of receivers
+      subject: 'Email Example',
+      attachments: [
+          { // file on disk as an attachment
+              filename: req.user.file_name,
+              path: userResumePath // stream this file
+          }
+      ], // Subject line
+      text: text //, // plaintext body
+      // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+  };
+  transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+          console.log(error);
+          // res.json({yo: 'error'});
+      } else {
+          console.log('Message sent: ' + info.response);
+          // res.json({yo: info.response});
+      };
+  });
+}); // handle the route at yourdomain.com/sayHello
 
 // middleware that is specific to this router
 router.post('/login', passport.authenticate('user-local', {
@@ -130,27 +168,63 @@ router.use(function(req, res, next) {
     next();
 });
 
-router.get('/dashboard', function(req, res) {
-  res.render('dashboard', {
-      vue: {
-          data: {
-              user_logged: res.locals.user
-          },
-          meta: {
-              title: 'Page Title'
-          },
-          components: ['myheader']
-      }
+router.get('/applied', function(req, res) {
 
-  });
+    var user_type = req.user.type
+    if (typeof user_type === 'undefined' || user_type === null) {
+        user_type = null;
+    }
+
+    db.users.findAppliedJobs(req.user.id, function(error, rows) {
+        console.log(rows)
+        // var test = rows.slice();
+
+        res.render('applied', {
+            data: {
+                user_logged: res.locals.user,
+                applied: rows,
+                user_type: user_type
+
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title',
+                    head: [
+                        {
+                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                        }
+                    ]
+                },
+                components: ['myheader']
+            }
+
+        });
+
+    });
+});
+
+router.get('/dashboard', function(req, res) {
+    res.render('dashboard', {
+        data: {
+            user_logged: res.locals.user
+        },
+        vue: {
+
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+
+    });
 })
 
 router.get('/', (req, res, next) => {
 
     // console.log("test" + req.user.type);
     var user_type = req.user.type
-    if (typeof salary === 'undefined' || salary === null) {
-        type = null;
+    if (typeof user_type === 'undefined' || user_type === null) {
+        user_type = null;
     }
 
     res.render('home', {
@@ -204,6 +278,7 @@ router.get('/job/:id', function(req, res) {
         res.render('show', {
             data: {
                 job: result,
+                job_id: result[0].id,
                 desc: result[0].job_desc,
                 user_logged: res.locals.user,
                 user_file_name: user_file_name
@@ -212,8 +287,13 @@ router.get('/job/:id', function(req, res) {
                 meta: {
                     title: 'Page Title',
                     head: [
-                        { script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js' },
-                        { style: '../css/style2.css', type: 'text/css', rel: 'stylesheet' }
+                        {
+                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                        }, {
+                            style: '../css/style2.css',
+                            type: 'text/css',
+                            rel: 'stylesheet'
+                        }
                     ]
                 },
                 components: ['myheader', 'searchform', 'results']
@@ -229,8 +309,8 @@ router.get('/job/:id', function(req, res) {
 });
 router.get('/post', function(req, res) {
 
-  // import ckeditor from "./components/ckeditor.vue";
-  // var Ckeditor = require('/home/brennan/_repos/nodetest/components/ckeditor.vue');
+    // import ckeditor from "./components/ckeditor.vue";
+    // var Ckeditor = require('/home/brennan/_repos/nodetest/components/ckeditor.vue');
 
     // console.log(req.user)
     if (req.user) {
@@ -244,7 +324,9 @@ router.get('/post', function(req, res) {
                 meta: {
                     title: 'Page Title',
                     head: [
-                      { script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'}
+                        {
+                            script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'
+                        }
                     ]
                 },
                 components: ['myheader']
@@ -546,7 +628,9 @@ router.get('/search', function(req, res, next) {
                         meta: {
                             title: 'Page Title',
                             head: [
-                                { script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js' }
+                                {
+                                    script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                                }
                             ]
                         },
                         components: [

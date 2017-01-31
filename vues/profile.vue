@@ -8,10 +8,10 @@
             <nav class="col-sm-3 col-md-2 bg-faded sidebar">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Profile <span class="sr-only">(current)</span></a>
+                        <a class="nav-link active" href="/profile">Profile <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Jobs</a>
+                        <a class="nav-link" href="/applied">Jobs</a>
                     </li>
                 </ul>
 

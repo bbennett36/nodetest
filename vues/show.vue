@@ -14,10 +14,10 @@
             <div class=" col-xs-12 col-sm-10">
 
                 <div v-for="job in job">
-                  <ol class="breadcrumb">
-                      <li class="breadcrumb-item"><a href="javascript: history.back()">Search Jobs</a></li>
-                      <li class="breadcrumb-item active">{{ job.job_title }}</li>
-                  </ol>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="javascript: history.back()">Search Jobs</a></li>
+                        <li class="breadcrumb-item active">{{ job.job_title }}</li>
+                    </ol>
 
                     <div class="text-center">
                         <h1 class="display-4"><strong>{{ job.job_title }}</strong></h1>
@@ -60,6 +60,7 @@ export default {
     data: function() {
         return {
             job: this.job,
+            // job_id: this.job[1],
             desc: this.desc,
             buttonText: 'Quick Apply'
         }
@@ -78,7 +79,15 @@ export default {
         },
         applyResume: function() {
             this.buttonText = "Applied";
-            axios.post('/apply');
+            axios.post('/apply', {
+                    id: this.job.id
+                })
+                .then(function(response) {
+                    console.log(response);
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         },
         formatDate: function(date) {
             return moment(date).fromNow();

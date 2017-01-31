@@ -28,3 +28,9 @@ exports.findByCompanyId = function(id, cb) {
         return cb(null, rows[0]);
     })
 }
+
+exports.findAppliedJobs = function(user_id, cb) {
+    connection.query('SELECT job_title, location, date_created FROM job_posting INNER JOIN applied_jobs ON applied_jobs.job_id=job_posting.id where user_id = ?', user_id, function(error, rows)  {
+      return cb(null, rows);
+    })
+}

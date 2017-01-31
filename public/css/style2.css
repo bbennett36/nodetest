@@ -14,10 +14,7 @@ body {
   right: 5rem;
 }
 
-/*#nav-form  {
-  display: inline-block!important;
-  float: none!important;
-}*/
+
 
 /*.a {
     height: 300px;
@@ -224,6 +221,19 @@ label {
 
 #filter-btn {
     margin: 15px 0 10px 0;
+}
+
+@media screen and (min-width: 992px)  {
+  #searchNav  {
+    /*position: absolute!important;*/
+    display: inline-block!important;
+  }
+}
+
+@media screen and (max-width: 992px)  {
+  #searchNav  {
+    margin-top: 10px;
+  }
 }
 
 @media screen and (max-width: 575px) {

@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <nav class="navbar fixed-top navbar-toggleable-md navbar-inverse" style="background-color: #3c763d!important;">
 
-          <button class="navbar-toggler navbar-toggler-right navbar-toggler-custom" type="button" data-toggle="collapse" data-target="#searchNav" aria-controls="searchav" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler navbar-toggler-right navbar-toggler-custom" type="button" data-toggle="collapse" data-target="#searchNav" aria-controls="searchav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
 
     </button>
@@ -12,7 +12,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
 <span class="navbar-toggler-icon"></span>
 </button> -->
 
@@ -21,21 +21,27 @@
             </div>
 
             <div class="collapse navbar-collapse" id="searchNav">
+                <ul class="navbar-nav mr-auto">
 
-                <ul class="navbar-nav mx-auto">
+                    <form class="form-inline mx-auto" >
+                          <input class="form-control" type="text" placeholder="Search for jobs" />
+                          <!-- <div class="input-group"> -->
 
-                    <form class="form-inline">
-                        <input class="form-control" type="text" placeholder="Search for job">
-                        <input class="form-control" type="text" placeholder="Location" />
-                        <button class="btn btn-seconday " type="submit">Search</button>
+                          <input class="form-control" type="text" placeholder="Location" />
+                            <!-- <span class="input-group-btn"> -->
+        <!-- <button class="btn btn-secondary" type="button">Find Jobs</button> -->
+      <!-- </span> -->
+                        <!-- </div> -->
+
+                        <button class="btn btn-secondary" type="submit">Find Jobs</button>
                     </form>
 
                 </ul>
-              </div>
-                <div class="collapse navbar-collapse" id="navbarNav">
+            </div>
+            <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav float-right">
-                    <li class="nav-item"><a href="/post" class="nav-link">Post a Job</a></li>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item"><a href="/post" class="nav-link"><strong>Post a Job</strong></a></li>
 
                     <li v-if="!user_logged" class="nav-item">
                         <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
@@ -50,11 +56,11 @@
                     </li>
 
                     <li v-if="!user_logged" class="nav-item">
-                        <a href="/login" class="nav-link"><strong><span class="glyphicon glyphicon-log-in"></span> Login</strong></a>
+                        <a href="/login" class="nav-link"><strong>Login</strong></a>
                     </li>
 
                     <li v-if="user_logged" class="nav-item">
-                        <a href="/logout" class="nav-link"><strong><span class="glyphicon glyphicon-log-out"></span> Logout</strong></a>
+                        <a href="/logout" class="nav-link"><strong>Logout</strong></a>
                     </li>
                 </ul>
             </div>

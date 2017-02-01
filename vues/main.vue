@@ -5,7 +5,8 @@
 <template>
 <div>
 
-    <myheader :user_logged='user_logged'></myheader>
+  <myheader :user_logged='user_logged' :user_type='user_type' :keyword="keyword" :location="location"></myheader>
+
 
 
     <!-- <div class="b">

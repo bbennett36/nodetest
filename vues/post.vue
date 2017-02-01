@@ -1,6 +1,7 @@
 <template>
 <div>
-    <myheader :user_logged='user_logged'></myheader>
+  <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
+
 
     <div class="container">
 

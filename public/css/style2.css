@@ -13,6 +13,10 @@ body {
 .navbar-toggler.navbar-toggler-custom {
   right: 5rem;
 }
+/*
+.nav-item {
+  height: 100%;
+}*/
 
 
 
@@ -223,17 +227,25 @@ label {
     margin: 15px 0 10px 0;
 }
 
+
+
 @media screen and (min-width: 992px)  {
+
+  #logo {
+    width: 25%!important;
+  }
   #searchNav  {
-    /*position: absolute!important;*/
-    display: inline-block!important;
+    width: 50%!important;
+  }
+  #navbarNav  {
+    width: 25%!important;
   }
 }
 
 @media screen and (max-width: 992px)  {
-  #searchNav  {
-    margin-top: 10px;
-  }
+  /*#searchNav  {*/
+    /*margin-top: 10px;*/
+  /*}*/
 }
 
 @media screen and (max-width: 575px) {

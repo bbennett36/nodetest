@@ -21,19 +21,18 @@
             </div>
 
             <div class="collapse navbar-collapse" id="searchNav">
-                <ul class="navbar-nav mr-auto">
+                <ul class="navbar-nav mx-auto">
 
-                    <form class="form-inline mx-auto" >
-                          <input class="form-control" type="text" placeholder="Search for jobs" />
-                          <!-- <div class="input-group"> -->
+                    <form action="/search" class="form-inline">
+                        <input class="form-control mr-sm-2" id="keyword" name="keyword" :value='keyword' type="text" placeholder="Search for jobs" />
+                        <!-- <div class="input-group"> -->
 
-                          <input class="form-control" type="text" placeholder="Location" />
-                            <!-- <span class="input-group-btn"> -->
-        <!-- <button class="btn btn-secondary" type="button">Find Jobs</button> -->
-      <!-- </span> -->
+                        <input class="form-control mr-sm-2" id="location" name="location" :value='location' type="text" placeholder="Location" />
+                        <!-- <button class="btn btn-secondary" type="button">Find Jobs</button> -->
+                        <!-- </span> -->
                         <!-- </div> -->
 
-                        <button class="btn btn-secondary" type="submit">Find Jobs</button>
+                        <button class="btn btn-secondary my-2 my-sm-0" type="submit">Find Jobs</button>
                     </form>
 
                 </ul>
@@ -41,10 +40,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
 
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item"><a href="/post" class="nav-link"><strong>Post a Job</strong></a></li>
+                    <li class="nav-item"><a href="/post" class="nav-link"><strong>Post Job</strong></a></li>
 
                     <li v-if="!user_logged" class="nav-item">
-                        <a href="/signup" class="nav-link"><strong>Sign Up</strong></a>
+                        <a href="/signup" class="nav-link clearfix"><strong>Register</strong></a>
                     </li>
 
                     <li v-if="user_logged && user_type === 'user'" class="nav-item">
@@ -75,7 +74,7 @@
 
 <script>
 export default {
-    props: ['user_logged', 'user_type'],
+    props: ['user_logged', 'user_type', 'keyword', 'location'],
     data: function() {
         return {
             // 'user_logged': this.user_logged

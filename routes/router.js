@@ -21,19 +21,11 @@ var storage = multer.diskStorage({
         cb(null, req.body.username + "_" + file.originalname)
     }
 })
-
 var upload = multer({storage: storage});
-var axios = require('axios');
-
 var nodemailer = require('nodemailer');
-
-// /home/brennan/_repos/nodetest/uploads
-
 var router = express.Router()
-
 var options = {
     provider: 'mapquest',
-
     // Optional depending on the providers
     httpAdapter: 'https', // Default
     apiKey: 'LIhb6pFxB7qAlFC4Aiul9rM9i7R5BcgB', // for Mapquest, OpenCage, Google Premier
@@ -42,24 +34,62 @@ var options = {
 var geocoder = NodeGeocoder(options);
 
 router.use(function(req, res, next) {
-
-    console.log(req.method, req.url);
-
     var userLogged = isAuthenticated(req)
 
     res.locals.user = userLogged;
 
     if (res.locals.user == true) {
         res.locals.type = req.user.type
-        console.log(res.locals.type)
     }
 
     if (typeof res.locals.type === 'undefined' || res.locals.type === null) {
         res.locals.type = "none";
     }
+    console.log(req.method, req.url);
+    console.log("user-logged:" + res.locals.user)
+    console.log("user-type:" + res.locals.type)
+
     next();
 });
 
+/////Login and Logout routes
+router.get('/login', function(req, res) {
+
+    res.render('login', {
+        data: {
+            user_logged: res.locals.user,
+            user_type: res.locals.type
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+    });
+});
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/login');
+});
+
+router.post('/login', passport.authenticate('user-local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}), function(req, res) {
+    res.redirect('/');
+});
+
+router.post('/emp_login', passport.authenticate('company-local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+}), function(req, res) {
+    res.redirect('/');
+});
+/////
+
+/////Site page routes
 router.get('/', (req, res, next) => {
 
     res.render('home', {
@@ -73,13 +103,135 @@ router.get('/', (req, res, next) => {
             },
             components: ['myheader', 'searchform']
         }
+    });
+});
 
+router.get('/signup', function(req, res) {
+
+    res.render('signup', {
+        data: {
+          user_logged: res.locals.user,
+          user_type: res.locals.type
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+    });
+});
+
+router.get('/csignup', function(req, res) {
+
+    res.render('companysignup', {
+        data: {
+          user_logged: res.locals.user,
+          user_type: res.locals.type
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader']
+        }
+    });
+});
+
+router.get('/job/:id', function(req, res) {
+    var id = req.params.id
+    var user_file_name;
+    if (res.locals.user == true) {
+        user_file_name = req.user.file_name
+    }
+
+    connection.query('select * from job_posting where id = ?', id, function(err, result) {
+        if (err)
+            throw err;
+        res.render('show', {
+            data: {
+                job: result,
+                job_id: result[0].id,
+                desc: result[0].job_desc,
+                user_logged: res.locals.user,
+                user_type: res.locals.type,
+                user_file_name: user_file_name
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title',
+                    head: [
+                        {
+                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                        }, {
+                            style: '../css/style2.css',
+                            type: 'text/css',
+                            rel: 'stylesheet'
+                        }
+                    ]
+                },
+                components: ['myheader', 'searchform', 'results']
+            }
+        });
+    });
+});
+router.get('/post', function(req, res) {
+
+    // import ckeditor from "./components/ckeditor.vue";
+    // var Ckeditor = require('/home/brennan/_repos/nodetest/components/ckeditor.vue');
+
+    // console.log(req.user)
+    if (req.user) {
+        // logged in
+        res.render('post', {
+            data: {
+              user_logged: res.locals.user,
+              user_type: res.locals.type,
+                content: ''
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title',
+                    head: [
+                        {
+                            script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'
+                        }
+                    ]
+                },
+                components: ['myheader']
+            }
+
+        });
+
+    } else {
+        // not logged in
+        res.redirect('/login');
+    }
+});
+/////
+
+// Job seeker user routes
+router.post('/signup', upload.single("file"), function(req, res) {
+    console.log("file:" + req.file.originalname);
+
+    var user = {
+        email: req.body.email,
+        password: req.body.password,
+        f_name: req.body.f_name,
+        l_name: req.body.l_name,
+        bootcamp_attended: req.body.bootcamp_attended,
+        file_name: req.file.originalname,
+        type: "user"
+    };
+    connection.query('INSERT INTO user SET ?', user, function(err, result) {
+        if (err)
+            throw err;
+        res.redirect('/login');
     });
 
 });
 
 router.put('/user/:id', upload.single("file"), function(req, res) {
-    console.log(req.params.id)
 
     connection.query('UPDATE user SET email = ?, f_name = ?, l_name = ?, city = ?, state = ?, zip = ?, bootcamp_attended = ?, file_name where id = ?', [
         req.body.email,
@@ -97,6 +249,32 @@ router.put('/user/:id', upload.single("file"), function(req, res) {
         console.log("User: " + req.body.id + " update successful");
     });
 })
+
+router.get('/profile', function(req, res) {
+    console.log(req.user.id)
+    if (res.locals.type == "user") {
+        db.users.findById(req.user.id, function(err, user) {
+            if (err)
+                throw err;
+
+            res.render('profile', {
+                data: {
+                    user: user,
+                    user_logged: res.locals.user,
+                    user_type: res.locals.type
+                },
+                vue: {
+                    meta: {
+                        title: 'Page Title'
+                    },
+                    components: ['myheader']
+                }
+            });
+            console.log('after render')
+
+        });
+    }
+});
 
 router.post('/apply/:job_id', function(req, res) {
     console.log("job_id" + req.params.job_id)
@@ -147,21 +325,6 @@ router.post('/apply/:job_id', function(req, res) {
             // res.json({yo: info.response});
         };
     });
-}); // handle the route at yourdomain.com/sayHello
-
-// middleware that is specific to this router
-router.post('/login', passport.authenticate('user-local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-}), function(req, res) {
-    res.redirect('/');
-});
-
-router.post('/emp_login', passport.authenticate('company-local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-}), function(req, res) {
-    res.redirect('/');
 });
 
 router.get('/applied', function(req, res) {
@@ -172,9 +335,6 @@ router.get('/applied', function(req, res) {
     }
 
     db.users.findAppliedJobs(req.user.id, function(error, rows) {
-        console.log(rows)
-        // var test = rows.slice();
-
         res.render('applied', {
             data: {
                 applied: rows,
@@ -192,132 +352,32 @@ router.get('/applied', function(req, res) {
                 },
                 components: ['myheader']
             }
-
         });
-
     });
 });
+/////
 
-router.get('/dashboard', function(req, res) {
-    res.render('dashboard', {
-        data: {
-            user_logged: res.locals.user,
-            user_type: res.locals.type
-        },
-        vue: {
+/////Company routes
+router.post('/c_signup', function(req, res) {
+    var user = {
+        email: req.body.email,
+        password: req.body.password,
+        f_name: req.body.f_name,
+        l_name: req.body.l_name,
+        job_title: req.body.job_title,
+        company_name: req.body.company_name,
+        type: "company"
+    };
 
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader']
-        }
-
-    });
-})
-
-router.get('/login', function(req, res) {
-
-    res.render('login', {
-        data: {
-            user_logged: res.locals.user,
-            user_type: res.locals.type
-        },
-        vue: {
-
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader']
-        }
-
-    });
-
-});
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/login');
-});
-
-router.get('/job/:id', function(req, res) {
-    var id = req.params.id
-    console.log(id)
-    var user_file_name;
-    if (res.locals.user == true) {
-        console.log(req.user)
-        user_file_name = req.user.file_name
-    }
-
-    connection.query('select * from job_posting where id = ?', id, function(err, result) {
+    connection.query('INSERT INTO company SET ?', user, function(err, result) {
         if (err)
             throw err;
-        res.render('show', {
-            data: {
-                job: result,
-                job_id: result[0].id,
-                desc: result[0].job_desc,
-                user_logged: res.locals.user,
-                user_type: res.locals.type,
-                user_file_name: user_file_name
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title',
-                    head: [
-                        {
-                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
-                        }, {
-                            style: '../css/style2.css',
-                            type: 'text/css',
-                            rel: 'stylesheet'
-                        }
-                    ]
-                },
-                components: ['myheader', 'searchform', 'results']
-            }
-
-        });
-
-        // res.sendFile(__dirname + '/index.html')
-        // console.log(result)
+        res.redirect('/login');
     });
 
-    // res.sendFile(__dirname + '/navbar.html')
 });
-router.get('/post', function(req, res) {
 
-    // import ckeditor from "./components/ckeditor.vue";
-    // var Ckeditor = require('/home/brennan/_repos/nodetest/components/ckeditor.vue');
-
-    // console.log(req.user)
-    if (req.user) {
-        // logged in
-        res.render('post', {
-            data: {
-              user_logged: res.locals.user,
-              user_type: res.locals.type,
-                content: ''
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title',
-                    head: [
-                        {
-                            script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'
-                        }
-                    ]
-                },
-                components: ['myheader']
-            }
-
-        });
-
-    } else {
-        // not logged in
-        res.redirect('/login');
-    }
-});
 router.post('/create', function(req, res) {
-    console.log(req.body.applyType)
 
     var date = new Date();
     var post = {
@@ -336,69 +396,20 @@ router.post('/create', function(req, res) {
     connection.query('INSERT INTO job_posting SET ?', post, function(err, result) {
         if (err)
             throw err;
-            // res.sendFile(__dirname + '/index.html')
         }
     );
     res.redirect("/")
 
 });
 
-router.get('/profile', function(req, res) {
-    console.log(req.user.id)
-    var dbUser;
-    if (req.user.type == "user") {
-        db.users.findById(req.user.id, function(err, user) {
-            if (err)
-                throw err;
-            dbUser = user[0];
-            console.log('user:' + user.username + dbUser)
+router.get('/dashboard', function(req, res) {
+  db.users.findByCompanyId(req.user.id, function(err, user) {
+      if (err)
+          throw err;
 
-            res.render('profile', {
-                data: {
-                    user: user,
-                    user_logged: res.locals.user,
-                    user_type: res.locals.type
-                },
-                vue: {
-                    meta: {
-                        title: 'Page Title'
-                    },
-                    components: ['myheader']
-                }
-            });
-            console.log('after render')
-
-        });
-    } else if (req.user.type == "company") {
-        db.users.findByCompanyId(req.user.id, function(err, user) {
-            if (err)
-                throw err;
-            dbUser = user[0];
-            console.log('user:' + user.username + dbUser)
-
-            res.render('profile', {
-                data: {
-                    user: user,
-                    user_logged: res.locals.user
-                },
-                vue: {
-                    meta: {
-                        title: 'Page Title'
-                    },
-                    components: ['myheader']
-                }
-            });
-            console.log('after render')
-
-        });
-    }
-
-});
-
-router.get('/signup', function(req, res) {
-
-    res.render('signup', {
+    res.render('dashboard', {
         data: {
+          user: user,
           user_logged: res.locals.user,
           user_type: res.locals.type
         },
@@ -408,68 +419,35 @@ router.get('/signup', function(req, res) {
             },
             components: ['myheader']
         }
-
     });
-
+  });
 });
 
-router.get('/csignup', function(req, res) {
-
-    res.render('companysignup', {
-        data: {
-          user_logged: res.locals.user,
-          user_type: res.locals.type
-        },
-        vue: {
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader']
-        }
-
-    });
-
+router.get("/listings", function(req, res) {
+  console.log(req.user.id)
+  db.users.findListings(req.user.id, function(error, rows) {
+    console.log(rows)
+      res.render('job_listings', {
+          data: {
+              listings: rows,
+              user_logged: res.locals.user,
+              user_type: res.locals.type
+          },
+          vue: {
+              meta: {
+                  title: 'Page Title',
+                  head: [
+                      {
+                          script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                      }
+                  ]
+              },
+              components: ['myheader']
+          }
+      });
+  });
 });
-
-router.post('/signup', upload.single("file"), function(req, res) {
-    console.log("file:" + req.file.originalname);
-
-    var user = {
-        email: req.body.email,
-        password: req.body.password,
-        f_name: req.body.f_name,
-        l_name: req.body.l_name,
-        bootcamp_attended: req.body.bootcamp_attended,
-        file_name: req.file.originalname,
-        type: "user"
-    };
-    connection.query('INSERT INTO user SET ?', user, function(err, result) {
-        if (err)
-            throw err;
-        res.redirect('/login');
-    });
-
-});
-
-router.post('/c_signup', function(req, res) {
-
-    var user = {
-        email: req.body.email,
-        password: req.body.password,
-        f_name: req.body.f_name,
-        l_name: req.body.l_name,
-        job_title: req.body.job_title,
-        company_name: req.body.company_name,
-        type: "company"
-    };
-
-    connection.query('INSERT INTO company SET ?', user, function(err, result) {
-        if (err)
-            throw err;
-        res.redirect('/login');
-    });
-
-});
+/////
 
 router.get('/search', function(req, res, next) {
 
@@ -602,7 +580,8 @@ router.get('/search', function(req, res, next) {
                         last_page: last,
                         x: x,
                         y: y,
-                        user_logged: res.locals.user
+                        user_logged: res.locals.user,
+                        user_type: res.locals.type
                     },
                     vue: {
                         meta: {
@@ -656,7 +635,8 @@ router.get('/search', function(req, res, next) {
                         last_page: 10, // required
                         from: 1,
                         to: 12,
-                        user_logged: res.locals.user
+                        user_logged: res.locals.user,
+                        user_type: res.locals.type
                     },
 
                     // paginate: ['languages'],

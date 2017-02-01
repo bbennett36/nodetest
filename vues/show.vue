@@ -79,15 +79,15 @@ export default {
         },
         applyResume: function() {
             this.buttonText = "Applied";
-            axios.post('/apply', {
-                    id: this.job.id
-                })
-                .then(function(response) {
-                    console.log(response);
-                })
-                .catch(function(error) {
-                    console.log(error);
-                });
+            axios.post('/apply/' + this.job_id);
+                //     id: this.job.id
+                // })
+                // .then(function(response) {
+                //     console.log(response);
+                // })
+                // .catch(function(error) {
+                //     console.log(error);
+                // });
         },
         formatDate: function(date) {
             return moment(date).fromNow();

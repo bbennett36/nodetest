@@ -25,7 +25,6 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 var axios = require('axios');
 
-
 var nodemailer = require('nodemailer');
 
 // /home/brennan/_repos/nodetest/uploads
@@ -42,43 +41,42 @@ var options = {
 };
 var geocoder = NodeGeocoder(options);
 
-function handleSayHello(req, res) {
-    // var user = res.locals.user
-    console.log('in email send function, user:' + req.user)
-    var userResumePath = (uploadPath + req.user.id + "_" + req.user.file_name);
-    // Not the movie transporter!
-    var transporter = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-            user: 'bennettglob@gmail.com', // Your email id
-            pass: 'bennett36' // Your password
-        }
-    });
-    var text = 'Hello world';
+router.use(function(req, res, next) {
 
-    var mailOptions = {
-        from: 'bennettglob@gmail.com', // sender address
-        to: 'bennett.brennan@outlook.com', // list of receivers
-        subject: 'Email Example',
-        attachments: [
-            { // file on disk as an attachment
-                filename: req.user.file_name,
-                path: userResumePath // stream this file
-            }
-        ], // Subject line
-        text: text //, // plaintext body
-        // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
-    };
-    transporter.sendMail(mailOptions, function(error, info) {
-        if (error) {
-            console.log(error);
-            // res.json({yo: 'error'});
-        } else {
-            console.log('Message sent: ' + info.response);
-            // res.json({yo: info.response});
-        };
+    console.log(req.method, req.url);
+
+    var userLogged = isAuthenticated(req)
+
+    res.locals.user = userLogged;
+
+    if (res.locals.user == true) {
+        res.locals.type = req.user.type
+        console.log(res.locals.type)
+    }
+
+    if (typeof res.locals.type === 'undefined' || res.locals.type === null) {
+        res.locals.type = "none";
+    }
+    next();
+});
+
+router.get('/', (req, res, next) => {
+
+    res.render('home', {
+        data: {
+            user_logged: res.locals.user,
+            user_type: res.locals.type
+        },
+        vue: {
+            meta: {
+                title: 'Page Title'
+            },
+            components: ['myheader', 'searchform']
+        }
+
     });
-}
+
+});
 
 router.put('/user/:id', upload.single("file"), function(req, res) {
     console.log(req.params.id)
@@ -100,42 +98,55 @@ router.put('/user/:id', upload.single("file"), function(req, res) {
     });
 })
 
-router.post('/apply/:job_id', function(req, res)  {
-  console.log("job_id" + req.body.id)
-  console.log('in email send function, user:' + req.user)
-  var userResumePath = (uploadPath + req.user.id + "_" + req.user.file_name);
-  // Not the movie transporter!
-  var transporter = nodemailer.createTransport({
-      service: 'Gmail',
-      auth: {
-          user: 'bennettglob@gmail.com', // Your email id
-          pass: 'bennett36' // Your password
-      }
-  });
-  var text = 'Hello world';
+router.post('/apply/:job_id', function(req, res) {
+    console.log("job_id" + req.params.job_id)
+    console.log("user_id" + req.user.id)
 
-  var mailOptions = {
-      from: 'bennettglob@gmail.com', // sender address
-      to: 'bennettglob@gmail.com', // list of receivers
-      subject: 'Email Example',
-      attachments: [
-          { // file on disk as an attachment
-              filename: req.user.file_name,
-              path: userResumePath // stream this file
-          }
-      ], // Subject line
-      text: text //, // plaintext body
-      // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
-  };
-  transporter.sendMail(mailOptions, function(error, info) {
-      if (error) {
-          console.log(error);
-          // res.json({yo: 'error'});
-      } else {
-          console.log('Message sent: ' + info.response);
-          // res.json({yo: info.response});
-      };
-  });
+    var info = {
+        job_id: req.params.job_id,
+        user_id: req.user.id
+    };
+    connection.query('INSERT INTO applied_jobs SET ?', info, function(err, result) {
+        if (err)
+            throw err;
+        console.log(result)
+        console.log("Applied job saved");
+    });
+
+    console.log('in email send function, user:' + req.user)
+    var userResumePath = (uploadPath + req.user.id + "_" + req.user.file_name);
+    // Not the movie transporter!
+    var transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+            user: 'bennettglob@gmail.com', // Your email id
+            pass: 'bennett36' // Your password
+        }
+    });
+    var text = 'Hello world';
+
+    var mailOptions = {
+        from: 'bennettglob@gmail.com', // sender address
+        to: 'bennettglob@gmail.com', // list of receivers
+        subject: 'Email Example',
+        attachments: [
+            { // file on disk as an attachment
+                filename: req.user.file_name,
+                path: userResumePath // stream this file
+            }
+        ], // Subject line
+        text: text //, // plaintext body
+        // html: '<b>Hello world ✔</b>' // You can choose to send an HTML body instead
+    };
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+            // res.json({yo: 'error'});
+        } else {
+            console.log('Message sent: ' + info.response);
+            // res.json({yo: info.response});
+        };
+    });
 }); // handle the route at yourdomain.com/sayHello
 
 // middleware that is specific to this router
@@ -153,21 +164,6 @@ router.post('/emp_login', passport.authenticate('company-local', {
     res.redirect('/');
 });
 
-router.use(function(req, res, next) {
-
-    // log each request to the console
-    console.log(req.method, req.url);
-
-    var userLogged = isAuthenticated(req)
-
-    res.locals.user = userLogged;
-
-    console.log(res.locals.user)
-
-    // continue doing what we were doing and go to the route
-    next();
-});
-
 router.get('/applied', function(req, res) {
 
     var user_type = req.user.type
@@ -181,10 +177,9 @@ router.get('/applied', function(req, res) {
 
         res.render('applied', {
             data: {
-                user_logged: res.locals.user,
                 applied: rows,
-                user_type: user_type
-
+                user_logged: res.locals.user,
+                user_type: res.locals.type
             },
             vue: {
                 meta: {
@@ -206,7 +201,8 @@ router.get('/applied', function(req, res) {
 router.get('/dashboard', function(req, res) {
     res.render('dashboard', {
         data: {
-            user_logged: res.locals.user
+            user_logged: res.locals.user,
+            user_type: res.locals.type
         },
         vue: {
 
@@ -219,36 +215,15 @@ router.get('/dashboard', function(req, res) {
     });
 })
 
-router.get('/', (req, res, next) => {
-
-    // console.log("test" + req.user.type);
-    var user_type = req.user.type
-    if (typeof user_type === 'undefined' || user_type === null) {
-        user_type = null;
-    }
-
-    res.render('home', {
-        data: {
-            user_logged: res.locals.user,
-            user_type: user_type
-        },
-        vue: {
-            meta: {
-                title: 'Page Title'
-            },
-            components: ['myheader', 'searchform']
-        }
-
-    });
-
-});
 router.get('/login', function(req, res) {
 
     res.render('login', {
+        data: {
+            user_logged: res.locals.user,
+            user_type: res.locals.type
+        },
         vue: {
-            data: {
-                user_logged: res.locals.user
-            },
+
             meta: {
                 title: 'Page Title'
             },
@@ -281,6 +256,7 @@ router.get('/job/:id', function(req, res) {
                 job_id: result[0].id,
                 desc: result[0].job_desc,
                 user_logged: res.locals.user,
+                user_type: res.locals.type,
                 user_file_name: user_file_name
             },
             vue: {
@@ -317,7 +293,8 @@ router.get('/post', function(req, res) {
         // logged in
         res.render('post', {
             data: {
-                user_logged: res.locals.user,
+              user_logged: res.locals.user,
+              user_type: res.locals.type,
                 content: ''
             },
             vue: {
@@ -379,7 +356,8 @@ router.get('/profile', function(req, res) {
             res.render('profile', {
                 data: {
                     user: user,
-                    user_logged: res.locals.user
+                    user_logged: res.locals.user,
+                    user_type: res.locals.type
                 },
                 vue: {
                     meta: {
@@ -421,7 +399,8 @@ router.get('/signup', function(req, res) {
 
     res.render('signup', {
         data: {
-            user_logged: res.locals.user
+          user_logged: res.locals.user,
+          user_type: res.locals.type
         },
         vue: {
             meta: {
@@ -438,7 +417,8 @@ router.get('/csignup', function(req, res) {
 
     res.render('companysignup', {
         data: {
-            user_logged: res.locals.user
+          user_logged: res.locals.user,
+          user_type: res.locals.type
         },
         vue: {
             meta: {

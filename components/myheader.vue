@@ -39,28 +39,66 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav">
                     <li class="nav-item"><a href="/post" class="nav-link"><strong>Post Job</strong></a></li>
 
+                    <div class="hidden-lg-up">
+
                     <li v-if="!user_logged" class="nav-item">
-                        <a href="/signup" class="nav-link clearfix"><strong>Register</strong></a>
+                        <a v-if="!user_logged" href="/signup" class="nav-link"><strong>Register</strong></a>
                     </li>
 
                     <li v-if="user_logged && user_type === 'user'" class="nav-item">
-                        <a href="/profile" class="nav-link"><strong>Profile</strong></a>
+                        <a v-if="user_logged && user_type === 'user'" href="/profile" class="nav-link"><strong>Profile</strong></a>
                     </li>
 
                     <li v-if="user_logged && user_type === 'company'" class="nav-item">
-                        <a href="/dashboard" class="nav-link"><strong>Employer Dashboard</strong></a>
+                        <a v-if="user_logged && user_type === 'company'" href="/dashboard" class="nav-link"><strong>Employer Dashboard</strong></a>
                     </li>
 
                     <li v-if="!user_logged" class="nav-item">
-                        <a href="/login" class="nav-link"><strong>Login</strong></a>
+                        <a v-if="!user_logged" href="/login" class="nav-link"><strong>Login</strong></a>
                     </li>
 
                     <li v-if="user_logged" class="nav-item">
-                        <a href="/logout" class="nav-link"><strong>Logout</strong></a>
+                        <a v-if="user_logged" href="/logout" class="nav-link"><strong>Logout</strong></a>
                     </li>
+                  </div>
+
+                    <div class="hidden-md-down">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <strong>Account</strong>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                                <!-- <li v-if="!user_logged" class="nav-item"> -->
+                                <a v-if="!user_logged" href="/signup" class="dropdown-item"><strong>Register</strong></a>
+                                <!-- </li> -->
+
+                                <!-- <li v-if="user_logged && user_type === 'user'" class="nav-item"> -->
+                                <a v-if="user_logged && user_type === 'user'" href="/profile" class="dropdown-item"><strong>Profile</strong></a>
+                                <!-- </li> -->
+
+                                <!-- <li v-if="user_logged && user_type === 'company'" class="nav-item"> -->
+                                <a v-if="user_logged && user_type === 'company'" href="/dashboard" class="dropdown-item"><strong>Employer Dashboard</strong></a>
+                                <!-- </li> -->
+
+                                <!-- <li v-if="!user_logged" class="nav-item"> -->
+                                <a v-if="!user_logged" href="/login" class="dropdown-item"><strong>Login</strong></a>
+                                <!-- </li> -->
+
+                                <!-- <li v-if="user_logged" class="nav-item"> -->
+                                <a v-if="user_logged" href="/logout" class="dropdown-item">
+                                  <div class="dropdown-divider"></div>
+                                  <strong>Logout</strong>
+                                </a>
+                                <!-- </li> -->
+                            </div>
+
+                        </li>
+                    </div>
+
                 </ul>
             </div>
         </nav>

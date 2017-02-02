@@ -219,6 +219,23 @@ label {
   width: 100%;
 }*/
 
+/*#navbarDropdownMenuLink {
+  margin-right: 25px;
+}
+
+.dropdown {
+  margin-right: 25px;
+}
+
+.show>.dropdown-menu {
+  margin-right: 25px;
+}*/
+
+/*.dropdown-menu  {
+  margin-right: 50px!important;
+  padding-right: 50px!important;
+}*/
+
 #searchComp {
     background-color: whitesmoke;
 }
@@ -227,19 +244,20 @@ label {
     margin: 15px 0 10px 0;
 }
 
+#logo {
+  width: 21%!important;
+}
+#searchNav  {
+  width: 58%!important;
+}
+#navbarNav  {
+  width: 21%!important;
+}
 
 
 @media screen and (min-width: 992px)  {
 
-  #logo {
-    width: 25%!important;
-  }
-  #searchNav  {
-    width: 50%!important;
-  }
-  #navbarNav  {
-    width: 25%!important;
-  }
+
 }
 
 @media screen and (max-width: 992px)  {

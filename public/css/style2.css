@@ -13,18 +13,7 @@ body {
 .navbar-toggler.navbar-toggler-custom {
   right: 5rem;
 }
-/*
-.nav-item {
-  height: 100%;
-}*/
 
-
-
-/*.a {
-    height: 300px;
-    width: 300px;
-    background-color: green;
-}*/
 
 .footer {
     position: absolute;
@@ -231,10 +220,17 @@ label {
   margin-right: 25px;
 }*/
 
-/*.dropdown-menu  {
-  margin-right: 50px!important;
-  padding-right: 50px!important;
-}*/
+.dropdown-menu  {
+  right: 0!important;
+}
+
+.show>.dropdown-menu {
+  /*right: 0!important;*/
+  position: absolute;
+  /*list-style-type: none;*/
+  width: 200px;
+  /*border-radius: 0 0 3px 3px;*/
+}
 
 #searchComp {
     background-color: whitesmoke;

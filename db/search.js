@@ -18,3 +18,27 @@ exports.getResultCount = function(lat, lng, keyword, radius, x, cb)  {
 
   });
 }
+
+exports.saveSearchQuery = function(query, location, cb) {
+
+  var info = {
+    query: keyword,
+    location: location
+  }
+
+  connection.query('INSERT INTO searches set ?', info, function(err, result) {
+    cb(null, result);
+
+  })
+}
+
+exports.saveSearchQueryByUser = function(user_id, query, location, cb)  {
+  var info = {
+    user_id: user_id,
+    query: keyword,
+    location: location
+  }
+  connection.query('INSERT INTO searches set ?', info, function(err, result) {
+    cb(null, result);
+  })
+}

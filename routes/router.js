@@ -110,8 +110,8 @@ router.get('/signup', function(req, res) {
 
     res.render('signup', {
         data: {
-          user_logged: res.locals.user,
-          user_type: res.locals.type
+            user_logged: res.locals.user,
+            user_type: res.locals.type
         },
         vue: {
             meta: {
@@ -126,8 +126,8 @@ router.get('/csignup', function(req, res) {
 
     res.render('companysignup', {
         data: {
-          user_logged: res.locals.user,
-          user_type: res.locals.type
+            user_logged: res.locals.user,
+            user_type: res.locals.type
         },
         vue: {
             meta: {
@@ -185,8 +185,8 @@ router.get('/post', function(req, res) {
         // logged in
         res.render('post', {
             data: {
-              user_logged: res.locals.user,
-              user_type: res.locals.type,
+                user_logged: res.locals.user,
+                user_type: res.locals.type,
                 content: ''
             },
             vue: {
@@ -355,6 +355,30 @@ router.get('/applied', function(req, res) {
         });
     });
 });
+
+router.get('/searches', function(req, res) {
+
+    db.users.findUserSearches(req.user.id, function(error, rows) {
+        res.render('searches', {
+            data: {
+                searches: rows,
+                user_logged: res.locals.user,
+                user_type: res.locals.type
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title',
+                    head: [
+                        {
+                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                        }
+                    ]
+                },
+                components: ['myheader']
+            }
+        });
+    });
+});
 /////
 
 /////Company routes
@@ -403,62 +427,116 @@ router.post('/create', function(req, res) {
 });
 
 router.get('/dashboard', function(req, res) {
-  db.users.findByCompanyId(req.user.id, function(err, user) {
-      if (err)
-          throw err;
+    db.users.findByCompanyId(req.user.id, function(err, user) {
+        if (err)
+            throw err;
 
-    res.render('dashboard', {
-        data: {
-          user: user,
-          user_logged: res.locals.user,
-          user_type: res.locals.type
-        },
-        vue: {
-            meta: {
-                title: 'Page Title'
+        res.render('dashboard', {
+            data: {
+                user: user,
+                user_logged: res.locals.user,
+                user_type: res.locals.type
             },
-            components: ['myheader']
-        }
+            vue: {
+                meta: {
+                    title: 'Page Title'
+                },
+                components: ['myheader']
+            }
+        });
     });
-  });
 });
 
 router.get("/listings", function(req, res) {
-  console.log(req.user.id)
-  db.users.findListings(req.user.id, function(error, rows) {
-    console.log(rows)
-      res.render('job_listings', {
-          data: {
-              listings: rows,
-              user_logged: res.locals.user,
-              user_type: res.locals.type
-          },
-          vue: {
-              meta: {
-                  title: 'Page Title',
-                  head: [
-                      {
-                          script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
-                      }
-                  ]
-              },
-              components: ['myheader']
-          }
-      });
-  });
+    console.log(req.user.id)
+    db.users.findListings(req.user.id, function(error, rows) {
+        console.log(rows)
+        res.render('job_listings', {
+            data: {
+                listings: rows,
+                user_logged: res.locals.user,
+                user_type: res.locals.type
+            },
+            vue: {
+                meta: {
+                    title: 'Page Title',
+                    head: [
+                        {
+                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                        }
+                    ]
+                },
+                components: ['myheader']
+            }
+        });
+    });
 });
 /////
+
+function getDateTime() {
+
+    var date = new Date();
+
+    var hour = date.getHours();
+    hour = (hour < 10 ? "0" : "") + hour;
+
+    var min  = date.getMinutes();
+    min = (min < 10 ? "0" : "") + min;
+
+    var sec  = date.getSeconds();
+    sec = (sec < 10 ? "0" : "") + sec;
+
+    var year = date.getFullYear();
+
+    var month = date.getMonth() + 1;
+    month = (month < 10 ? "0" : "") + month;
+
+    var day  = date.getDate();
+    day = (day < 10 ? "0" : "") + day;
+
+    return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
+
+}
 
 router.get('/search', function(req, res, next) {
 
     var keyword = ("%" + req.query.keyword + "%")
+    var location = req.query.location
+
+    var time = getDateTime();
+
+    if (res.locals.user == true) {
+        var info = {
+            user_id: req.user.id,
+            query: req.query.keyword,
+            location: location,
+            search_date: time
+        }
+        connection.query('INSERT INTO searches set ?', info, function(err, result) {
+           if(err)
+            throw err;
+            console.log("insert into search with user" + result)
+        })
+    } else {
+        var info = {
+            query: req.query.keyword,
+            location: location,
+            search_date: time
+        }
+
+        connection.query('INSERT INTO searches set ?', info, function(err, result) {
+          if(err)
+           throw err;
+           console.log("insert into search with user" + result)
+        })
+    }
 
     var filterQuery = ('where job_title like ' + keyword);
     console.log(filterQuery)
 
     var lat;
     var lng;
-    var location = req.query.location
+
     var radius = req.query.radius
     if (typeof radius === 'undefined' || radius === null) {
         radius = 25; //default radius

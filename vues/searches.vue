@@ -13,21 +13,20 @@
                         <a class="nav-link" href="/profile">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="/applied">My Jobs</a>
+                        <a class="nav-link" href="/applied">My Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/searches">My Searches</a>
+                        <a class="nav-link active" href="/searches">My Searches</a>
                     </li>
                 </ul>
 
             </nav>
 
             <main class="col-sm-9 col-md-10">
-                <h1>Applied Jobs</h1>
+                <h1>Searches</h1>
 
-                <div v-for="a in applied">
-                  <!-- <p v-html="a.job_desc"></p> -->
-                <a v-bind:href="'/job/' + a.job_id"> {{ a.job_title }} {{ a.location }} {{ formatDate(a.date_created) }} </a>
+                <div v-for="s in searches">
+                <a v-bind:href="'/search?keyword=' + s.query + '&location=' + s.location"> {{ s.query }} {{ s.location }} {{ formatDate(s.search_date) }} </a>
                 </div>
 
 
@@ -52,7 +51,8 @@ export default {
     },
     methods: {
         formatDate: function(date) {
-            return moment(date).fromNow();
+            // return moment(date).fromNow();
+            return moment(date).format('MMM Do YYYY, h:mm a');
         }
     }
 }

@@ -40,3 +40,9 @@ exports.findListings = function(company_id, cb) {
         return cb(null, rows);
     })
 }
+
+exports.findUserSearches = function(user_id, cb)  {
+  connection.query('select * from searches where user_id = ?', user_id, function(err, rows) {
+    return cb(null, rows)
+  })
+}

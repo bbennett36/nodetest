@@ -10,6 +10,9 @@
 
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
+
+
+
     </button>
 
             <!-- <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -39,7 +42,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navbarNav">
 
-                <ul class="navbar-nav">
+                <ul class="navbar-nav ml-auto float-right">
                     <li class="nav-item"><a href="/post" class="nav-link"><strong>Post Job</strong></a></li>
 
                     <div class="hidden-lg-up">
@@ -50,6 +53,14 @@
 
                     <li v-if="user_logged && user_type === 'user'" class="nav-item">
                         <a v-if="user_logged && user_type === 'user'" href="/profile" class="nav-link"><strong>Profile</strong></a>
+                    </li>
+
+                    <li v-if="user_logged && user_type === 'user'" class="nav-item">
+                      <a v-if="user_logged && user_type === 'user'" href="/applied" class="nav-link"><strong>My Jobs</strong></a>
+                    </li>
+
+                    <li v-if="user_logged && user_type === 'user'" class="nav-item">
+                      <a v-if="user_logged && user_type === 'user'" href="/searches" class="nav-link"><strong>My Searches</strong></a>
                     </li>
 
                     <li v-if="user_logged && user_type === 'company'" class="nav-item">
@@ -78,6 +89,9 @@
 
                                 <!-- <li v-if="user_logged && user_type === 'user'" class="nav-item"> -->
                                 <a v-if="user_logged && user_type === 'user'" href="/profile" class="dropdown-item"><strong>Profile</strong></a>
+                                <a v-if="user_logged && user_type === 'user'" href="/applied" class="dropdown-item"><strong>My Jobs</strong></a>
+                                <a v-if="user_logged && user_type === 'user'" href="/searches" class="dropdown-item"><strong>My Searches</strong></a>
+
                                 <!-- </li> -->
 
                                 <!-- <li v-if="user_logged && user_type === 'company'" class="nav-item"> -->

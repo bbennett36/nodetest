@@ -81,7 +81,7 @@
                             <a class="nav-link dropdown-toggle" href="/" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <strong>Account</strong>
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
                                 <!-- <li v-if="!user_logged" class="nav-item"> -->
                                 <a v-if="!user_logged" href="/signup" class="dropdown-item"><strong>Register</strong></a>

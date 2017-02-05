@@ -204,35 +204,6 @@ label {
 }
 
 
-/*#submitForm {
-  width: 100%;
-}*/
-
-/*#navbarDropdownMenuLink {
-  margin-right: 25px;
-}
-
-.dropdown {
-  margin-right: 25px;
-}
-
-.show>.dropdown-menu {
-  margin-right: 25px;
-}*/
-
-.dropdown-menu  {
-  right: 0!important;
-  left: auto!important;
-}
-
-.show>.dropdown-menu {
-  /*right: 0!important;*/
-  position: absolute;
-  /*list-style-type: none;*/
-  width: 200px;
-  /*border-radius: 0 0 3px 3px;*/
-}
-
 #searchComp {
     background-color: whitesmoke;
 }

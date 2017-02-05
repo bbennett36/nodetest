@@ -46,8 +46,7 @@ router.use(function(req, res, next) {
         res.locals.type = "none";
     }
     console.log(req.method, req.url);
-    console.log("user-logged:" + res.locals.user)
-    console.log("user-type:" + res.locals.type)
+
 
     next();
 });

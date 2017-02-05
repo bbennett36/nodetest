@@ -222,6 +222,7 @@ label {
 
 .dropdown-menu  {
   right: 0!important;
+  left: auto!important;
 }
 
 .show>.dropdown-menu {

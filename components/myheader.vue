@@ -103,8 +103,9 @@
                                 <!-- </li> -->
 
                                 <!-- <li v-if="user_logged" class="nav-item"> -->
+                                <div v-if="user_logged" class="dropdown-divider"></div>
+
                                 <a v-if="user_logged" href="/logout" class="dropdown-item">
-                                  <div class="dropdown-divider"></div>
                                   <strong>Logout</strong>
                                 </a>
                                 <!-- </li> -->

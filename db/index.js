@@ -1,2 +1,2 @@
 exports.users = require('./users');
-exports.results = require('./search');
+exports.search = require('./search');

@@ -24,7 +24,7 @@
 
 
 
-    <link rel="stylesheet" href="./css/style2.css" type="text/css" />
+    <link rel="stylesheet" href="../css/style2.css" type="text/css" />
 
     <title>BootCampHire.com</title>
     <!-- // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAEqFPxjP_ubeG9tLbj3P0aHUoqNi35rts&libraries=places&callback=initMap" async defer></script> -->
@@ -33,13 +33,9 @@
     <link href='//fonts.googleapis.com/css?family=Fredoka+One' rel='stylesheet' type='text/css'>
 
 
-
-    <!-- // <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/4.5.1/jquery.tinymce.min.js0"></script> -->
-    <!-- // <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
-  <!-- //  <script src="//cdn.ckeditor.com/4.6.2/standard/ckeditor.js"></script> -->
-
-
    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
 
 
 </head>
@@ -51,9 +47,7 @@
 
     {{{app}}} {{{script}}}
 
-    <script>
-        app.$mount('#app')
-    </script>
+
 
 </body>
 

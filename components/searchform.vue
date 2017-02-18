@@ -1,19 +1,42 @@
 <template>
 <div id="test">
-  <div class="container">
-<div id="searchComp" class="col-12">
-    <form action="/search" method="GET" id="geoForm">
-        <div class="row" id="search">
-            <div class="col-sm-5">
-                <input type="text" id="keyword" name="keyword" :value='keyword' class="form-control form-control-lg" placeholder="Job Title" />
+    <!-- <div class="container"> -->
+    <div id="searchComp" class="col-12">
+        <form action="/search" method="GET" id="geoForm">
+            <div class="row" id="search">
+                <!-- <div class="hidden-sm-up"> -->
+
+                    <div class="col-sm-5">
+                        <input type="text" id="keyword" name="keyword" :value='keyword' class="form-control form-control-lg" placeholder="Job Title" />
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" id="location" name="location" :value='location' class="form-control form-control-lg" placeholder="Location" />
+                    </div>
+                    <div class="col-sm-3">
+                        <button type="submit" id="submitForm" class="btn btn-secondary btn-lg">Find Jobs</button>
+                    </div>
+
+                <!-- </div> -->
+                <!-- <div class="hidden-lg-up hidden-xs-down"> -->
+<!--
+                  <div class="col-sm-5">
+                      <input type="text" id="keyword" name="keyword" :value='keyword' class="form-control" placeholder="Job Title" />
+                  </div>
+                  <div class="col-sm-4">
+                      <input type="text" id="location" name="location" :value='location' class="form-control" placeholder="Location" />
+                  </div>
+                  <div class="col-sm-3">
+                      <button type="submit" id="submitForm" class="btn btn-secondary">Find Jobs</button>
+                  </div> -->
+
+                <!-- </div> -->
+
             </div>
-            <div class="col-sm-4">
-                <input type="text" id="location" name="location" :value='location' class="form-control form-control-lg" placeholder="Location" />
-            </div>
-            <div class="col-sm-3">
-                <button type="submit" id="submitForm" class="btn btn-success btn-lg">Find Jobs</button>
-              </form>
-                <div class="hidden-sm-up">
+        </form>
+
+    </div>
+</div>
+<!-- <div class="hidden-sm-up">
                     <button class="btn btn-outline-success btn-lg" id="filter-btn" type="button" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseExample">
                     Filters
                   </button>
@@ -46,7 +69,6 @@
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">Internship</span>
                 </label>
-                                <!-- </div> -->
 
                                 <label class="custom-control custom-checkbox">
                   <input type="checkbox" class="custom-control-input">
@@ -71,13 +93,11 @@
                             </div>
                     </div>
                 </div>
-            </div>
-    <!-- </form> -->
-    </div>
-</div>
-</div>
-</div>
-</div>
+            </div> -->
+<!-- </form> -->
+<!-- </div> -->
+
+<!-- </div> -->
 </template>
 
 <script>

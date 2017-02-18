@@ -32,6 +32,10 @@ var options = {
     formatter: null // 'gpx', 'string', ...
 };
 var geocoder = NodeGeocoder(options);
+// var editor = require('vue2-medium-editor')
+
+
+
 
 router.use(function(req, res, next) {
     var userLogged = isAuthenticated(req)
@@ -46,7 +50,6 @@ router.use(function(req, res, next) {
         res.locals.type = "none";
     }
     console.log(req.method, req.url);
-
 
     next();
 });
@@ -186,18 +189,24 @@ router.get('/post', function(req, res) {
             data: {
                 user_logged: res.locals.user,
                 user_type: res.locals.type,
-                content: ''
+                content: '',
+                window: 'this.window'
             },
             vue: {
                 meta: {
                     title: 'Page Title',
                     head: [
                         {
-                            script: '//cdn.ckeditor.com/4.6.2/standard/ckeditor.js'
+                            script: 'http://cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js'
+                        },
+                        {
+                            style: 'http://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css',
+                            type: 'text/css',
+                            rel: 'stylesheet'
                         }
                     ]
                 },
-                components: ['myheader']
+                components: ['my-header']
             }
 
         });
@@ -477,21 +486,31 @@ function getDateTime() {
     var date = new Date();
 
     var hour = date.getHours();
-    hour = (hour < 10 ? "0" : "") + hour;
+    hour = (hour < 10
+        ? "0"
+        : "") + hour;
 
-    var min  = date.getMinutes();
-    min = (min < 10 ? "0" : "") + min;
+    var min = date.getMinutes();
+    min = (min < 10
+        ? "0"
+        : "") + min;
 
-    var sec  = date.getSeconds();
-    sec = (sec < 10 ? "0" : "") + sec;
+    var sec = date.getSeconds();
+    sec = (sec < 10
+        ? "0"
+        : "") + sec;
 
     var year = date.getFullYear();
 
     var month = date.getMonth() + 1;
-    month = (month < 10 ? "0" : "") + month;
+    month = (month < 10
+        ? "0"
+        : "") + month;
 
-    var day  = date.getDate();
-    day = (day < 10 ? "0" : "") + day;
+    var day = date.getDate();
+    day = (day < 10
+        ? "0"
+        : "") + day;
 
     return year + ":" + month + ":" + day + ":" + hour + ":" + min + ":" + sec;
 
@@ -512,8 +531,8 @@ router.get('/search', function(req, res, next) {
             search_date: time
         }
         connection.query('INSERT INTO searches set ?', info, function(err, result) {
-           if(err)
-            throw err;
+            if (err)
+                throw err;
             console.log("insert into search with user" + result)
         })
     } else {
@@ -524,9 +543,9 @@ router.get('/search', function(req, res, next) {
         }
 
         connection.query('INSERT INTO searches set ?', info, function(err, result) {
-          if(err)
-           throw err;
-           console.log("insert into search with user" + result)
+            if (err)
+                throw err;
+            console.log("insert into search with user" + result)
         })
     }
 
@@ -640,10 +659,6 @@ router.get('/search', function(req, res, next) {
                 if (y > count) {
                     y = count;
                 }
-
-                // var moment = require('moment');
-                // console.log(moment)
-                // import moment from 'moment'
 
                 res.render('main', {
                     data: {

@@ -1,13 +1,13 @@
 <template>
 <div>
 
-  <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
+    <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
 
 
 
     <div class="container">
         <div class="row">
-            <nav class="col-sm-3 col-md-2 bg-faded sidebar">
+            <nav class="col-sm-3 col-lg-2 sidebar" id="prof-nav">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="/profile">Profile</a>
@@ -22,20 +22,22 @@
 
             </nav>
 
-            <main class="col-sm-9 col-md-10">
-                <h1>Searches</h1>
 
+            <main class="col-sm-6 col-lg-8">
+
+                <h1>Searches</h1>
                 <div v-for="s in searches">
-                <a v-bind:href="'/search?keyword=' + s.query + '&location=' + s.location"> {{ s.query }} {{ s.location }} {{ formatDate(s.search_date) }} </a>
+
+                    <a v-bind:href="'/search?keyword=' + s.query + '&location=' + s.location"> {{ s.query }} {{ s.location }} {{ formatDate(s.search_date) }} </a>
+                    <br />
                 </div>
 
+            </main>
+            <div class="col-sm-3 col-lg-2">
 
-
-
+            </div>
         </div>
-        </main>
     </div>
-
 </div>
 </template>
 

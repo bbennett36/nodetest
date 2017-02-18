@@ -24,7 +24,13 @@
             </div>
 
             <div class="collapse navbar-collapse" id="searchNav">
-                <ul class="navbar-nav mx-auto">
+              <div class="hidden-sm-up">
+                <searchform></searchform>
+
+              </div>
+
+                <ul class="navbar-nav mx-auto hidden-xs-down">
+
 
                     <form action="/search" class="form-inline">
                         <input class="form-control mr-sm-2" id="keyword" name="keyword" :value='keyword' type="text" placeholder="Search for jobs" />
@@ -95,7 +101,9 @@
                                 <!-- </li> -->
 
                                 <!-- <li v-if="user_logged && user_type === 'company'" class="nav-item"> -->
-                                <a v-if="user_logged && user_type === 'company'" href="/dashboard" class="dropdown-item"><strong>Employer Dashboard</strong></a>
+                                <a v-if="user_logged && user_type === 'company'" href="/dashboard" class="dropdown-item"><strong>Profile</strong></a>
+                                <a v-if="user_logged && user_type === 'company'" href="/listings" class="dropdown-item"><strong>Job Listings</strong></a>
+
                                 <!-- </li> -->
 
                                 <!-- <li v-if="!user_logged" class="nav-item"> -->

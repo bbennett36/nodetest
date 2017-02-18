@@ -1,12 +1,12 @@
 <template>
 <div>
 
-  <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
+    <myheader :user_logged='user_logged' :user_type='user_type'></myheader>
 
 
     <div class="container">
         <div class="row">
-            <nav class="col-sm-3 col-md-2 bg-faded sidebar">
+            <nav class="col-sm-3 col-lg-2 sidebar" id="prof-nav">
                 <ul class="nav nav-pills flex-column">
                     <li class="nav-item">
                         <a class="nav-link active" href="/profile">Profile </a>
@@ -18,11 +18,11 @@
                         <a class="nav-link" href="/searches">My Searches</a>
                     </li>
                 </ul>
-
             </nav>
 
-            <main class="col-sm-9 col-md-10">
-                <h1>Dashboard</h1>
+
+            <main class="col-sm-6 col-lg-8">
+                <h1 class="text-center">Dashboard</h1>
 
                 <div v-if="edit == false">
                     <p>Name: {{ user.f_name}} {{ user.l_name}} </p>
@@ -46,11 +46,13 @@
 
                 <button v-if="edit == false" type="button" v-on:click="editProfile" class="btn btn-lg btn-primary">Edit Profile</button>
 
-        </div>
-        </main>
-    </div>
+            </main>
+            <div class="col-sm-3 col-lg-2">
 
-</div>
+            </div>
+        </div>
+
+    </div>
 </template>
 
 <script>

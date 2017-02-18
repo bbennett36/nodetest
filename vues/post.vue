@@ -12,9 +12,11 @@
                 <input type="text" name="jobTitle" id="jobTitle" class="form-control" placeholder="Job Title" />
                 <br />
                 <br />
-                <!--<textarea id="mytextarea" class="form-control" name="description" placeholder="Job Description"></textarea>-->
+                <!-- <textarea id="description" name="description" placeholder="Job Description"></textarea> -->
                 <!-- <textarea name="description" id="description" class="tinyMceBody form-group" rows="10" col="80" style="height:500px; width: 800px"></textarea> -->
-                <ckeditor v-model="content" :height="'300px'" :toolbar="[['Format']]"></ckeditor>
+                <!-- <ckeditor v-model="content" :height="'300px'" :toolbar="[['Format']]"></ckeditor> -->
+                <div id="article" class="article demo"></div>
+
 
                 <br />
                 <!-- <textarea class="form-control" name="shortDesc" placeholder="Short version of job desc (150 characters max)"></textarea> -->
@@ -71,7 +73,8 @@
 </template>
 
 <script>
-var Ckeditor = require('./node_modules/vue-ckeditor/src/components/ckeditor.vue');
+// var ckeditor = require('/ckeditor/ckeditor.js');
+var medium = require('medium-editor');
 
 export default {
     data: function() {
@@ -83,7 +86,6 @@ export default {
             checked: ""
         }
     },
-    components: { Ckeditor },
     methods: {
         getGeo() {
             tinyMCE.triggerSave();
@@ -125,10 +127,21 @@ export default {
             this.urlChecked = true;
             this.urlDisabled = false;
         }
+        // ,
+        // ckedit()  {
+        //    CKEDITOR.replace( 'description' );
+        // }
 
     }
 
-    // ,beforeMount() {
+    ,mounted: function () {
+      new Medium({
+    element: document.getElementById('article'),
+    mode: Medium.richMode,
+    placeholder: 'Your Article'
+});
+//
+//     }
 
 
         // tinymce.init({
@@ -143,8 +156,8 @@ export default {
         //     height: "300",
         //     width: "700"
         // });
-    // }
-}
+    }
+// }
 </script>
 
 <style>

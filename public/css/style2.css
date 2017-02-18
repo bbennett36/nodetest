@@ -8,12 +8,12 @@ body {
     background-color: whitesmoke;
     margin-top: 60px;
     margin-bottom: 60px;
+    text-shadow: none!important;
 }
 
 .navbar-toggler.navbar-toggler-custom {
   right: 5rem;
 }
-
 
 .footer {
     position: absolute;
@@ -24,6 +24,25 @@ body {
     line-height: 60px;
     /* Vertically center the text there */
     background-color: #3c763d!important;
+}
+
+#prof-nav .nav-link.active  {
+  background-color: #3c763d!important;
+  color: white!important
+}
+
+#prof-nav a:hover {
+    transition: width 2s;
+    color: #3c763d!important;
+    text-decoration: none!important;
+}
+
+#prof-nav a {
+  color: black;
+}
+
+.nav-link {
+  /*color: black!important;*/
 }
 
 .tab-content {
@@ -204,9 +223,9 @@ label {
 }
 
 
-#searchComp {
+/*#searchComp {
     background-color: whitesmoke;
-}
+}*/
 
 #filter-btn {
     margin: 15px 0 10px 0;
@@ -232,6 +251,9 @@ label {
   /*#searchNav  {*/
     /*margin-top: 10px;*/
   /*}*/
+  #searchNav  {
+    width: 100%!important;
+  }
 }
 
 @media screen and (max-width: 575px) {
@@ -240,9 +262,10 @@ label {
         margin: 5px 0 0 0;
         text-align: center;
     }
-    #test {
+
+    /*#test {
         background-color: whitesmoke;
-    }
+    }*/
     #search input {
         margin: 15px 0 0 0;
     }

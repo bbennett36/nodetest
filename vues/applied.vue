@@ -1,3 +1,4 @@
+
 <template>
 <div>
 
@@ -23,7 +24,32 @@
             <main class="col-sm-6 col-lg-8">
                 <h1>Applied Jobs</h1>
 
-                <table class="table table-hover table-responsive">
+                <hr>
+                <div v-for="r in applied">
+                    <!-- <a v-bind:href="'/job/' + r.id"> -->
+                    <div>
+                        <a v-if="r.apply_type == 'email'" v-bind:href="'/job/' + r.id"><strong>{{ r.job_title }} </strong></a>
+
+                        <a v-if="r.apply_type == 'url'" target="_blank" v-bind:href="r.apply_url">{{ r.job_title }}</a>
+                        <p>
+                          <strong>{{ r.company_name }}</strong> - {{ r.location }}
+                        </p>
+                        <div id="apply-text">
+
+                        <p class="float-left">Posted: 02/19/2017</p>
+
+                        <p class="text-right">Applied: 02/19/2017</p>
+
+                        <hr>
+                      </div>
+
+
+                    </div>
+                    <!-- </a> -->
+                </div>
+
+
+                <!-- <table class="table table-hover table-responsive">
                     <thead>
                         <tr>
                             <th>Title and Company</th>
@@ -39,12 +65,12 @@
                         </tr>
                     </thead>
                     <tbody v-for="a in applied">
-                            <!-- <p v-html="a.job_desc"></p> -->
-                            <tr>
+                            <p v-html="a.job_desc"></p> -->
+                <!-- <tr>
                                 <td scope="row">
-                                    <!-- <a v-bind:href="'/job/' + a.job_id"> -->
+                                    <a v-bind:href="'/job/' + a.job_id">
                                     {{ a.job_title }} at {{ a.company_name }}
-                                    <!-- </a> -->
+                                  </a>
 
                                 </td>
                                 <td>
@@ -52,16 +78,17 @@
 
                                 </td>
                                 <td>
-                                  {{ formatDate(a.date_created) }}
+                                  02/16/2017
                                 </td>
                                 <td>
-                                    {{ formatDate(a.date_applied) }}
+                                  02/16/2017
+
 
                                 </td>
 
                             </tr>
-                    </tbody>
-                </table>
+                    </tbody> -->
+                <!-- </table>  -->
 
 
 

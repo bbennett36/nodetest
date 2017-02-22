@@ -22,80 +22,43 @@
             </nav>
 
             <main class="col-sm-6 col-lg-8">
-                <h1>Applied Jobs</h1>
-
-                <hr>
-                <div v-for="r in applied">
+                <h1 class="text-center">Applied Jobs</h1>
+                <p id="resultText" class="text-center"> Results {{ x }} to {{ y }} of {{ total }} </p>
+                <hr id="apply-text">
+                <div v-for="r in results">
                     <!-- <a v-bind:href="'/job/' + r.id"> -->
                     <div>
+                      <div id="apply-text">
+
                         <a v-if="r.apply_type == 'email'" v-bind:href="'/job/' + r.id"><strong>{{ r.job_title }} </strong></a>
 
                         <a v-if="r.apply_type == 'url'" target="_blank" v-bind:href="r.apply_url">{{ r.job_title }}</a>
                         <p>
-                          <strong>{{ r.company_name }}</strong> - {{ r.location }}
+                            <strong>{{ r.company_name }}</strong> - {{ r.location }}
                         </p>
-                        <div id="apply-text">
 
-                        <p class="float-left">Posted: 02/19/2017</p>
+                            <p class="lead float-left">Posted: 02/19/2017</p>
 
-                        <p class="text-right">Applied: 02/19/2017</p>
+                            <p class="lead text-right">Applied: 02/19/2017</p>
 
-                        <hr>
-                      </div>
+                            <hr>
+                        </div>
 
 
                     </div>
                     <!-- </a> -->
                 </div>
 
-
-                <!-- <table class="table table-hover table-responsive">
-                    <thead>
-                        <tr>
-                            <th>Title and Company</th>
-                            <th>
-                              Location
-                            </th>
-                            <th>
-                              Posted
-                            </th>
-                            <th>
-                              Applied
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody v-for="a in applied">
-                            <p v-html="a.job_desc"></p> -->
-                <!-- <tr>
-                                <td scope="row">
-                                    <a v-bind:href="'/job/' + a.job_id">
-                                    {{ a.job_title }} at {{ a.company_name }}
-                                  </a>
-
-                                </td>
-                                <td>
-                                  {{ a.location }}
-
-                                </td>
-                                <td>
-                                  02/16/2017
-                                </td>
-                                <td>
-                                  02/16/2017
-
-
-                                </td>
-
-                            </tr>
-                    </tbody> -->
-                <!-- </table>  -->
-
-
-
-
         </div>
         </main>
         <div class="col-sm-3 col-lg-2">
+
+        </div>
+        <div class="row">
+
+            <div class="col-12">
+                <paginate :results='results' :current_page='current_page' :last_page='last_page' :pages='pages' :page_name='page_name'></paginate>
+            </div>
 
         </div>
     </div>
@@ -110,7 +73,7 @@ export default {
 
     data: function() {
         return {
-
+          // calculated_offset: (this.x + 1
         }
     },
     methods: {

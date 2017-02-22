@@ -6,16 +6,6 @@
 <div>
 
   <myheader :user_logged='user_logged' :user_type='user_type' :keyword="keyword" :location="location"></myheader>
-
-
-
-    <!-- <div class="b">
-        <searchform :keyword="keyword" :location="location"></searchform>
-    </div> -->
-
-    <!-- <div class="a">
-        A
-    </div> -->
     <div class="container">
 
 
@@ -113,7 +103,7 @@
         <div class="row">
 
             <div class="col-12">
-                <paginate :results='results' :current_page='current_page' :last_page='last_page' :pages='pages'></paginate>
+                <paginate :results='results' :current_page='current_page' :last_page='last_page' :pages='pages' :page_name='page_name'></paginate>
             </div>
 
         </div>
@@ -128,7 +118,7 @@
 export default {
     data: function() {
         return {
-
+          page_name: 'results'
         }
     }
 

@@ -15,10 +15,13 @@ body {
   margin-bottom: 0!important;
 }
 
-#apply-text hr  {
+#apply-text a {
+  font-size: 1.5rem;
+}
+
+hr  {
   margin-top: 0.5em!important;
   margin-bottom: 0.5em!important;
-
 }
 
 .navbar-toggler.navbar-toggler-custom {

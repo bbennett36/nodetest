@@ -15,12 +15,19 @@ exports.findById = function(id, cb) {
     })
 }
 
-exports.findAppliedJobs = function(user_id, cb) {
-    connection.query('SELECT job_id, job_title, location, date_created, apply_type, company_name, applied_jobs.date_applied FROM job_posting INNER JOIN applied_jobs ON applied_jobs.job_id=job_posting.id where user_id = ?', user_id, function(error, rows) {
+exports.findAppliedJobs = function(user_id, x, y, count, cb) {
+    console.log(user_id, x, y, count)
+    connection.query('SELECT job_id, job_title, location, date_created, apply_type, company_name, applied_jobs.date_applied FROM job_posting INNER JOIN applied_jobs ON applied_jobs.job_id=job_posting.id where user_id = ? ORDER BY applied_jobs.date_applied DESC limit ?, 25', [user_id, x, y], function(error, rows) {
+        console.log('applied job length', rows.length)
         return cb(null, rows);
     })
 }
 
+exports.findAppliedJobsCount = function(user_id, cb) {
+    connection.query('SELECT job_id, job_title, location, date_created, apply_type, company_name, applied_jobs.date_applied FROM job_posting INNER JOIN applied_jobs ON applied_jobs.job_id=job_posting.id where user_id = ?', user_id, function(error, rows) {
+        return cb(null, rows);
+    })
+}
 exports.findByCompanyUsername = function(email, cb) {
     connection.query('select * from company where email = ?', email, function(error, rows) {
         //     //lat lng lat keyword (distance)

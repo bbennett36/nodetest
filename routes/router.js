@@ -34,9 +34,6 @@ var options = {
 var geocoder = NodeGeocoder(options);
 // var editor = require('vue2-medium-editor')
 
-
-
-
 router.use(function(req, res, next) {
     var userLogged = isAuthenticated(req)
 
@@ -198,8 +195,7 @@ router.get('/post', function(req, res) {
                     head: [
                         {
                             script: 'http://cdn.jsdelivr.net/medium-editor/latest/js/medium-editor.min.js'
-                        },
-                        {
+                        }, {
                             style: 'http://cdn.jsdelivr.net/medium-editor/latest/css/medium-editor.min.css',
                             type: 'text/css',
                             rel: 'stylesheet'
@@ -342,25 +338,89 @@ router.get('/applied', function(req, res) {
         user_type = null;
     }
 
-    db.users.findAppliedJobs(req.user.id, function(error, rows) {
-        res.render('applied', {
-            data: {
-                applied: rows,
-                user_logged: res.locals.user,
-                user_type: res.locals.type
-            },
-            vue: {
-                meta: {
-                    title: 'Page Title',
-                    head: [
-                        {
-                            script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
-                        }
-                    ]
+    var currentPage = req.query.p
+    if (typeof currentPage === 'undefined' || currentPage === null) {
+        currentPage = 1;
+    }
+
+    //values for DB limit x, y
+    var x; //offset
+    var y;
+    if (currentPage == 1) {
+        x = 0
+        y = 25
+    } else {
+        y = 25 * currentPage
+        x = y - 25;
+    }
+    console.log("x:" + x + " y:" + y)
+
+    var count;
+    var page;
+
+    console.log('befoe async')
+    async.series([function(callback) {
+            console.log('getting count')
+            db.users.findAppliedJobsCount(req.user.id, function(error, rows) {
+                count = rows.length;
+
+                callback(null, 'one');
+
+            });
+        }
+    ], function(err, result) {
+      console.log('before appy db call')
+
+        db.users.findAppliedJobs(req.user.id, x, y, count, function(error, rows) {
+          if (count % 25 == 0) {
+              page = (count / 25);
+          } else {
+              page = 1 + (count / 25);
+          }
+          var last;
+          var pages = [];
+          for (var i = 1; i <= page; i++) {
+              pages.push(i);
+              last = i;
+          }
+
+          // if (x == 0) {
+          x += 1;
+          // }
+
+          if (y > count) {
+              y = count;
+          }
+            console.log('render')
+            res.render('applied', {
+                data: {
+                    user_logged: res.locals.user,
+                    user_type: res.locals.type,
+                    x: x,
+                    y: y,
+                    total: count,
+                    results: rows,
+                    pages: pages,
+                    current_page: currentPage, // required
+                    last_page: last,
+                    page_name: 'applied'
                 },
-                components: ['myheader']
-            }
+                vue: {
+                    meta: {
+                        title: 'Page Title',
+                        head: [
+                            {
+                                script: 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js'
+                            }
+                        ]
+                    },
+                    components: ['myheader', 'paginate']
+                }
+            });
         });
+
+        console.log('after render')
+
     });
 });
 
